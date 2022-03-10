@@ -1,5 +1,7 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Offer;
 
@@ -12,6 +14,14 @@ public class Student extends User
     private boolean needsTraining;
     private List<Offer> offers;
 
+    public Student(String name, int age, Gender gender, String phone, String email, String password, List<Offer> offers)
+    {
+        super(name, age, gender, phone, email, password);
+        this.offers = offers;
+        this.grade = "";
+        this.isPlaced = false;
+        this.needsTraining = false;
+    }
     @Override
     public String getId()
     {

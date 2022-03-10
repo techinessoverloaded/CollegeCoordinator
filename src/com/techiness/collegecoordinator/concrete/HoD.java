@@ -1,9 +1,8 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Letter;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,16 +11,11 @@ public class HoD extends Faculty
     private List<Letter> letters;
     private HashMap<String,Faculty> faculties;
 
-    public HoD()
+    public HoD(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+               List<String> qualifications, int experience, HashMap<String, Student> students, List<Letter> letters,
+               HashMap<String, Faculty> faculties)
     {
-        super(new ArrayList<>(),new ArrayList<>(),1,new HashMap<>());
-        this.letters = new ArrayList<>();
-        this.faculties = new HashMap<>();
-    }
-
-    public HoD(List<String> subjectsHandled, List<String> qualifications, int experience, HashMap<String, Student> students, List<Letter> letters, HashMap<String, Faculty> faculties)
-    {
-        super(subjectsHandled, qualifications, experience, students);
+        super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, students);
         this.letters = letters;
         this.faculties = faculties;
     }

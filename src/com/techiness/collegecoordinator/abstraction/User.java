@@ -1,4 +1,4 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.abstraction;
 
 import com.techiness.collegecoordinator.enums.Gender;
 
@@ -12,6 +12,18 @@ public abstract class User
     protected String phone;
     protected String email;
     protected String password;
+
+    public User(String name, int age, Gender gender, String phone, String email, String password)
+    {
+        this.id = String.valueOf(idGen);
+        idGen += 1;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+    }
 
     public abstract String getId();
 

@@ -1,14 +1,12 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
-public class CSE extends CourseDepartment
+import com.techiness.collegecoordinator.abstraction.CourseDepartment;
+
+public class EEE extends CourseDepartment
 {
-    public CSE(String name, String courseId,HoD hod)
+    public EEE(String name, HoD hod, String courseId)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
-        this.hod = hod;
-        this.name = name;
-        this.courseId = courseId;
+        super(name, hod, courseId);
     }
 
     @Override

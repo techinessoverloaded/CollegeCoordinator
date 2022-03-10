@@ -1,5 +1,7 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 
 import java.util.ArrayList;
@@ -14,20 +16,10 @@ public class Faculty extends User
     protected int experience;
     protected Map<String,Student> students;
 
-    public Faculty()
+    public Faculty(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+                   List<String> qualifications, int experience, HashMap<String, Student> students)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
-        this.subjectsHandled = new ArrayList<>();
-        this.qualifications = new ArrayList<>();
-        this.students = new HashMap<>();
-        this.experience = 1;
-    }
-
-    public Faculty(List<String> subjectsHandled, List<String> qualifications, int experience, HashMap<String, Student> students)
-    {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
+        super(name, age, gender, phone, email, password);
         this.subjectsHandled = subjectsHandled;
         this.qualifications = qualifications;
         this.experience = experience;

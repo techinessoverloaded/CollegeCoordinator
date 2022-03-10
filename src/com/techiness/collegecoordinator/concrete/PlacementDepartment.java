@@ -1,15 +1,17 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
-import java.util.List;
+import com.techiness.collegecoordinator.abstraction.Department;
 
 public class PlacementDepartment extends Department
 {
     private TrainingHead trainingHead;
-    public PlacementDepartment()
+
+    public PlacementDepartment(String name,TrainingHead trainingHead)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
+        super(name, trainingHead);
+        this.trainingHead = trainingHead;
     }
+
     @Override
     public String getId()
     {
@@ -44,18 +46,6 @@ public class PlacementDepartment extends Department
     public void setHod(HoD hod)
     {
         this.trainingHead = (TrainingHead) hod;
-    }
-
-    @Override
-    public List<Faculty> getFaculties()
-    {
-        return faculties;
-    }
-
-    @Override
-    public void setFaculties(List<Faculty> faculties)
-    {
-        this.faculties = faculties;
     }
 
     public TrainingHead getTrainingHead()

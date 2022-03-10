@@ -1,6 +1,6 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.abstraction;
 
-import java.util.List;
+import com.techiness.collegecoordinator.concrete.HoD;
 
 public abstract class Department
 {
@@ -8,8 +8,14 @@ public abstract class Department
     protected String id;
     protected String name;
     protected HoD hod;
-    protected List<Faculty> faculties;
 
+    public Department(String name, HoD hod)
+    {
+        this.id = String.valueOf(idGen);
+        idGen += 1;
+        this.name = name;
+        this.hod = hod;
+    }
     public abstract String getId();
 
     public abstract void setId(String id);

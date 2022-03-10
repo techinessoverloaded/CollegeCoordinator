@@ -1,10 +1,16 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.abstraction;
 
-import java.util.List;
+import com.techiness.collegecoordinator.concrete.HoD;
 
 public abstract class CourseDepartment extends Department
 {
     protected String courseId;
+
+    public CourseDepartment(String name, HoD hod, String courseId)
+    {
+        super(name, hod);
+        this.courseId = courseId;
+    }
 
     @Override
     public abstract String getId();

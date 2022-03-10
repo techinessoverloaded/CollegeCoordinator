@@ -1,5 +1,6 @@
-package com.techiness.collegecoordinator;
+package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
@@ -11,15 +12,11 @@ public class TrainingHead extends HoD
 {
     private List<String> companies;
 
-    public TrainingHead()
+    public TrainingHead(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+                        List<String> qualifications, int experience, HashMap<String, Student> students, List<Letter> letters,
+                        HashMap<String, Faculty> faculties, List<String> companies)
     {
-        super(new ArrayList<>(),new ArrayList<>(),1,new HashMap<>(),new ArrayList<>(),new HashMap<>());
-        this.companies = new ArrayList<>();
-    }
-
-    public TrainingHead(List<String> subjectsHandled, List<String> qualifications, int experience, HashMap<String, Student> students, List<Letter> letters, HashMap<String, Faculty> faculties, List<String> companies)
-    {
-        super(subjectsHandled, qualifications, experience, students, letters, faculties);
+        super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, students, letters, faculties);
         this.companies = companies;
     }
 
