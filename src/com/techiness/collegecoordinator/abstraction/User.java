@@ -1,8 +1,9 @@
 package com.techiness.collegecoordinator.abstraction;
 
 import com.techiness.collegecoordinator.enums.Gender;
+import java.io.Serializable;
 
-public abstract class User
+public abstract class User implements Serializable
 {
     protected static int idGen = 1;
     protected String id;
@@ -87,5 +88,11 @@ public abstract class User
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    @Override
+    public String toString()
+    {
+        return " [ \nid = "+getId()+", \nname = "+name+", \nage = "+age+", \ngender = "+gender+", \nphone = "+phone+", \nemail = "+email;
     }
 }

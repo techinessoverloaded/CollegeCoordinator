@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Letter
 {
+    private String letterId;
+    private static int letterIdGen = 1;
     private String requesterId;
     private LetterType letterType;
     private Date date;
@@ -13,11 +15,23 @@ public class Letter
 
     public Letter(String requesterId, LetterType letterType, Date date, String reason)
     {
+        this.letterId = String.valueOf(letterIdGen);
+        letterIdGen += 1;
         this.requesterId = requesterId;
         this.letterType = letterType;
         this.date = date;
         this.reason = reason;
         this.isGranted = false;
+    }
+
+    public String getLetterId()
+    {
+        return letterId+"$"+requesterId;
+    }
+
+    public void setLetterId(String letterId)
+    {
+        this.letterId = letterId;
     }
 
     public String getRequesterId()

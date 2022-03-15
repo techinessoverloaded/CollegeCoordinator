@@ -24,12 +24,6 @@ public abstract class CourseDepartment extends Department
     @Override
     public abstract void setName(String name);
 
-    @Override
-    public abstract HoD getHod();
-
-    @Override
-    public abstract void setHod(HoD hod);
-
     public abstract String getCourseId();
 
     public abstract void setCourseId(String courseId);

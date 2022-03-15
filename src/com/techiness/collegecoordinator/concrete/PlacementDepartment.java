@@ -15,7 +15,7 @@ public class PlacementDepartment extends Department
     @Override
     public String getId()
     {
-        return id+"_"+name;
+        return id+"@"+name;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PlacementDepartment extends Department
     @Override
     public void setHod(HoD hod)
     {
-        this.trainingHead = (TrainingHead) hod;
+        this.hod = this.trainingHead = (TrainingHead) hod;
     }
 
     public TrainingHead getTrainingHead()

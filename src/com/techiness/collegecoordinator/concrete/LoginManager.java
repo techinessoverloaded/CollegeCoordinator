@@ -2,21 +2,22 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.UserType;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class LoginManager
+public class LoginManager implements Serializable
 {
     private static LoginManager instance = null;
     private Map<String,User> users = null;
     private UserType userType = null;
     private User currentUser = null;
+    private boolean isFirstTime = true;
 
     private LoginManager()
     {
         users = new HashMap<>();
-        userType = UserType.ADMIN;
     }
 
     //Singleton Pattern
@@ -25,6 +26,16 @@ public class LoginManager
         if(instance == null)
             instance = new LoginManager();
         return instance;
+    }
+
+    public boolean isFirstTime()
+    {
+        return isFirstTime;
+    }
+
+    public void setFirstTime(boolean firstTime)
+    {
+        this.isFirstTime = firstTime;
     }
 
     public Map<String,User> getUsers()
@@ -65,12 +76,12 @@ public class LoginManager
         return true;
     }
 
-    public boolean registerUser(User user)
+    public String registerUser(User user)
     {
         if(users.containsKey(user.getId()))
-            return false;
+            return null;
         users.put(user.getId(),user);
-        return true;
+        return user.getId();
     }
 
     public boolean loginUser(String userId, String password)
@@ -81,12 +92,22 @@ public class LoginManager
         if(password.equals(reference.getPassword()))
         {
             currentUser = reference;
-            userType = UserType.valueOf(userId.substring(userId.indexOf('_')+1));
+            userType = UserType.valueOf(userId.substring(userId.indexOf("_")+1));
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public boolean noAdminAvailable()
+    {
+        for(User user : users.values())
+        {
+            if(user instanceof Admin)
+                return false;
+        }
+        return true;
     }
 }

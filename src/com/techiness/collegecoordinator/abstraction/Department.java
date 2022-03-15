@@ -1,8 +1,9 @@
 package com.techiness.collegecoordinator.abstraction;
 
 import com.techiness.collegecoordinator.concrete.HoD;
+import java.io.Serializable;
 
-public abstract class Department
+public abstract class Department implements Serializable
 {
     protected static int idGen = 1;
     protected String id;
@@ -24,7 +25,16 @@ public abstract class Department
 
     public abstract void setName(String name);
 
-    public abstract HoD getHod();
+    public HoD getHod()
+    {
+        /*StackTraceElement[] traceElements = Thread.currentThread().getStackTrace();
+        String callingClass = traceElements[2].getClassName();
+        if(callingClass.equals(HoD.class.getName()))*/
+        return hod;
+    }
 
-    public abstract void setHod(HoD hod);
+    public void setHod(HoD hod)
+    {
+        this.hod = hod;
+    }
 }

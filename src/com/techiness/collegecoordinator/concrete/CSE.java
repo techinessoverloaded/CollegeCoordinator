@@ -12,7 +12,7 @@ public class CSE extends CourseDepartment
     @Override
     public String getId()
     {
-        return id+"_"+name;
+        return id+"@"+name;
     }
 
     @Override
@@ -31,18 +31,6 @@ public class CSE extends CourseDepartment
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    @Override
-    public HoD getHod()
-    {
-        return hod;
-    }
-
-    @Override
-    public void setHod(HoD hod)
-    {
-        this.hod = hod;
     }
 
     @Override
