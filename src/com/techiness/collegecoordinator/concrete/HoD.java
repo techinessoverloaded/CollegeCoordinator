@@ -3,22 +3,18 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Letter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HoD extends Faculty
 {
     protected Map<String, Letter> letters;
-    protected Map<String, Faculty> faculties;
 
     public HoD(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-               List<String> qualifications, int experience, HashMap<String, Student> students, Map<String, Letter> letters,
-               Map<String, Faculty> faculties, String deptId)
+               List<String> qualifications, int experience, Map<String, Letter> letters, String deptId)
     {
-        super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, students, deptId);
+        super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, deptId);
         this.letters = letters;
-        this.faculties = faculties;
     }
 
     @Override
@@ -37,19 +33,10 @@ public class HoD extends Faculty
         this.letters = letters;
     }
 
-    public Map<String, Faculty> getFaculties()
-    {
-        return faculties;
-    }
-
-    public void setFaculties(Map<String, Faculty> faculties)
-    {
-        this.faculties = faculties;
-    }
-
     public boolean addFaculty(Faculty faculty)
     {
         String facultyId = faculty.getId();
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
         if(faculties.containsKey(facultyId)&&faculties.get(facultyId)!=null)
             return false;
         else if(faculties.get(facultyId)==null)
@@ -67,6 +54,7 @@ public class HoD extends Faculty
 
     public boolean removeFaculty(String facultyId)
     {
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
         if(!faculties.containsKey(facultyId))
             return false;
         faculties.remove(facultyId);
@@ -80,10 +68,11 @@ public class HoD extends Faculty
 
     public boolean addSubjectHandled(String facultyId, String subject)
     {
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
         if(!faculties.containsKey(facultyId)||faculties.get(facultyId)==null)
             return false;
         Faculty currentFaculty = faculties.get(facultyId);
-        if(currentFaculty.getSubjectsHandled()==null||currentFaculty.getSubjectsHandled().contains(subject))
+        if(currentFaculty.getSubjectsHandled()==null || currentFaculty.getSubjectsHandled().contains(subject))
             return false;
         currentFaculty.getSubjectsHandled().add(subject);
         return true;
@@ -91,10 +80,11 @@ public class HoD extends Faculty
 
     public boolean removeSubjectHandled(String facultyId, String subject)
     {
-        if(!faculties.containsKey(facultyId)||faculties.get(facultyId)==null)
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
+        if(!faculties.containsKey(facultyId) || faculties.get(facultyId)==null)
             return false;
         Faculty currentFaculty = faculties.get(facultyId);
-        if(currentFaculty.getSubjectsHandled()==null||!currentFaculty.getSubjectsHandled().contains(subject))
+        if(currentFaculty.getSubjectsHandled()==null || !currentFaculty.getSubjectsHandled().contains(subject))
             return false;
         currentFaculty.getSubjectsHandled().remove(subject);
         return true;
@@ -103,5 +93,12 @@ public class HoD extends Faculty
     public void signLetter(String letterId, boolean isGranted)
     {
         letters.get(letterId).setIsGranted(isGranted);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "HoD"+super.toString()+", \ndepartmentID = "+deptId+", \nqualifications = "+qualifications
+            +", experience = "+experience+", subjectsHandled = "+subjectsHandled+", letters = "+letters+" ]";
     }
 }

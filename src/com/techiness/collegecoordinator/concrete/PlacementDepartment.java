@@ -1,21 +1,24 @@
 package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.enums.DepartmentType;
+
+import java.util.Map;
 
 public class PlacementDepartment extends Department
 {
     private TrainingHead trainingHead;
 
-    public PlacementDepartment(String name,TrainingHead trainingHead)
+    public PlacementDepartment(String name, TrainingHead trainingHead, Map<String, Faculty> faculties, Map<String, Student> students)
     {
-        super(name, trainingHead);
+        super(name, trainingHead, faculties, students);
         this.trainingHead = trainingHead;
     }
 
     @Override
     public String getId()
     {
-        return id+"@"+name;
+        return id+"*"+name+"@"+DepartmentType.PLACEMENT;
     }
 
     @Override

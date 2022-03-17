@@ -20,7 +20,8 @@ public class SerializationHelper
 
     public void persistObject(Object o, String name) throws IOException
     {
-        FileOutputStream fout = new FileOutputStream(parentPath+name);
+        File file = new File(parentPath+name);
+        FileOutputStream fout = new FileOutputStream(file);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fout);
         objectOutputStream.writeObject(o);
         objectOutputStream.close();
@@ -29,9 +30,11 @@ public class SerializationHelper
 
     public <T> T retrieveObject(String name) throws IOException, ClassNotFoundException
     {
-        FileInputStream fin = new FileInputStream(parentPath+name);
+        File file = new File(parentPath+name);
+        if(!file.exists())
+            return null;
+        FileInputStream fin = new FileInputStream(file);
         ObjectInputStream objIn = new ObjectInputStream(fin);
-        T obj = (T)objIn.readObject();
-        return obj;
+        return (T)objIn.readObject();
     }
 }

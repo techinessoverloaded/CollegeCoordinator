@@ -7,14 +7,11 @@ import com.techiness.collegecoordinator.enums.UserType;
 import java.util.Map;
 
 
-public class Admin extends User
+public final class Admin extends User
 {
-    private Map<String, Department> departments;
-
     public Admin(String name, int age, Gender gender, String phone, String email, String password, Map<String,Department> departments)
     {
         super(name, age, gender, phone, email, password);
-        this.departments = departments;
     }
 
     @Override
@@ -29,18 +26,9 @@ public class Admin extends User
         this.id = id;
     }
 
-    public Map<String, Department> getDepartments()
-    {
-        return departments;
-    }
-
-    public void setDepartments(Map<String, Department> departments)
-    {
-        this.departments = departments;
-    }
-
     public boolean addDepartment(Department department)
     {
+        Map<String,Department> departments = AccountsManager.getInstance().getDepartments();
         if(departments.containsKey(department.getId()))
             return false;
         else if(departments.get(department.getId())==null)
@@ -58,6 +46,7 @@ public class Admin extends User
 
     public boolean removeDepartment(String deptId)
     {
+        Map<String,Department> departments = AccountsManager.getInstance().getDepartments();
         if(!departments.containsKey(deptId))
             return false;
         departments.remove(deptId);
@@ -66,6 +55,7 @@ public class Admin extends User
 
     public boolean assignHoD(String deptId, HoD hod)
     {
+        Map<String,Department> departments = AccountsManager.getInstance().getDepartments();
         if(!departments.containsKey(deptId)||departments.get(deptId) == null)
             return false;
         Department currentDepartment = departments.get(deptId);
@@ -76,6 +66,6 @@ public class Admin extends User
     @Override
     public String toString()
     {
-        return "Admin"+super.toString()+", \ndepartments = "+departments+" ]";
+        return "Admin"+super.toString()+" ]";
     }
 }

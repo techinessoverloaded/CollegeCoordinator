@@ -1,30 +1,45 @@
 package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.SerializationHelper;
+import static com.techiness.collegecoordinator.driver.Main.println;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class LoginManager implements Serializable
+public class AccountsManager implements Serializable
 {
-    private static LoginManager instance = null;
+    private static AccountsManager instance = null;
     private Map<String,User> users = null;
+    private Map<String, Department> departments = null;
     private UserType userType = null;
     private User currentUser = null;
     private boolean isFirstTime = true;
 
-    private LoginManager()
+    private AccountsManager()
     {
-        users = new HashMap<>();
+        try
+        {
+            retrieveData();
+        }
+        catch (Exception e)
+        {
+            println("User Data Lost/Not obtained Unfortunately!!!");
+            println("The Application may behave like opening for the first time...");
+            println();
+            users = new HashMap<>();
+        }
     }
 
     //Singleton Pattern
-    public synchronized static LoginManager getInstance()
+    public synchronized static AccountsManager getInstance()
     {
         if(instance == null)
-            instance = new LoginManager();
+            instance = new AccountsManager();
         return instance;
     }
 
@@ -46,6 +61,16 @@ public class LoginManager implements Serializable
     public void setUsers(Map<String, User> users)
     {
         this.users = users;
+    }
+
+    public Map<String, Department> getDepartments()
+    {
+        return departments;
+    }
+
+    public void setDepartments(Map<String, Department> departments)
+    {
+        this.departments = departments;
     }
 
     public UserType getUserType()
@@ -101,6 +126,15 @@ public class LoginManager implements Serializable
         }
     }
 
+    public boolean logoutUser()
+    {
+        if(currentUser==null)
+            return false;
+        currentUser = null;
+        userType = null;
+        return true;
+    }
+
     public boolean noAdminAvailable()
     {
         for(User user : users.values())
@@ -109,5 +143,21 @@ public class LoginManager implements Serializable
                 return false;
         }
         return true;
+    }
+
+    public void persistData() throws IOException
+    {
+        SerializationHelper serializationHelper = SerializationHelper.getInstance();
+        serializationHelper.persistObject(users,"users.txt");
+        serializationHelper.persistObject(isFirstTime,"isFirstTime.txt");
+        serializationHelper.persistObject(departments,"departments.txt");
+    }
+
+    private void retrieveData() throws IOException, ClassNotFoundException
+    {
+        SerializationHelper serializationHelper = SerializationHelper.getInstance();
+        users = serializationHelper.retrieveObject("users.txt");
+        departments = serializationHelper.retrieveObject("departments.txt");
+        isFirstTime = serializationHelper.retrieveObject("isFirstTime.txt");
     }
 }

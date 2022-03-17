@@ -7,7 +7,7 @@ import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
 import java.util.List;
 
-public class Student extends User
+public final class Student extends User
 {
     private String grade;
     private boolean isPlaced;
@@ -24,6 +24,7 @@ public class Student extends User
         this.needsTraining = false;
         this.deptId = deptId;
     }
+
     @Override
     public String getId()
     {
@@ -88,14 +89,14 @@ public class Student extends User
 
     public String requestLeaveOrOD(Letter letter, String adminId)
     {
-        Admin admin = (Admin) LoginManager.getInstance().getUsers().get(adminId);
+        Admin admin = (Admin) AccountsManager.getInstance().getUsers().get(adminId);
         admin.getDepartments().get(deptId).getHod().addLetter(letter);
         return letter.getLetterId();
     }
 
     public boolean checkLeaveOrODGranted(String letterId, String adminId)
     {
-        Admin admin = (Admin) LoginManager.getInstance().getUsers().get(adminId);
+        Admin admin = (Admin) AccountsManager.getInstance().getUsers().get(adminId);
         Letter requestedLetter = admin.getDepartments().get(deptId).getHod().getLetters().get(letterId);
         return requestedLetter.getIsGranted();
     }

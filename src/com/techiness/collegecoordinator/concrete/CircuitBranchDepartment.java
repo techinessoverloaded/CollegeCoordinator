@@ -1,18 +1,21 @@
 package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.CourseDepartment;
+import com.techiness.collegecoordinator.enums.DepartmentType;
 
-public class EEE extends CourseDepartment
+import java.util.Map;
+
+public final class CircuitBranchDepartment extends CourseDepartment
 {
-    public EEE(String name, HoD hod, String courseId)
+    public CircuitBranchDepartment(String name, HoD hod, Map<String, Faculty> faculties, Map<String, Student> students, String courseId)
     {
-        super(name, hod, courseId);
+        super(name, hod, faculties, students, courseId);
     }
 
     @Override
     public String getId()
     {
-        return id+"@"+name;
+        return id+"*"+name+"@"+ DepartmentType.CIRCUIT;
     }
 
     @Override
