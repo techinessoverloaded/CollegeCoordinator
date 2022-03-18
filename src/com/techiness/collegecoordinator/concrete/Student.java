@@ -89,15 +89,12 @@ public final class Student extends User
 
     public String requestLeaveOrOD(Letter letter, String adminId)
     {
-        Admin admin = (Admin) AccountsManager.getInstance().getUsers().get(adminId);
-        admin.getDepartments().get(deptId).getHod().addLetter(letter);
+        AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter);
         return letter.getLetterId();
     }
 
     public boolean checkLeaveOrODGranted(String letterId, String adminId)
     {
-        Admin admin = (Admin) AccountsManager.getInstance().getUsers().get(adminId);
-        Letter requestedLetter = admin.getDepartments().get(deptId).getHod().getLetters().get(letterId);
-        return requestedLetter.getIsGranted();
+        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().getLetters().get(letterId).getIsGranted();
     }
 }

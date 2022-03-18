@@ -6,6 +6,7 @@ public class SerializationHelper
 {
     private static SerializationHelper instance = null;
     private static String parentPath = "/Users/arun-pt5167/IdeaProjects/CollegeCoordinator/src/com/techiness/collegecoordinator/data/";
+
     private SerializationHelper()
     {
 
@@ -18,17 +19,17 @@ public class SerializationHelper
         return instance;
     }
 
-    public void persistObject(Object o, String name) throws IOException
+    public <T extends Serializable> void persistObject(T object, String name) throws IOException
     {
         File file = new File(parentPath+name);
         FileOutputStream fout = new FileOutputStream(file);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fout);
-        objectOutputStream.writeObject(o);
+        objectOutputStream.writeObject(object);
         objectOutputStream.close();
         fout.close();
     }
 
-    public <T> T retrieveObject(String name) throws IOException, ClassNotFoundException
+    public <T extends Serializable> T retrieveObject(String name) throws IOException, ClassNotFoundException
     {
         File file = new File(parentPath+name);
         if(!file.exists())

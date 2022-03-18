@@ -24,6 +24,15 @@ public class Faculty extends User
         this.deptId = deptId;
     }
 
+    public Faculty(HoD existingHoD)
+    {
+        super(existingHoD.name, existingHoD.age, existingHoD.gender, existingHoD.phone, existingHoD.email, existingHoD.password);
+        this.subjectsHandled = existingHoD.subjectsHandled;
+        this.qualifications = existingHoD.qualifications;
+        this.experience = existingHoD.experience;
+        this.deptId = existingHoD.deptId;
+    }
+
     @Override
     public String getId()
     {
@@ -45,6 +54,7 @@ public class Faculty extends User
     {
         this.deptId = deptId;
     }
+
     public List<String> getSubjectsHandled()
     {
         return subjectsHandled;

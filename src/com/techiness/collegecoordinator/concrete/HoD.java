@@ -17,10 +17,19 @@ public class HoD extends Faculty
         this.letters = letters;
     }
 
+    public HoD(Faculty existingFaculty, Map<String, Letter> letters)
+    {
+        super(existingFaculty.getName(), existingFaculty.getAge(), existingFaculty.getGender(),
+                existingFaculty.getPhone(), existingFaculty.getEmail(), existingFaculty.getPassword(),
+                existingFaculty.subjectsHandled, existingFaculty.qualifications, existingFaculty.experience,
+                existingFaculty.deptId);
+        this.letters = letters;
+    }
+
     @Override
     public String getId()
     {
-        return id+"_"+ UserType.HOD;
+        return id+"#"+deptId+"_"+ UserType.HOD;
     }
 
     public Map<String, Letter> getLetters()
@@ -98,7 +107,7 @@ public class HoD extends Faculty
     @Override
     public String toString()
     {
-        return "HoD"+super.toString()+", \ndepartmentID = "+deptId+", \nqualifications = "+qualifications
+        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+", \ndepartmentID = "+deptId+", \nqualifications = "+qualifications
             +", experience = "+experience+", subjectsHandled = "+subjectsHandled+", letters = "+letters+" ]";
     }
 }

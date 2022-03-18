@@ -8,20 +8,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import static com.techiness.collegecoordinator.driver.Main.println;
-import static com.techiness.collegecoordinator.driver.Main.readLine;
-import static com.techiness.collegecoordinator.driver.Main.readInt;
-import static com.techiness.collegecoordinator.driver.Main.readPassword;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
-public class UserCreatorHelper
+public class UserCreationHelper
 {
     private UserType userType;
-    private String name = "", email = "", password = "", phone = "", qualString = "", subjectString = "", companyString = "";
+    private String name = "", email = "", password = "", phone = "", qualString = "", subjectString = "";
     private Gender gender = null;
     private int age = -1, genderChoice = -1, experience = -1;
-    private List<String> qualifications = null, subjectsHandled = null, companies = null;
+    private List<String> qualifications = null, subjectsHandled = null;
 
-    public UserCreatorHelper(UserType userType)
+    public UserCreationHelper(UserType userType)
     {
         this.userType = userType;
     }
@@ -38,35 +35,37 @@ public class UserCreatorHelper
 
     private void resetVariables()
     {
-        name = email = phone = password = qualString = subjectString = companyString = "";
+        name = email = phone = password = qualString = subjectString = "";
         gender = null;
-        qualifications = subjectsHandled = companies = null;
+        qualifications = subjectsHandled = null;
         age = genderChoice =  experience = -1;
     }
 
     private void getBasicDataOfUser()
     {
         resetVariables();
-        while(!InputDataValidation.validateName(name))
+        while(!InputDataValidator.validateName(name))
         {
             println("Enter your name:");
             name = readLine();
-            if(!InputDataValidation.validateName(name))
+            if(!InputDataValidator.validateName(name))
                 println("Please enter your name to proceed...");
         }
         println();
-        while(!InputDataValidation.validateAge(age))
+        while(!InputDataValidator.validateAge(age))
         {
             println("Enter your age:");
             age = readInt();
-            if(!InputDataValidation.validateAge(age))
-                println("Invalid age ! Enter the actual age !");
+            if(!InputDataValidator.validateAge(age))
+                println("Warning : Age should be between 18 and 100 ! Enter the actual age...");
         }
         println();
+        Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
+        Menu genderMenu = genderMenuBuilder.setHeader("Gender Selection")
+                .addOption("Male").addOption("Female").addOption("Other").build();
         while(gender==null)
         {
-            println("Select your Gender (1-3): \n 1. MALE \n 2. FEMALE \n 3. OTHER");
-            genderChoice = readInt();
+            genderChoice = genderMenu.displayMenuAndGetChoice();
             switch (genderChoice)
             {
                 case 1:
@@ -84,25 +83,24 @@ public class UserCreatorHelper
                     break;
             }
         }
-        readLine();
         println();
-        while(!InputDataValidation.validatePhone(phone))
+        while(!InputDataValidator.validatePhone(phone))
         {
             println("Enter your phone number:");
             phone = readLine();
-            if(!InputDataValidation.validatePhone(phone))
+            if(!InputDataValidator.validatePhone(phone))
                 println("Invalid Phone Number ! Enter phone number properly !");
         }
         println();
-        while(!InputDataValidation.validateEmail(email))
+        while(!InputDataValidator.validateEmail(email))
         {
             println("Enter your email:");
             email = readLine();
-            if(!InputDataValidation.validateEmail(email))
+            if(!InputDataValidator.validateEmail(email))
                 println("Invalid Email ID ! Enter Email ID properly !");
         }
         println();
-        while(!InputDataValidation.validatePassword(password))
+        while(!InputDataValidator.validatePassword(password))
         {
             println("Criteria for password : ");
             println("Password must contain at least one digit [0-9].\n" +
@@ -113,7 +111,7 @@ public class UserCreatorHelper
             println();
             println("Enter your desired password:");
             password = readPassword();
-            if(!InputDataValidation.validatePassword(password))
+            if(!InputDataValidator.validatePassword(password))
                 println("Invalid Password ! Try entering a different password matching the given criteria !");
         }
     }
@@ -140,9 +138,6 @@ public class UserCreatorHelper
     private void getTrainingHeadDetails()
     {
         getHoDDetails();
-        println("Enter the names of companies that are visiting for placement, separated by commas:");
-        companyString = readLine();
-        companies = new ArrayList<>(Arrays.asList(companyString.split(",")));
     }
 
     public User getNewUser()
@@ -163,7 +158,7 @@ public class UserCreatorHelper
             case TRAINING_HEAD:
                 getTrainingHeadDetails();
                 return new TrainingHead(name, age, gender, phone, email, password, subjectsHandled, qualifications,
-                        experience,new HashMap<>(),companies,"");
+                        experience,new HashMap<>(),"");
             case STUDENT:
             getBasicDataOfUser();
                 return new Student(name, age, gender, phone, email, password, new ArrayList<>(),"");

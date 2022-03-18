@@ -2,7 +2,7 @@ package com.techiness.collegecoordinator.helpers;
 
 import java.util.regex.Pattern;
 
-public class InputDataValidation
+public class InputDataValidator
 {
     public static boolean validateName(String name)
     {

@@ -3,11 +3,8 @@ package com.techiness.collegecoordinator.helpers;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
-
 import java.util.HashMap;
-
-import static com.techiness.collegecoordinator.driver.Main.println;
-import static com.techiness.collegecoordinator.driver.Main.readLine;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class DepartmentCreationHelper
 {
@@ -50,14 +47,15 @@ public class DepartmentCreationHelper
     {
         switch (departmentType)
         {
-            case CIRCUIT:
+            case COURSE:
                 getCourseDepartmentDetails();
-                return new CircuitBranchDepartment(deptName,null, new HashMap<>(), new HashMap<>(),courseId);
-            case NON_CIRCUIT:
-                getCourseDepartmentDetails();
-                return new NonCircuitBranchDepartment(deptName,null, new HashMap<>(), new HashMap<>(), courseId);
+                if(AccountsManager.getInstance().checkIfDeptAlreadyExists(deptName))
+                    return null;
+                return new CourseDepartment(deptName,null, new HashMap<>(), new HashMap<>(),courseId);
             case PLACEMENT:
-                return new PlacementDepartment("Training and Placement Department",null, new HashMap<>(), new HashMap<>());
+                if(AccountsManager.getInstance().checkIfDeptAlreadyExists("Training and Placement Department"))
+                    return null;
+                return new PlacementDepartment("Training and Placement Department",null, new HashMap<>(), new HashMap<>(), new HashMap<>());
             default:
                 return null;
         }

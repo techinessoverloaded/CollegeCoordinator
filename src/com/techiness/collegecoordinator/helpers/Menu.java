@@ -2,8 +2,7 @@ package com.techiness.collegecoordinator.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.techiness.collegecoordinator.driver.Main.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class Menu
 {
@@ -76,7 +75,6 @@ public class Menu
     {
         private Map<Integer,String> options;
         private String header;
-        private Menu menu;
 
         public MenuBuilder()
         {
@@ -87,6 +85,7 @@ public class Menu
         public MenuBuilder(Menu existingMenu)
         {
             this.options = existingMenu.options;
+            header = "";
         }
 
         public MenuBuilder setHeader(String header)

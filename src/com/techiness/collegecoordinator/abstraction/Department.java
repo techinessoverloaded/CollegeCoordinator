@@ -1,5 +1,6 @@
 package com.techiness.collegecoordinator.abstraction;
 
+import com.sun.istack.internal.Nullable;
 import com.techiness.collegecoordinator.concrete.Faculty;
 import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.concrete.Student;
@@ -53,6 +54,11 @@ public abstract class Department implements Serializable
         return students;
     }
 
+    public Student getStudents(String studentId)
+    {
+        return !students.containsKey(studentId) || students.get(studentId)==null ? null : students.get(studentId);
+    }
+
     public void setStudents(HashMap<String, Student> students)
     {
         this.students = students;
@@ -61,6 +67,11 @@ public abstract class Department implements Serializable
     public Map<String, Faculty> getFaculties()
     {
         return faculties;
+    }
+
+    public Faculty getFaculties(String facultyId)
+    {
+        return !faculties.containsKey(facultyId) || faculties.get(facultyId) == null ? null : faculties.get(facultyId);
     }
 
     public void setFaculties(Map<String, Faculty> faculties)

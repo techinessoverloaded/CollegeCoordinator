@@ -2,44 +2,25 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.Company;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class TrainingHead extends HoD
 {
-    private List<String> companies;
-
     public TrainingHead(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-                        List<String> qualifications, int experience, Map<String, Letter> letters, List<String> companies, String deptId)
+                        List<String> qualifications, int experience, Map<String, Letter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, letters, deptId);
-        this.companies = companies;
     }
 
     @Override
     public String getId()
     {
-        return id+"_"+ UserType.TRAINING_HEAD;
-    }
-
-    public List<String> getCompanies()
-    {
-        return companies;
-    }
-
-    public void setCompanies(List<String> companies)
-    {
-        this.companies = companies;
-    }
-
-    public List<Student> getTrainees()
-    {
-        Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        return students.values().stream().filter(Student::isNeedsTraining).collect(Collectors.toList());
+        return id+"#"+deptId+"_"+ UserType.TRAINING_HEAD;
     }
 
     public boolean addOffer(String studentId, Offer offer)
@@ -54,11 +35,14 @@ public final class TrainingHead extends HoD
         return true;
     }
 
-    public boolean addCompany(String company)
+    public boolean addCompany(Company company)
     {
-        if(companies.contains(company))
+        PlacementDepartment placementDepartment = (PlacementDepartment) AccountsManager.getInstance().getDepartments().get(deptId);
+        if(placementDepartment == null)
             return false;
-        companies.add(company);
+        if(placementDepartment.getCompanies().containsKey(company.getId()))
+            return false;
+        placementDepartment.getCompanies().put(company.getId(),company);
         return true;
     }
 
@@ -75,6 +59,6 @@ public final class TrainingHead extends HoD
     @Override
     public String toString()
     {
-        return "TrainingHead"+super.toString()+", \ncompanies = "+companies+" ]";
+        return "TrainingHead"+super.toString().substring(super.toString().indexOf("HoD")+1)+" ]";
     }
 }

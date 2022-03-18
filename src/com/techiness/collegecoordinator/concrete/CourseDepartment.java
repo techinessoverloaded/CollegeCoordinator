@@ -1,21 +1,23 @@
 package com.techiness.collegecoordinator.concrete;
 
-import com.techiness.collegecoordinator.abstraction.CourseDepartment;
+import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
-
 import java.util.Map;
 
-public final class CircuitBranchDepartment extends CourseDepartment
+public final class CourseDepartment extends Department
 {
-    public CircuitBranchDepartment(String name, HoD hod, Map<String, Faculty> faculties, Map<String, Student> students, String courseId)
+    private String courseId;
+
+    public CourseDepartment(String name, HoD hod, Map<String, Faculty> faculties, Map<String, Student> students, String courseId)
     {
-        super(name, hod, faculties, students, courseId);
+        super(name, hod, faculties, students);
+        this.courseId = courseId;
     }
 
     @Override
     public String getId()
     {
-        return id+"*"+name+"@"+ DepartmentType.CIRCUIT;
+        return id+"*"+name+"@"+ DepartmentType.COURSE;
     }
 
     @Override
@@ -36,13 +38,11 @@ public final class CircuitBranchDepartment extends CourseDepartment
         this.name = name;
     }
 
-    @Override
     public String getCourseId()
     {
         return courseId;
     }
 
-    @Override
     public void setCourseId(String courseId)
     {
         this.courseId = courseId;

@@ -2,17 +2,19 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
-
+import com.techiness.collegecoordinator.helpers.Company;
 import java.util.Map;
 
 public class PlacementDepartment extends Department
 {
     private TrainingHead trainingHead;
+    private Map<String,Company> companies;
 
-    public PlacementDepartment(String name, TrainingHead trainingHead, Map<String, Faculty> faculties, Map<String, Student> students)
+    public PlacementDepartment(String name, TrainingHead trainingHead, Map<String, Faculty> faculties, Map<String, Student> students, Map<String,Company> companies)
     {
         super(name, trainingHead, faculties, students);
         this.trainingHead = trainingHead;
+        this.companies = companies;
     }
 
     @Override
@@ -61,4 +63,20 @@ public class PlacementDepartment extends Department
         this.trainingHead = trainingHead;
     }
 
+    public Map<String,Company> getCompanies()
+    {
+        return companies;
+    }
+
+    public Company getCompanies(String companyId)
+    {
+        if(!companies.containsKey(companyId) || companies.get(companyId) == null)
+            return null;
+        return companies.get(companyId);
+    }
+
+    public void setCompanies(Map<String,Company> companies)
+    {
+        this.companies = companies;
+    }
 }
