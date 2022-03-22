@@ -1,12 +1,13 @@
 package com.techiness.collegecoordinator.helpers;
 
+import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.enums.LetterType;
 import java.util.Date;
 
-public class Letter
+public class Letter implements Identifiable
 {
-    private String letterId;
-    private static int letterIdGen = 1;
+    private String id;
+    private static int idGen = 1;
     private String requesterId;
     private LetterType letterType;
     private Date date;
@@ -15,8 +16,8 @@ public class Letter
 
     public Letter(String requesterId, LetterType letterType, Date date, String reason)
     {
-        this.letterId = String.valueOf(letterIdGen);
-        letterIdGen += 1;
+        this.id = String.valueOf(idGen);
+        idGen += 1;
         this.requesterId = requesterId;
         this.letterType = letterType;
         this.date = date;
@@ -24,14 +25,26 @@ public class Letter
         this.isGranted = false;
     }
 
-    public String getLetterId()
+    public static int getIdGen()
     {
-        return letterId+"$"+requesterId;
+        return idGen;
     }
 
-    public void setLetterId(String letterId)
+    public static void setIdGen(int idGen)
     {
-        this.letterId = letterId;
+        Letter.idGen = idGen;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id +"$"+requesterId;
+    }
+
+    @Override
+    public void setId(String id)
+    {
+        this.id = id;
     }
 
     public String getRequesterId()

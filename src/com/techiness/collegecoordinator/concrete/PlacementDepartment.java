@@ -3,7 +3,12 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.helpers.Company;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class PlacementDepartment extends Department
 {
@@ -78,5 +83,30 @@ public class PlacementDepartment extends Department
     public void setCompanies(Map<String,Company> companies)
     {
         this.companies = companies;
+    }
+
+    private String getDeptShortName()
+    {
+        //return name.chars().filter(Character::isUpperCase).collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append).toString();
+        return name.chars().filter(Character::isUpperCase).mapToObj(ch -> String.valueOf((char)ch)).collect(Collectors.joining());
+    }
+
+    public Map<String,Student> getTrainees()
+    {
+        List<Student> traineeList = students.values().stream().filter(Student::isNeedsTraining).collect(Collectors.toList());
+        HashMap<String,Student> trainees = new HashMap<>();
+        for(Student s : traineeList)
+        {
+            trainees.put(s.getId(),s);
+        }
+        return trainees;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "PlacementDepartment"+super.toString()+
+                ", \ntrainingHead = "+trainingHead+
+                ", \ncompanies = "+getStringOfMap(companies)+ " ]";
     }
 }

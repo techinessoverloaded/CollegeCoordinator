@@ -1,16 +1,18 @@
 package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.AccountsManager;
 import java.io.Console;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class IOUtils
 {
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Console console = System.console();
+    public static final Scanner scanner = new Scanner(System.in);
+    public static final Console console = System.console();
 
     public static void println(Object val) {
         System.out.println(val);
@@ -62,7 +64,7 @@ public class IOUtils
             print(c);
             try
             {
-                Thread.sleep(230);
+                Thread.sleep(210);
             }
             catch (InterruptedException e)
             {
@@ -92,5 +94,16 @@ public class IOUtils
     public static String readPassword()
     {
         return console != null ? String.valueOf(console.readPassword()) : readLine();
+    }
+
+    public static <T extends Nameable> String getStringOfCollection(Collection<T> objects)
+    {
+        List<String> names = objects.stream().map(T::getName).collect(Collectors.toList());
+        return names.toString();
+    }
+
+    public static <T extends Nameable> String getStringOfMap(Map<String,T> map)
+    {
+        return getStringOfCollection(map.values());
     }
 }

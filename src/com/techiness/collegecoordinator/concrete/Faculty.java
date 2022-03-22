@@ -157,7 +157,7 @@ public class Faculty extends User
     public String requestLeaveOrOD(Letter letter)
     {
         AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter);
-        return letter.getLetterId();
+        return letter.getId();
     }
 
     public boolean checkLeaveOrODGranted(String letterId)
@@ -170,6 +170,6 @@ public class Faculty extends User
     public String toString()
     {
         return "Faculty"+super.toString()+", \ndepartmentID = "+deptId+", \nqualifications = "+qualifications
-                +", experience = "+experience+", subjectsHandled = "+subjectsHandled+" ]";
+                +", \nexperience = "+experience+", \nsubjectsHandled = "+subjectsHandled+" ]";
     }
 }

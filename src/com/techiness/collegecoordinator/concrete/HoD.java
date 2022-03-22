@@ -72,7 +72,7 @@ public class HoD extends Faculty
 
     public void addLetter(Letter letter)
     {
-        letters.put(letter.getLetterId(),letter);
+        letters.put(letter.getId(),letter);
     }
 
     public boolean addSubjectHandled(String facultyId, String subject)
@@ -107,7 +107,6 @@ public class HoD extends Faculty
     @Override
     public String toString()
     {
-        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+", \ndepartmentID = "+deptId+", \nqualifications = "+qualifications
-            +", experience = "+experience+", subjectsHandled = "+subjectsHandled+", letters = "+letters+" ]";
+        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+"\nletters = "+letters+" ]";
     }
 }

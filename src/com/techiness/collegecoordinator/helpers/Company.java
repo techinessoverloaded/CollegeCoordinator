@@ -1,9 +1,10 @@
 package com.techiness.collegecoordinator.helpers;
 
+import com.techiness.collegecoordinator.abstraction.Nameable;
 import javafx.util.Pair;
 import java.util.Map;
 
-public class Company
+public class Company implements Nameable
 {
     private String name;
     private String id;
@@ -20,21 +21,35 @@ public class Company
         this.jobRoles = jobRoles;
     }
 
+    @Override
     public String getName()
     {
         return name;
     }
 
+    @Override
     public void setName(String name)
     {
         this.name = name;
     }
 
+    public static int getIdGen()
+    {
+        return idGen;
+    }
+
+    public static void setIdGen(int idGen)
+    {
+        Company.idGen = idGen;
+    }
+
+    @Override
     public String getId()
     {
         return id;
     }
 
+    @Override
     public void setId(String id)
     {
         this.id = id;

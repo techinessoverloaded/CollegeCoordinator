@@ -36,6 +36,9 @@ public class SerializationHelper
             return null;
         FileInputStream fin = new FileInputStream(file);
         ObjectInputStream objIn = new ObjectInputStream(fin);
-        return (T)objIn.readObject();
+        T retrievedObject = (T)objIn.readObject();
+        objIn.close();
+        fin.close();
+        return retrievedObject;
     }
 }

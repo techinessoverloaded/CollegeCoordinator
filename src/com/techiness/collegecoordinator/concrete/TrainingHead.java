@@ -7,7 +7,6 @@ import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
 import java.util.Map;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class TrainingHead extends HoD
 {

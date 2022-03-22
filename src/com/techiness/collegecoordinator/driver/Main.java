@@ -7,10 +7,33 @@ import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.*;
+import java.util.HashMap;
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class Main
 {
+    private static final AccountsManager accountsManager;
+
+    //Retrieving state
+    static
+    {
+        accountsManager = AccountsManager.getInstance();
+        try
+        {
+            accountsManager.restoreState();
+        }
+        catch (Exception e)
+        {
+            if(accountsManager.getUsers() == null)
+                accountsManager.setUsers(new HashMap<>());
+            if(accountsManager.getDepartments() == null)
+                accountsManager.setDepartments(new HashMap<>());
+            println("User Data Lost/Not obtained Unfortunately!!!");
+            println("The Application may behave like opening for the first time...");
+            println();
+        }
+    }
+
     public static Department createDepartment()
     {
         int deptChoice = -1;
@@ -66,7 +89,7 @@ public class Main
                 {
                     printlnWithAnim("Changing name...");
                     user.setName(newName);
-                    println("Account details after changing name\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing name\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -90,7 +113,7 @@ public class Main
                 {
                     printlnWithAnim("Changing age...");
                     user.setAge(age);
-                    println("Account details after changing age\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing age\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -104,7 +127,7 @@ public class Main
                 Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
                 Menu genderMenu = genderMenuBuilder.setHeader("Gender Selection")
                         .addOption("Male").addOption("Female").addOption("Other").build();
-                while(newGender ==null)
+                while(newGender == null)
                 {
                     println("Enter the new new Gender:");
                     genderChoice = genderMenu.displayMenuAndGetChoice();
@@ -132,7 +155,7 @@ public class Main
                 {
                     printlnWithAnim("Changing name...");
                     user.setGender(newGender);
-                    println("Account details after changing newGender\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing newGender\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -154,7 +177,7 @@ public class Main
                 {
                     printlnWithAnim("Changing phone number...");
                     user.setPhone(newPhone);
-                    println("Account details after changing phone\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing phone\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -176,7 +199,7 @@ public class Main
                 {
                     printlnWithAnim("Changing email ID...");
                     user.setEmail(newEmail);
-                    println("Account details after changing email ID\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing email ID\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -198,7 +221,7 @@ public class Main
                 {
                     printlnWithAnim("Changing password...");
                     user.setPhone(newPassword);
-                    println("Account details after changing password\n\n"+ AccountsManager.getInstance().getUsers().get(user.getId()));
+                    println("Account details after changing password\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -220,6 +243,7 @@ public class Main
                 .addOption("Logout")
                 .addOption("Logout and Exit Application")
                 .build();
+
         printTextWithinStarPattern("CollegeCoordinator Admin Portal");
         int choice;
         while((choice = adminMenu.displayMenuAndGetChoice())<13)
@@ -240,8 +264,9 @@ public class Main
                             println("You have to assign HoD to the newly created department now !");
                             println("Create an account for the HoD and note down the credentials for the HoD to use later !");
                             HoD hod = (HoD) new UserCreationHelper(UserType.HOD).getNewUser();
+                            println();
                             printAccountCreationSuccess(hod);
-                            printlnWithAnim("Assigning HoD: " + hod.getName() + "to " + newDepartment.getName() + " with department ID: " + newDepartment.getId());
+                            printlnWithAnim("Assigning HoD: " + hod.getName() + " to " + newDepartment.getName() + " with department ID: " + newDepartment.getId());
                             hod.setDeptId(newDepartment.getId());
                             newDepartment.setHod(hod);
                             println("HoD: " + hod.getName() + " assigned to Department: " + newDepartment.getId() + " successfully !");
@@ -265,7 +290,7 @@ public class Main
 
                 case 12:
                     printlnWithAnim("Logging out and exiting now...");
-                    AccountsManager.getInstance().logoutUser();
+                    accountsManager.logoutUser();
                     return;
             }
         }
@@ -292,14 +317,14 @@ public class Main
                 case 1:
                     UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.FACULTY);
                     Faculty newFaculty = (Faculty) userCreatorHelper.getNewUser();
-                    AccountsManager.getInstance().getUsers().put(newFaculty.getId(), newFaculty);
+                    accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
                     printAccountCreationSuccess(newFaculty);
                     facultyOptions(newFaculty);
                     break;
                 case 2:
                     UserCreationHelper userCreatorHelper2 = new UserCreationHelper(UserType.STUDENT);
                     Student newStudent = (Student) userCreatorHelper2.getNewUser();
-                    AccountsManager.getInstance().getUsers().put(newStudent.getId(), newStudent);
+                    accountsManager.getUsers().put(newStudent.getId(), newStudent);
                     printAccountCreationSuccess(newStudent);
                     studentOptions(newStudent);
                     break;
@@ -316,7 +341,6 @@ public class Main
 
     public static void main(String args[])
     {
-        AccountsManager accountsManager = AccountsManager.getInstance();
         if(accountsManager.isFirstTime())
         {
             accountsManager.setFirstTime(false);
@@ -331,6 +355,7 @@ public class Main
             println();
             Admin admin = (Admin) userCreatorHelper.getNewUser();
             accountsManager.getUsers().put(admin.getId(), admin);
+            accountsManager.setAdmin(admin);
             printAccountCreationSuccess(admin);
             accountsManager.loginUser(admin.getId(), admin.getPassword());
             adminOptions(admin);
@@ -363,12 +388,13 @@ public class Main
             } while (loginRegisterOptions < 3);
         }
 
-        //Persisting Data
+        //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
+            scanner.close();
             try
             {
-                accountsManager.persistData();
+                accountsManager.persistState();
                 printlnWithAnim("Saving data before exiting...");
             }
             catch (Exception e)
@@ -376,6 +402,7 @@ public class Main
                 e.printStackTrace();
                 println("Unable to store user data!!! Application might behave differently next time!");
             }
+            System.gc();
         }));
     }
 }

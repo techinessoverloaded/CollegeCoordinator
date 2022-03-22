@@ -41,14 +41,18 @@ public class Menu
 
     private void displayHeader()
     {
-        printSymbols('-',totalChars);
+        print("+");
+        printSymbols('-',totalChars-2);
+        print("+");
         println();
         print("|");
         printSymbols(' ',18);
         print(header+" ");
         printSymbols(' ',17);
         print("|\n");
-        printSymbols('-',totalChars);
+        print("+");
+        printSymbols('-',totalChars-2);
+        print("+");
         println();
     }
 
@@ -63,7 +67,9 @@ public class Menu
             print("|");
             println();
         }
-        printSymbols('-',totalChars);
+        print("+");
+        printSymbols('-',totalChars-2);
+        print("+");
         println('\n');
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();

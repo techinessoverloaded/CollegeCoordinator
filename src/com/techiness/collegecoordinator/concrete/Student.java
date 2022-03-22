@@ -90,11 +90,22 @@ public final class Student extends User
     public String requestLeaveOrOD(Letter letter, String adminId)
     {
         AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter);
-        return letter.getLetterId();
+        return letter.getId();
     }
 
     public boolean checkLeaveOrODGranted(String letterId, String adminId)
     {
         return AccountsManager.getInstance().getDepartments().get(deptId).getHod().getLetters().get(letterId).getIsGranted();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Student"+super.toString()+
+                ", \ngrade = "+grade+
+                ", \nisPlaced = "+isPlaced+
+                ", \nneedsTraining = "+needsTraining+
+                ", \noffers = "+offers+
+                ", \ndeptId = "+deptId+" ]";
     }
 }

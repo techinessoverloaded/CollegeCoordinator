@@ -9,7 +9,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Department implements Serializable
+/**
+ * The Basic Root Abstract Class for the departments of this Application. Has the basic details of a department.
+ * Implements the {@link Nameable} interface. Also, implements the {@link Serializable} interface, and hence can be serialized.
+ * The subclasses of this class must override {@link #getId()} and {@link #setId(String)} methods of the {@link Identifiable} interface and also
+ * {@link #getName()} and {@link #setName(String)} methods of the {@link Nameable} interface.
+ */
+public abstract class Department implements Serializable, Nameable
 {
     protected static int idGen = 1;
     protected String id;
@@ -28,12 +34,26 @@ public abstract class Department implements Serializable
         this.faculties = faculties;
     }
 
+    public static int getIdGen()
+    {
+        return idGen;
+    }
+
+    public static void setIdGen(int idGen)
+    {
+        Department.idGen = idGen;
+    }
+
+    @Override
     public abstract String getId();
 
+    @Override
     public abstract void setId(String id);
 
+    @Override
     public abstract String getName();
 
+    @Override
     public abstract void setName(String name);
 
     public HoD getHod()
@@ -77,5 +97,15 @@ public abstract class Department implements Serializable
     public void setFaculties(Map<String, Faculty> faculties)
     {
         this.faculties = faculties;
+    }
+
+    @Override
+    public String toString()
+    {
+        return " [ \nid = "+getId()+
+                ", \nname = "+name+
+                ", \nhod = "+hod.getName()+
+                ", \nstudents = "+students+
+                ", \nfaculties = "+faculties;
     }
 }

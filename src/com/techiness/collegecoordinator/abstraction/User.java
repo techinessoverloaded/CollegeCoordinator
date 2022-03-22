@@ -1,9 +1,13 @@
 package com.techiness.collegecoordinator.abstraction;
-
 import com.techiness.collegecoordinator.enums.Gender;
 import java.io.Serializable;
 
-public abstract class User implements Serializable
+/**
+ * The Basic Root Abstract class for the users of this application. Has basic details about the user.
+ * Implements the {@link Nameable} interface. Also, implements the {@link Serializable} interface and hence, can be serialized.
+ * The subclasses of this class must override {@link #getId()}  and {@link #setId(String)} methods of the {@link Identifiable} interface.
+ */
+public abstract class User implements Serializable, Nameable
 {
     protected static int idGen = 1;
     protected String id;
@@ -26,15 +30,29 @@ public abstract class User implements Serializable
         this.password = password;
     }
 
+    public static int getIdGen()
+    {
+        return idGen;
+    }
+
+    public static void setIdGen(int idGen)
+    {
+        User.idGen = idGen;
+    }
+
+    @Override
     public abstract String getId();
 
+    @Override
     public abstract void setId(String id);
 
+    @Override
     public String getName()
     {
         return name;
     }
 
+    @Override
     public void setName(String name)
     {
         this.name = name;

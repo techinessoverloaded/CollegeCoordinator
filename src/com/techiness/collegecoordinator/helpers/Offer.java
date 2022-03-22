@@ -1,28 +1,66 @@
 package com.techiness.collegecoordinator.helpers;
 
-import java.util.Objects;
+import com.techiness.collegecoordinator.abstraction.Identifiable;
 
-public class Offer
+public class Offer implements Identifiable
 {
-    private String company;
+    private static int idGen = 1;
+    private String id;
+    private String studentId;
+    private String companyId;
     private String designation;
     private double compensation;
 
-    public Offer(String company, String designation, double compensation)
+    public Offer(String studentId, String companyId, String designation, double compensation)
     {
-        this.company = company;
+        this.id = String.valueOf(idGen);
+        idGen += 1;
+        this.studentId = studentId;
+        this.companyId = companyId;
         this.designation = designation;
         this.compensation = compensation;
     }
 
-    public String getCompany()
+    public static int getIdGen()
     {
-        return company;
+        return idGen;
     }
 
-    public void setCompany(String company)
+    public static void setIdGen(int idGen)
     {
-        this.company = company;
+        Offer.idGen = idGen;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id+"~"+studentId+"@"+companyId;
+    }
+
+    @Override
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public String getStudentId()
+    {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId)
+    {
+        this.studentId = studentId;
+    }
+
+    public String getCompanyId()
+    {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId)
+    {
+        this.companyId = companyId;
     }
 
     public String getDesignation()
@@ -45,19 +83,4 @@ public class Offer
         this.compensation = compensation;
     }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Offer offer = (Offer) o;
-        return Double.compare(offer.compensation, compensation) == 0 && company.equals(offer.company)
-                && designation.equals(offer.designation);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(company, designation, compensation);
-    }
 }

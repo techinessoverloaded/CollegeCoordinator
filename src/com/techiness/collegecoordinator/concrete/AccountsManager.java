@@ -3,13 +3,14 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.Company;
+import com.techiness.collegecoordinator.helpers.Letter;
+import com.techiness.collegecoordinator.helpers.Offer;
 import com.techiness.collegecoordinator.helpers.SerializationHelper;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class AccountsManager implements Serializable
 {
@@ -23,20 +24,7 @@ public class AccountsManager implements Serializable
 
     private AccountsManager()
     {
-        try
-        {
-            retrieveData();
-        }
-        catch (Exception e)
-        {
-            if(users == null)
-                users = new HashMap<>();
-            if(departments == null)
-                departments = new HashMap<>();
-            println("User Data Lost/Not obtained Unfortunately!!!");
-            println("The Application may behave like opening for the first time...");
-            println();
-        }
+
     }
 
     //Singleton Pattern
@@ -218,21 +206,36 @@ public class AccountsManager implements Serializable
         return admin == null;
     }
 
-    public void persistData() throws IOException
+    public void persistState() throws IOException
     {
         SerializationHelper serializationHelper = SerializationHelper.getInstance();
         serializationHelper.persistObject(admin,"admin.txt");
         serializationHelper.persistObject(isFirstTime,"isFirstTime.txt");
         serializationHelper.persistObject((HashMap<String,User>)users,"users.txt");
         serializationHelper.persistObject((HashMap<String,Department>)departments,"departments.txt");
+        int userIdGen = User.getIdGen();
+        serializationHelper.persistObject(userIdGen,"userIdGen.txt");
+        int deptIdGen = Department.getIdGen();
+        serializationHelper.persistObject(deptIdGen,"deptIdGen.txt");
+        int letterIdGen = Letter.getIdGen();
+        serializationHelper.persistObject(letterIdGen,"letterIdGen.txt");
+        int companyIdGen = Company.getIdGen();
+        serializationHelper.persistObject(companyIdGen,"companyIdGen.txt");
+        int offerIdGen = Offer.getIdGen();
+        serializationHelper.persistObject(offerIdGen,"offerIdGen.txt");
     }
 
-    private void retrieveData() throws IOException, ClassNotFoundException
+    public void restoreState() throws IOException, ClassNotFoundException
     {
         SerializationHelper serializationHelper = SerializationHelper.getInstance();
         admin = serializationHelper.retrieveObject("admin.txt");
         users = serializationHelper.retrieveObject("users.txt");
         departments = serializationHelper.retrieveObject("departments.txt");
         isFirstTime = serializationHelper.retrieveObject("isFirstTime.txt");
+        User.setIdGen(serializationHelper.retrieveObject("userIdGen.txt"));
+        Department.setIdGen(serializationHelper.retrieveObject("deptIdGen.txt"));
+        Letter.setIdGen(serializationHelper.retrieveObject("letterIdGen.txt"));
+        Company.setIdGen(serializationHelper.retrieveObject("companyIdGen.txt"));
+        Offer.setIdGen(serializationHelper.retrieveObject("offerIdGen.txt"));
     }
 }
