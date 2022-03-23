@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 
 public class UserCreationHelper
 {
@@ -46,18 +46,18 @@ public class UserCreationHelper
         resetVariables();
         while(!InputDataValidator.validateName(name))
         {
-            println("Enter your name:");
+            println("Enter the name of "+userType+":");
             name = readLine();
             if(!InputDataValidator.validateName(name))
-                println("Please enter your name to proceed...");
+                println("Please enter the name of "+userType+" to proceed...");
         }
         println();
         while(!InputDataValidator.validateAge(age))
         {
-            println("Enter your age:");
+            println("Enter the age of "+userType+":");
             age = readInt();
             if(!InputDataValidator.validateAge(age))
-                println("Warning : Age should be between 18 and 100 ! Enter the actual age...");
+                println("Warning : Age should be between 18 and 100 ! Enter the actual age of "+userType+" to proceed...");
         }
         println();
         Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
@@ -86,18 +86,18 @@ public class UserCreationHelper
         println();
         while(!InputDataValidator.validatePhone(phone))
         {
-            println("Enter your phone number:");
+            println("Enter the phone number of "+userType+":");
             phone = readLine();
             if(!InputDataValidator.validatePhone(phone))
-                println("Invalid Phone Number ! Enter phone number properly !");
+                println("Invalid Phone Number ! Enter valid phone number of "+userType+" to proceed...");
         }
         println();
         while(!InputDataValidator.validateEmail(email))
         {
-            println("Enter your email:");
+            println("Enter the Email ID of "+userType+":");
             email = readLine();
             if(!InputDataValidator.validateEmail(email))
-                println("Invalid Email ID ! Enter Email ID properly !");
+                println("Invalid Email ID ! Enter valid Email ID of "+userType+" to proceed...");
         }
         println();
         while(!InputDataValidator.validatePassword(password))
@@ -109,20 +109,21 @@ public class UserCreationHelper
                     "Password must contain at least one special character like ! @ # & ( ).\n" +
                     "Password must contain a length of at least 8 characters and a maximum of 20 characters.");
             println();
-            println("Enter your desired password:");
+            println("Enter the desired password for "+userType+":");
             password = readPassword();
             if(!InputDataValidator.validatePassword(password))
-                println("Invalid Password ! Try entering a different password matching the given criteria !");
+                println("Invalid Password ! Try entering a different password matching the given criteria for "+userType+"to proceed...");
         }
+        println();
     }
 
     private void getFacultyDetails()
     {
         getBasicDataOfUser();
-        println("Enter your qualifications separated by commas on a single line:");
+        println("Enter the qualifications of "+userType+ ", separated by commas on a single line:");
         qualString = readLine();
         qualifications = new ArrayList<>(Arrays.asList(qualString.split(",")));
-        println("Enter your experience in years:");
+        println("Enter the experience of "+userType+" in years:");
         experience = readInt();
         readLine();
     }
@@ -130,7 +131,7 @@ public class UserCreationHelper
     private void getHoDDetails()
     {
         getFacultyDetails();
-        println("Enter the subjects handled by you, separated by commas on a single line:");
+        println("Enter the subjects handled by the "+userType+", separated by commas on a single line:");
         subjectString = readLine();
         subjectsHandled = new ArrayList<>(Arrays.asList(subjectString.split(",")));
     }
@@ -161,7 +162,7 @@ public class UserCreationHelper
                         experience,new HashMap<>(),"");
             case STUDENT:
             getBasicDataOfUser();
-                return new Student(name, age, gender, phone, email, password, new ArrayList<>(),"");
+                return new Student(name, age, gender, phone, email, password, new HashMap<>(),"");
             default:
                 return null;
         }

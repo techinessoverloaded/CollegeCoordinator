@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 /**
  * The Basic Root Abstract class for the users of this application. Has basic details about the user.
- * Implements the {@link Nameable} interface. Also, implements the {@link Serializable} interface and hence, can be serialized.
+ * Implements the {@link Nameable} interface and the {@link Comparable<User>} interface. Also, implements the {@link Serializable} interface and hence, can be serialized.
  * The subclasses of this class must override {@link #getId()}  and {@link #setId(String)} methods of the {@link Identifiable} interface.
  */
-public abstract class User implements Serializable, Nameable
+public abstract class User implements Serializable, Nameable, Comparable<User>
 {
     protected static int idGen = 1;
     protected String id;
@@ -106,6 +106,12 @@ public abstract class User implements Serializable, Nameable
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    @Override
+    public int compareTo(User o)
+    {
+        return getId().compareTo(o.getId());
     }
 
     @Override

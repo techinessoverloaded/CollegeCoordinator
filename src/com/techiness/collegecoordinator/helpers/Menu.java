@@ -1,8 +1,10 @@
 package com.techiness.collegecoordinator.helpers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 
 public class Menu
 {
@@ -15,7 +17,7 @@ public class Menu
     {
         this.options = options;
         this.header = header;
-        this.totalChars = 38+header.length();
+        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public Map<Integer, String> getOptions()
@@ -26,6 +28,19 @@ public class Menu
     public void setOptions(Map<Integer, String> options)
     {
         this.options = options;
+        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+    }
+
+    public void addOption(String option)
+    {
+        options.put(options.size()+1,option);
+        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+    }
+
+    public void removeOption(int index)
+    {
+        options.remove(index);
+        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public String getHeader()
@@ -36,7 +51,12 @@ public class Menu
     public void setHeader(String header)
     {
         this.header = header;
-        totalChars = 38+header.length();
+    }
+
+    public void extendMenu(Menu existingMenu)
+    {
+        this.header = existingMenu.header;
+        existingMenu.getOptions().values().forEach(this::addOption);
     }
 
     private void displayHeader()
@@ -46,10 +66,10 @@ public class Menu
         print("+");
         println();
         print("|");
-        printSymbols(' ',18);
-        print(header+" ");
-        printSymbols(' ',17);
-        print("|\n");
+        printSymbols(' ',(totalChars/2)-1);
+        print(header);
+        printSymbols(' ',(totalChars/2)-header.length()-1);
+        println("|");
         print("+");
         printSymbols('-',totalChars-2);
         print("+");
@@ -76,6 +96,7 @@ public class Menu
         readLine();
         return selectedChoice;
     }
+
 
     public static class MenuBuilder
     {
@@ -106,9 +127,9 @@ public class Menu
             return this;
         }
 
-        public MenuBuilder removeOption(int number)
+        public MenuBuilder removeOption(int index)
         {
-            this.options.remove(number);
+            this.options.remove(index);
             return this;
         }
 

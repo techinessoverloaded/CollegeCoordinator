@@ -2,9 +2,10 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.enums.LetterType;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Letter implements Identifiable
+public class Letter implements Serializable, Identifiable, Comparable<Letter>
 {
     private String id;
     private static int idGen = 1;
@@ -13,6 +14,7 @@ public class Letter implements Identifiable
     private Date date;
     private String reason;
     private boolean isGranted;
+    private boolean isNotifiedToRequester;
 
     public Letter(String requesterId, LetterType letterType, Date date, String reason)
     {
@@ -22,7 +24,7 @@ public class Letter implements Identifiable
         this.letterType = letterType;
         this.date = date;
         this.reason = reason;
-        this.isGranted = false;
+        this.isGranted = this.isNotifiedToRequester = false;
     }
 
     public static int getIdGen()
@@ -95,5 +97,21 @@ public class Letter implements Identifiable
     public void setIsGranted(boolean granted)
     {
         isGranted = granted;
+    }
+
+    public boolean getIsNotifiedToRequester()
+    {
+        return isNotifiedToRequester;
+    }
+
+    public void setIsNotifiedToRequester(boolean notifiedToRequester)
+    {
+        isNotifiedToRequester = notifiedToRequester;
+    }
+
+    @Override
+    public int compareTo(Letter o)
+    {
+        return getId().compareTo(o.getId());
     }
 }

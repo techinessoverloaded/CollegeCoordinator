@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfNameableMap;
 
 public class PlacementDepartment extends Department
 {
@@ -25,7 +24,7 @@ public class PlacementDepartment extends Department
     @Override
     public String getId()
     {
-        return id+"*"+name+"@"+DepartmentType.PLACEMENT;
+        return id+"*"+name+"#"+DepartmentType.PLACEMENT;
     }
 
     @Override
@@ -107,6 +106,6 @@ public class PlacementDepartment extends Department
     {
         return "PlacementDepartment"+super.toString()+
                 ", \ntrainingHead = "+trainingHead+
-                ", \ncompanies = "+getStringOfMap(companies)+ " ]";
+                ", \ncompanies = "+getStringOfNameableMap(companies)+ " ]";
     }
 }

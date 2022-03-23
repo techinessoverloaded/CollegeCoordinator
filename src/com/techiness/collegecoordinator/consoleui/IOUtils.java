@@ -1,6 +1,7 @@
-package com.techiness.collegecoordinator.helpers;
+package com.techiness.collegecoordinator.consoleui;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.AccountsManager;
@@ -38,7 +39,8 @@ public class IOUtils
         return scanner.nextDouble();
     }
 
-    public static void printSymbols(char symbol, int count) {
+    public static void printSymbols(char symbol, int count)
+    {
         /*
          while(count--!=0)
             print(symbol);
@@ -79,9 +81,6 @@ public class IOUtils
         println(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
         println("\nAccount Details:\n\n" + user);
         println("NOTE: You would need your User ID and Password for logging in next time!\n");
-        printlnWithAnim("Logging in now...");
-        AccountsManager.getInstance().loginUser(user.getId(), user.getPassword());
-        println();
     }
 
     public static void printDepartmentCreationSuccess(Department department)
@@ -96,14 +95,35 @@ public class IOUtils
         return console != null ? String.valueOf(console.readPassword()) : readLine();
     }
 
-    public static <T extends Nameable> String getStringOfCollection(Collection<T> objects)
+    public static <T extends Nameable> String getStringOfNameableCollection(Collection<T> objects)
     {
-        List<String> names = objects.stream().map(T::getName).collect(Collectors.toList());
-        return names.toString();
+        List<String> names = objects.stream().map(Nameable::getName).collect(Collectors.toList());
+        List<String> ids = objects.stream().map(Nameable::getId).collect(Collectors.toList());
+        StringBuilder builder = new StringBuilder();
+        builder.append("[ ");
+        for(int i = 0; i < names.size(); ++i)
+        {
+            builder.append(ids.get(i)).append(" : ").append(names.get(i));
+            if(i != names.size()-1)
+                builder.append(", ");
+        }
+        builder.append(" ]");
+        return builder.toString();
     }
 
-    public static <T extends Nameable> String getStringOfMap(Map<String,T> map)
+    public static <T extends Nameable> String getStringOfNameableMap(Map<String,T> map)
     {
-        return getStringOfCollection(map.values());
+        return getStringOfNameableCollection(map.values());
+    }
+
+    public static <T extends Identifiable> String getStringOfIdentifiableCollection(Collection<T> objects)
+    {
+        List<String> ids = objects.stream().map(T::getId).collect(Collectors.toList());
+        return ids.toString();
+    }
+
+    public static <T extends Identifiable> String getStringOfIdentifiableMap(Map<String,T> map)
+    {
+        return getStringOfIdentifiableCollection(map.values());
     }
 }

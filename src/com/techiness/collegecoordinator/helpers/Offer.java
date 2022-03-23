@@ -2,7 +2,9 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 
-public class Offer implements Identifiable
+import java.io.Serializable;
+
+public class Offer implements Serializable, Identifiable, Comparable<Offer>
 {
     private static int idGen = 1;
     private String id;
@@ -83,4 +85,9 @@ public class Offer implements Identifiable
         this.compensation = compensation;
     }
 
+    @Override
+    public int compareTo(Offer o)
+    {
+        return getId().compareTo(o.getId());
+    }
 }

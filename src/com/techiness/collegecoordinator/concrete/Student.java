@@ -5,17 +5,18 @@ import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
-import java.util.List;
+import java.util.Map;
+import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfIdentifiableMap;
 
 public final class Student extends User
 {
     private String grade;
     private boolean isPlaced;
     private boolean needsTraining;
-    private List<Offer> offers;
+    private Map<String, Offer> offers;
     private String deptId;
 
-    public Student(String name, int age, Gender gender, String phone, String email, String password, List<Offer> offers, String deptId)
+    public Student(String name, int age, Gender gender, String phone, String email, String password, Map<String, Offer> offers, String deptId)
     {
         super(name, age, gender, phone, email, password);
         this.offers = offers;
@@ -28,7 +29,7 @@ public final class Student extends User
     @Override
     public String getId()
     {
-        return id+"#"+deptId+"_"+ UserType.STUDENT;
+        return id+"@"+deptId+"_"+ UserType.STUDENT;
     }
 
     @Override
@@ -77,12 +78,12 @@ public final class Student extends User
         this.needsTraining = needsTraining;
     }
 
-    public List<Offer> getOffers()
+    public Map<String, Offer> getOffers()
     {
         return offers;
     }
 
-    public void setOffers(List<Offer> offers)
+    public void setOffers(Map<String, Offer> offers)
     {
         this.offers = offers;
     }
@@ -105,7 +106,7 @@ public final class Student extends User
                 ", \ngrade = "+grade+
                 ", \nisPlaced = "+isPlaced+
                 ", \nneedsTraining = "+needsTraining+
-                ", \noffers = "+offers+
+                ", \noffers = "+getStringOfIdentifiableMap(offers)+
                 ", \ndeptId = "+deptId+" ]";
     }
 }

@@ -5,6 +5,7 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.Letter;
 import java.util.List;
 import java.util.Map;
+import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfIdentifiableMap;
 
 public class HoD extends Faculty
 {
@@ -17,19 +18,27 @@ public class HoD extends Faculty
         this.letters = letters;
     }
 
-    public HoD(Faculty existingFaculty, Map<String, Letter> letters)
+    public HoD(Faculty existingFaculty, String newDeptId ,Map<String, Letter> letters)
     {
         super(existingFaculty.getName(), existingFaculty.getAge(), existingFaculty.getGender(),
                 existingFaculty.getPhone(), existingFaculty.getEmail(), existingFaculty.getPassword(),
                 existingFaculty.subjectsHandled, existingFaculty.qualifications, existingFaculty.experience,
-                existingFaculty.deptId);
+                newDeptId);
         this.letters = letters;
+    }
+
+    public HoD(TrainingHead existingTrainingHead, String newDeptId)
+    {
+        super(existingTrainingHead.name, existingTrainingHead.age, existingTrainingHead.gender,
+                existingTrainingHead.phone, existingTrainingHead.email, existingTrainingHead.password,
+                existingTrainingHead.subjectsHandled, existingTrainingHead.qualifications,
+                existingTrainingHead.experience,newDeptId);
     }
 
     @Override
     public String getId()
     {
-        return id+"#"+deptId+"_"+ UserType.HOD;
+        return id+"@"+deptId+"_"+ UserType.HOD;
     }
 
     public Map<String, Letter> getLetters()
@@ -46,42 +55,27 @@ public class HoD extends Faculty
     {
         String facultyId = faculty.getId();
         Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
-        if(faculties.containsKey(facultyId)&&faculties.get(facultyId)!=null)
-            return false;
-        else if(faculties.get(facultyId)==null)
-        {
-            faculties.remove(facultyId);
-            faculties.put(facultyId,faculty);
-            return true;
-        }
-        else
-        {
-            faculties.put(facultyId, faculty);
-            return true;
-        }
+        return faculties.putIfAbsent(faculty.getId(),faculty) == null;
     }
 
     public boolean removeFaculty(String facultyId)
     {
         Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
-        if(!faculties.containsKey(facultyId))
-            return false;
-        faculties.remove(facultyId);
-        return true;
+        return faculties.remove(facultyId) != null;
     }
 
-    public void addLetter(Letter letter)
+    public boolean addLetter(Letter letter)
     {
-        letters.put(letter.getId(),letter);
+        return letters.putIfAbsent(letter.getId(),letter) == null;
     }
 
     public boolean addSubjectHandled(String facultyId, String subject)
     {
         Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
-        if(!faculties.containsKey(facultyId)||faculties.get(facultyId)==null)
+        if(!faculties.containsKey(facultyId) || faculties.get(facultyId) == null)
             return false;
         Faculty currentFaculty = faculties.get(facultyId);
-        if(currentFaculty.getSubjectsHandled()==null || currentFaculty.getSubjectsHandled().contains(subject))
+        if(currentFaculty.getSubjectsHandled() == null || currentFaculty.getSubjectsHandled().contains(subject))
             return false;
         currentFaculty.getSubjectsHandled().add(subject);
         return true;
@@ -90,10 +84,10 @@ public class HoD extends Faculty
     public boolean removeSubjectHandled(String facultyId, String subject)
     {
         Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
-        if(!faculties.containsKey(facultyId) || faculties.get(facultyId)==null)
+        if(!faculties.containsKey(facultyId) || faculties.get(facultyId) == null)
             return false;
         Faculty currentFaculty = faculties.get(facultyId);
-        if(currentFaculty.getSubjectsHandled()==null || !currentFaculty.getSubjectsHandled().contains(subject))
+        if(currentFaculty.getSubjectsHandled() == null || !currentFaculty.getSubjectsHandled().contains(subject))
             return false;
         currentFaculty.getSubjectsHandled().remove(subject);
         return true;
@@ -104,9 +98,18 @@ public class HoD extends Faculty
         letters.get(letterId).setIsGranted(isGranted);
     }
 
+    public boolean checkIfPermissionGranted(String letterId)
+    {
+        Letter currentLetter = letters.get(letterId);
+        if(currentLetter == null)
+            return false;
+        currentLetter.setIsNotifiedToRequester(true);
+        return currentLetter.getIsGranted();
+    }
+
     @Override
     public String toString()
     {
-        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+"\nletters = "+letters+" ]";
+        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+"\nletters = "+getStringOfIdentifiableMap(letters)+" ]";
     }
 }

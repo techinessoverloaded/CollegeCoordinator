@@ -18,7 +18,7 @@ public final class CourseDepartment extends Department
     @Override
     public String getId()
     {
-        return id+"*"+getDeptShortName()+"@"+ DepartmentType.COURSE;
+        return id+"*"+getDeptShortName()+"#"+DepartmentType.COURSE;
     }
 
     @Override

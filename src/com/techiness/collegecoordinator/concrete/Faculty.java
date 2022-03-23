@@ -24,19 +24,28 @@ public class Faculty extends User
         this.deptId = deptId;
     }
 
-    public Faculty(HoD existingHoD)
+    public Faculty(HoD existingHoD, String newDeptId)
     {
         super(existingHoD.name, existingHoD.age, existingHoD.gender, existingHoD.phone, existingHoD.email, existingHoD.password);
         this.subjectsHandled = existingHoD.subjectsHandled;
         this.qualifications = existingHoD.qualifications;
         this.experience = existingHoD.experience;
-        this.deptId = existingHoD.deptId;
+        this.deptId = newDeptId;
+    }
+
+    public Faculty(TrainingHead existingTrainingHead, String newDeptId)
+    {
+        super(existingTrainingHead.name, existingTrainingHead.age, existingTrainingHead.gender, existingTrainingHead.phone, existingTrainingHead.email, existingTrainingHead.password);
+        this.subjectsHandled = existingTrainingHead.subjectsHandled;
+        this.qualifications = existingTrainingHead.qualifications;
+        this.experience = existingTrainingHead.experience;
+        this.deptId = newDeptId;
     }
 
     @Override
     public String getId()
     {
-        return id+"#"+deptId+"_"+ UserType.FACULTY;
+        return id+"@"+deptId+"_"+ UserType.FACULTY;
     }
 
     @Override
@@ -108,62 +117,43 @@ public class Faculty extends User
     {
         String studentId = student.getId();
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        if(students.containsKey(studentId)&&students.get(studentId)!=null)
-            return false;
-        else if(students.get(studentId)==null)
-        {
-            students.remove(studentId);
-            students.put(studentId,student);
-            return true;
-        }
-        else
-        {
-            students.put(studentId, student);
-            return true;
-        }
+        return students.putIfAbsent(student.getId(),student) == null;
     }
 
-    public boolean removeStudent(String id)
+    public boolean removeStudent(String studentId)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        if(!students.containsKey(id))
-            return false;
-        students.remove(id);
-        return true;
+        return students.remove(studentId) != null;
     }
 
-    public boolean setGrade(String id, String grade)
+    public boolean setGrade(String studentId, String grade)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        if(!students.containsKey(id))
+        if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
-        Student currentStudent = students.get(id);
-        if(currentStudent==null)
-            return false;
+        Student currentStudent = students.get(studentId);
         currentStudent.setGrade(grade);
         return true;
     }
 
-    public boolean setNeedsTraining(String id, boolean needsTraining)
+    public boolean setNeedsTraining(String studentId, boolean needsTraining)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        if(!students.containsKey(id))
+        if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
-        Student currentStudent = students.get(id);
+        Student currentStudent = students.get(studentId);
         currentStudent.setNeedsTraining(needsTraining);
         return true;
     }
 
     public String requestLeaveOrOD(Letter letter)
     {
-        AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter);
-        return letter.getId();
+        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter) ? letter.getId() : null;
     }
 
     public boolean checkLeaveOrODGranted(String letterId)
     {
-        Letter requestedLetter = AccountsManager.getInstance().getDepartments().get(deptId).getHod().getLetters().get(letterId);
-        return requestedLetter.getIsGranted();
+       return AccountsManager.getInstance().getDepartments().get(deptId).getHod().checkIfPermissionGranted(letterId);
     }
 
     @Override

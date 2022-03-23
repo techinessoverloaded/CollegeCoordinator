@@ -2,9 +2,10 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import javafx.util.Pair;
+import java.io.Serializable;
 import java.util.Map;
 
-public class Company implements Nameable
+public class Company implements Serializable, Nameable
 {
     private String name;
     private String id;

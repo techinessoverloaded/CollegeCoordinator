@@ -1,10 +1,9 @@
 package com.techiness.collegecoordinator.abstraction;
 
-import com.sun.istack.internal.Nullable;
 import com.techiness.collegecoordinator.concrete.Faculty;
 import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.concrete.Student;
-
+import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfNameableMap;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,7 @@ import java.util.Map;
  * The subclasses of this class must override {@link #getId()} and {@link #setId(String)} methods of the {@link Identifiable} interface and also
  * {@link #getName()} and {@link #setName(String)} methods of the {@link Nameable} interface.
  */
-public abstract class Department implements Serializable, Nameable
+public abstract class Department implements Serializable, Nameable, Comparable<Department>
 {
     protected static int idGen = 1;
     protected String id;
@@ -100,12 +99,18 @@ public abstract class Department implements Serializable, Nameable
     }
 
     @Override
+    public int compareTo(Department o)
+    {
+        return getId().compareTo(o.getId());
+    }
+
+    @Override
     public String toString()
     {
         return " [ \nid = "+getId()+
                 ", \nname = "+name+
                 ", \nhod = "+hod.getName()+
-                ", \nstudents = "+students+
-                ", \nfaculties = "+faculties;
+                ", \nstudents = "+getStringOfNameableMap(students)+
+                ", \nfaculties = "+getStringOfNameableMap(faculties);
     }
 }
