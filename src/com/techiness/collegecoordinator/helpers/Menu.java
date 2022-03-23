@@ -17,7 +17,7 @@ public class Menu
     {
         this.options = options;
         this.header = header;
-        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+        this.totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public Map<Integer, String> getOptions()
@@ -28,19 +28,17 @@ public class Menu
     public void setOptions(Map<Integer, String> options)
     {
         this.options = options;
-        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+        this.totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public void addOption(String option)
     {
         options.put(options.size()+1,option);
-        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public void removeOption(int index)
     {
         options.remove(index);
-        this.totalChars = 38+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
     }
 
     public String getHeader()
@@ -66,9 +64,10 @@ public class Menu
         print("+");
         println();
         print("|");
-        printSymbols(' ',(totalChars/2)-1);
+        int spaces = header.length()%2==0 ? (totalChars-header.length())/2 : (totalChars-header.length()+1)/2;
+        printSymbols(' ',spaces-1);
         print(header);
-        printSymbols(' ',(totalChars/2)-header.length()-1);
+        printSymbols(' ',spaces-1);
         println("|");
         print("+");
         printSymbols('-',totalChars-2);
@@ -79,6 +78,7 @@ public class Menu
     public int displayMenuAndGetChoice()
     {
         selectedChoice = -1;
+        totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
         displayHeader();
         for(Integer key : options.keySet())
         {
