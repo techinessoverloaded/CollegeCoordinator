@@ -1,17 +1,20 @@
-package com.techiness.collegecoordinator.consoleui;
-import com.techiness.collegecoordinator.abstraction.User;
-import com.techiness.collegecoordinator.concrete.AccountsManager;
+package com.techiness.collegecoordinator.abstraction;
+import com.techiness.collegecoordinator.concrete.*;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.helpers.InputDataValidator;
 import com.techiness.collegecoordinator.helpers.Menu;
+import java.util.Observable;
+import java.util.Observer;
 import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 import static com.techiness.collegecoordinator.consoleui.IOUtils.println;
 
-public class GeneralUserUI
+public abstract class AbstractUserUI implements Observer
 {
     protected Menu userMenu;
+    private AccountsManager accountsManager;
 
-    public GeneralUserUI()
+    public AbstractUserUI()
     {
         this.userMenu = new Menu.MenuBuilder()
                 .addOption("Change name")
@@ -21,6 +24,7 @@ public class GeneralUserUI
                 .addOption("Change email ID")
                 .addOption("Change password")
                 .build();
+        accountsManager = AccountsManager.getInstance();
     }
 
     public Menu getUserMenu()
@@ -28,7 +32,9 @@ public class GeneralUserUI
         return userMenu;
     }
 
-    protected void executeGeneralUserActions(User user, int selection)
+    public abstract void displayUIAndExecuteActions();
+
+    protected final void executeGeneralUserActions(User user, int selection)
     {
         AccountsManager accountsManager = AccountsManager.getInstance();
         switch (selection)
@@ -108,13 +114,13 @@ public class GeneralUserUI
                             break;
                     }
                 }
-                println("Enter your password to confirm newGender change:");
+                println("Enter your password to confirm Gender change:");
                 String password2 = readPassword();
                 if(password2.equals(user.getPassword()))
                 {
                     printlnWithAnim("Changing name...");
                     user.setGender(newGender);
-                    println("Account details after changing newGender\n\n"+ accountsManager.getUsers().get(user.getId()));
+                    println("Account details after changing Gender\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
                 {
@@ -187,6 +193,41 @@ public class GeneralUserUI
                     println("Wrong Password ! Password Change Request failed!!!");
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        if(o instanceof Admin)
+        {
+            Admin admin = (Admin) o;
+            accountsManager.getUsers().replace(admin.getId(),admin);
+            accountsManager.setAdmin(admin);
+        }
+        else if(o instanceof TrainingHead)
+        {
+            TrainingHead trainingHead = (TrainingHead) o;
+            accountsManager.getUsers().replace(trainingHead.getId(), trainingHead);
+            accountsManager.getDepartments(trainingHead.getDeptId()).setHod(trainingHead);
+        }
+        else if(o instanceof HoD)
+        {
+            HoD hoD = (HoD) o;
+            accountsManager.getUsers().replace(hoD.getId(), hoD);
+            accountsManager.getDepartments(hoD.getDeptId()).setHod(hoD);
+        }
+        else if(o instanceof Faculty)
+        {
+            Faculty faculty = (Faculty) o;
+            accountsManager.getUsers().replace(faculty.getId(), faculty);
+            accountsManager.getDepartments(faculty.getDeptId()).getFaculties().replace(faculty.getId(),faculty);
+        }
+        else if(o instanceof Student)
+        {
+            Student student = (Student) o;
+            accountsManager.getUsers().replace(student.getId(), student);
+            accountsManager.getDepartments(student.getDeptId()).getStudents().replace(student.getId(), student);
         }
     }
 }

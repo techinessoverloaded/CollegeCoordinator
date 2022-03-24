@@ -55,6 +55,8 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     @Override
     public abstract void setName(String name);
 
+    public abstract String getDeptShortName();
+
     public HoD getHod()
     {
         /*StackTraceElement[] traceElements = Thread.currentThread().getStackTrace();
@@ -107,9 +109,17 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     @Override
     public String toString()
     {
+        if(hod == null)
+        {
+            return " [ \nid = "+getId()+
+                    ", \nname = "+name+
+                    ", \nhod = "+ "None"+
+                    ", \nstudents = "+getStringOfNameableMap(students)+
+                    ", \nfaculties = "+getStringOfNameableMap(faculties);
+        }
         return " [ \nid = "+getId()+
                 ", \nname = "+name+
-                ", \nhod = "+hod.getName()+
+                ", \nhod = "+ hod.getName()+
                 ", \nstudents = "+getStringOfNameableMap(students)+
                 ", \nfaculties = "+getStringOfNameableMap(faculties);
     }

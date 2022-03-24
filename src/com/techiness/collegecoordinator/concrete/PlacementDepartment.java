@@ -84,7 +84,8 @@ public class PlacementDepartment extends Department
         this.companies = companies;
     }
 
-    private String getDeptShortName()
+    @Override
+    public String getDeptShortName()
     {
         //return name.chars().filter(Character::isUpperCase).collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append).toString();
         return name.chars().filter(Character::isUpperCase).mapToObj(ch -> String.valueOf((char)ch)).collect(Collectors.joining());

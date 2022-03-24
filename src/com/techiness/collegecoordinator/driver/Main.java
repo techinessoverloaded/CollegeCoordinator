@@ -1,11 +1,9 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
-import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.*;
-import com.techiness.collegecoordinator.consoleui.AdminUI;
-import com.techiness.collegecoordinator.enums.DepartmentType;
-import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.consoleui.MainUI;
+import com.techiness.collegecoordinator.consoleui.UserUI;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.*;
 import java.util.HashMap;
@@ -14,11 +12,12 @@ import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 public class Main
 {
     private static final AccountsManager accountsManager;
-
+    private static final SessionManager sessionManager;
     //Retrieving state
     static
     {
         accountsManager = AccountsManager.getInstance();
+        sessionManager =  SessionManager.getInstance();
         try
         {
             accountsManager.restoreState();
@@ -53,36 +52,10 @@ public class Main
             accountsManager.getUsers().put(admin.getId(), admin);
             accountsManager.setAdmin(admin);
             printAccountCreationSuccess(admin);
-            accountsManager.loginUser(admin.getId(), admin.getPassword());
-            new AdminUI().displayUIAndExecuteActions(admin);
+            sessionManager.loginUser(admin.getId(), admin.getPassword());
+            new UserUI<Admin>(admin).displayUIAndExecuteActions();
         }
-        else
-        {
-            println("Welcome user, choose an option (1-3) to proceed...");
-            int loginRegisterOptions = -1;
-            do {
-                println("\n1. Login as Admin \n2.. Exit");
-                loginRegisterOptions = readInt();
-                readLine();
-                switch (loginRegisterOptions)
-                {
-                    case 1:
-                        //registerPrompt();
-                        loginRegisterOptions = 4;
-                    case 2:
-                        loginRegisterOptions = 4;
-                    case 3:
-                        printlnWithAnim("Exiting now...");
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        println("Invalid choice ! Enter a valid choice...");
-                        break;
-                }
-
-            } while (loginRegisterOptions < 3);
-        }
+        new MainUI().displayUIAndExecuteActions();
 
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
@@ -103,7 +76,6 @@ public class Main
                 e.printStackTrace();
                 println("Unable to store user data!!! Application might behave differently next time!");
             }
-            System.gc();
         }));
     }
 }

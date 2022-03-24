@@ -2,6 +2,7 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
 import java.util.List;
 import java.util.Map;
@@ -110,6 +111,6 @@ public class HoD extends Faculty
     @Override
     public String toString()
     {
-        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+1)+"\nletters = "+getStringOfIdentifiableMap(letters)+" ]";
+        return "HoD"+super.toString().substring(super.toString().indexOf("Faculty")+8)+"\nletters = "+getStringOfIdentifiableMap(letters)+" ]";
     }
 }

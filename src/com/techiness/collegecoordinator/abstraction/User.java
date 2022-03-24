@@ -1,5 +1,6 @@
 package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.enums.Gender;
+import java.util.Observable;
 import java.io.Serializable;
 
 /**
@@ -7,7 +8,7 @@ import java.io.Serializable;
  * Implements the {@link Nameable} interface and the {@link Comparable<User>} interface. Also, implements the {@link Serializable} interface and hence, can be serialized.
  * The subclasses of this class must override {@link #getId()}  and {@link #setId(String)} methods of the {@link Identifiable} interface.
  */
-public abstract class User implements Serializable, Nameable, Comparable<User>
+public abstract class User extends Observable implements Serializable, Nameable, Comparable<User>
 {
     protected static int idGen = 1;
     protected String id;
@@ -56,6 +57,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setName(String name)
     {
         this.name = name;
+        setChanged();
+        notifyObservers();
     }
 
     public int getAge()
@@ -66,6 +69,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setAge(int age)
     {
         this.age = age;
+        setChanged();
+        notifyObservers();
     }
 
     public Gender getGender()
@@ -76,6 +81,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setGender(Gender gender)
     {
         this.gender = gender;
+        setChanged();
+        notifyObservers();
     }
 
     public String getPhone()
@@ -86,6 +93,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setPhone(String phone)
     {
         this.phone = phone;
+        setChanged();
+        notifyObservers();
     }
 
     public String getEmail()
@@ -96,6 +105,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setEmail(String email)
     {
         this.email = email;
+        setChanged();
+        notifyObservers();
     }
 
     public String getPassword()
@@ -106,6 +117,8 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     public void setPassword(String password)
     {
         this.password = password;
+        setChanged();
+        notifyObservers();
     }
 
     @Override
@@ -113,6 +126,7 @@ public abstract class User implements Serializable, Nameable, Comparable<User>
     {
         return getId().compareTo(o.getId());
     }
+
 
     @Override
     public String toString()

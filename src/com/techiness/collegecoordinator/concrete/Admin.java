@@ -1,10 +1,11 @@
 package com.techiness.collegecoordinator.concrete;
 
-import com.sun.istack.internal.Nullable;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+
 import java.util.Map;
 
 public final class Admin extends User
@@ -123,37 +124,40 @@ public final class Admin extends User
         return true;
     }
 
-    public boolean promoteFacultyToDifferentDeptHoD(String facultyId, String currentDeptId, String destDeptId,
+    public HoD promoteFacultyToDifferentDeptHoD(String facultyId, String currentDeptId, String destDeptId,
                                                     boolean isDemoted, String... diffDeptId)
     {
         AccountsManager accountsManager = AccountsManager.getInstance();
         Map<String,Department> departments = accountsManager.getDepartments();
         if(!departments.containsKey(currentDeptId) || departments.get(currentDeptId) == null ||
                 departments.containsKey(destDeptId) || departments.get(destDeptId) == null)
-            return false;
+            return null;
         Department currentDepartment = departments.get(currentDeptId);
         Department destinationDepartment = departments.get(destDeptId);
         Faculty existingFaculty = currentDepartment.getFaculties(facultyId);
         if(existingFaculty == null)
-            return false;
+            return null;
         HoD oldHoD = destinationDepartment.getHod();
         HoD newHoD = new HoD(existingFaculty, destDeptId, oldHoD.letters);
         accountsManager.getUsers().remove(facultyId);
         currentDepartment.getFaculties().remove(facultyId);
         destinationDepartment.setHod(newHoD);
-        if(isDemoted)
+        if(oldHoD != null)
         {
-            String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : destDeptId;
-            Faculty newFaculty = new Faculty(oldHoD, assigningDeptId);
-            accountsManager.getUsers().remove(oldHoD.getId());
-            accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
-            accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
+            if (isDemoted)
+            {
+                String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : destDeptId;
+                Faculty newFaculty = new Faculty(oldHoD, assigningDeptId);
+                accountsManager.getUsers().remove(oldHoD.getId());
+                accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
+                accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
+            }
+            else
+            {
+                accountsManager.getUsers().remove(oldHoD.getId());
+            }
         }
-        else
-        {
-            accountsManager.getUsers().remove(oldHoD.getId());
-        }
-        return true;
+        return newHoD;
     }
 
     @Override

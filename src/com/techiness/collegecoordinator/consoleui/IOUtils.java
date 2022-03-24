@@ -4,23 +4,34 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
-import com.techiness.collegecoordinator.concrete.AccountsManager;
 import java.io.Console;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class IOUtils
+public final class IOUtils
 {
     public static final Scanner scanner = new Scanner(System.in);
     public static final Console console = System.console();
 
-    public static void println(Object val) {
+    public static void println(Object val)
+    {
         System.out.println(val);
     }
 
-    public static void println() {
+    public static void println()
+    {
         System.out.println();
+    }
+
+    public static void println2()
+    {
+        println("\n");
+    }
+
+    public static void println2(Object val)
+    {
+        println(val+"\n");
     }
 
     public static void print(Object val) {
@@ -55,8 +66,7 @@ public class IOUtils
         printSymbols('*', 14);
         println();
         printSymbols('*', 30 + text.length());
-        println();
-        println();
+        println2();
     }
 
     public static void printlnWithAnim(String text)
@@ -66,7 +76,7 @@ public class IOUtils
             print(c);
             try
             {
-                Thread.sleep(210);
+                Thread.sleep(205);
             }
             catch (InterruptedException e)
             {
@@ -78,16 +88,17 @@ public class IOUtils
 
     public static void printAccountCreationSuccess(User user)
     {
-        println(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
-        println("\nAccount Details:\n\n" + user);
+        println();
+        println2(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
+        println2("\nAccount Details:\n\n" + user);
         println("NOTE: You would need your User ID and Password for logging in next time!\n");
     }
 
     public static void printDepartmentCreationSuccess(Department department)
     {
-        println(department.getId().substring(department.getId().indexOf('@')+1) + " created successfully with Department ID: " + department.getId());
-        println("\nDepartment Details:\n\n" + department);
         println();
+        println2(department.getId().substring(department.getId().indexOf('@')+1) + " created successfully with Department ID: " + department.getId());
+        println2("\nDepartment Details:\n\n" + department);
     }
 
     public static String readPassword()

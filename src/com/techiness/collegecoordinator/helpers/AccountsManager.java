@@ -1,24 +1,21 @@
-package com.techiness.collegecoordinator.concrete;
+package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.concrete.Admin;
+import com.techiness.collegecoordinator.concrete.CourseDepartment;
+import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.Company;
-import com.techiness.collegecoordinator.helpers.Letter;
-import com.techiness.collegecoordinator.helpers.Offer;
-import com.techiness.collegecoordinator.helpers.SerializationHelper;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountsManager implements Serializable
+public final class AccountsManager implements Serializable
 {
     private static AccountsManager instance = null;
     private Map<String, Department> departments = null;
     private Map<String, User> users = null;
-    private UserType userType = null;
-    private User currentUser = null;
     private Admin admin = null;
     private boolean isFirstTime = true;
 
@@ -65,21 +62,6 @@ public class AccountsManager implements Serializable
         this.departments = departments;
     }
 
-    public UserType getUserType()
-    {
-        return userType;
-    }
-
-    public void setUserType(UserType userType)
-    {
-        this.userType = userType;
-    }
-
-    public User getCurrentUser()
-    {
-        return currentUser;
-    }
-
     public Map<String, User> getUsers()
     {
         return users;
@@ -105,10 +87,6 @@ public class AccountsManager implements Serializable
         this.admin = admin;
     }
 
-    public void setCurrentUser(User currentUser)
-    {
-        this.currentUser = currentUser;
-    }
 
     public boolean deleteUser(String id)
     {
@@ -118,87 +96,12 @@ public class AccountsManager implements Serializable
         return true;
     }
 
-    public String registerUser(User user)
-    {
+    public String registerUser(User user) {
         String userId = user.getId();
-        if(users.containsKey(user.getId()))
+        if (users.containsKey(user.getId()))
             return null;
-        users.put(user.getId(),user);
+        users.put(user.getId(), user);
         return user.getId();
-    }
-
-    public String registerAdmin(Admin admin)
-    {
-        if(this.admin != null)
-            return null;
-        this.admin = admin;
-        users.put(admin.getId(),admin);
-        return admin.getId();
-    }
-
-    public boolean loginAdmin(String adminId, String adminPassword)
-    {
-        if(this.admin == null)
-            return false;
-        currentUser = admin;
-        userType = UserType.ADMIN;
-        return true;
-    }
-
-    public boolean loginUser(String userId, String password)
-    {
-        String deptId = userId.substring(userId.indexOf('#')+1,userId.indexOf('_'));
-        UserType currentUserType = UserType.valueOf(userId.substring(userId.indexOf('_')+1));
-        Department department = departments.get(deptId);
-        User reference;
-        if(department == null)
-            return false;
-        switch (currentUserType)
-        {
-            case STUDENT:
-                if(!department.getStudents().containsKey(userId) || department.getStudents().get(userId)==null)
-                    return false;
-                reference = department.getStudents().get(userId);
-                break;
-            case FACULTY:
-                if(!department.getFaculties().containsKey(userId) || department.getFaculties().get(userId)==null)
-                    return false;
-                reference = department.getFaculties().get(userId);
-                break;
-            case HOD:
-                if(department.getHod() == null || !(department instanceof CourseDepartment))
-                    return false;
-                reference = department.getHod();
-                break;
-            case TRAINING_HEAD:
-                if(!(department instanceof PlacementDepartment) || department.getHod() == null)
-                    return false;
-                reference = department.getHod();
-                break;
-            default:
-                return false;
-        }
-        if(reference == null)
-            return false;
-        if(password.equals(reference.getPassword()))
-        {
-            currentUser = reference;
-            userType = UserType.valueOf(userId.substring(userId.indexOf("_")+1));
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public boolean logoutUser()
-    {
-        if(currentUser==null)
-            return false;
-        currentUser = null;
-        userType = null;
-        return true;
     }
 
     public boolean noAdminAvailable()

@@ -2,6 +2,7 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Company;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
@@ -85,6 +86,6 @@ public final class TrainingHead extends HoD
     @Override
     public String toString()
     {
-        return "TrainingHead"+super.toString().substring(super.toString().indexOf("HoD")+1)+" ]";
+        return "TrainingHead"+super.toString().substring(super.toString().indexOf("HoD")+4)+" ]";
     }
 }
