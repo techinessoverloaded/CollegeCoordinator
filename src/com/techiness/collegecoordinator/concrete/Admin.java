@@ -29,29 +29,12 @@ public final class Admin extends User
 
     public boolean addDepartment(Department department)
     {
-        Map<String,Department> departments = AccountsManager.getInstance().getDepartments();
-        if(departments.containsKey(department.getId()))
-            return false;
-        else if(departments.get(department.getId())==null)
-        {
-            departments.remove(department.getId());
-            departments.put(department.getId(),department);
-            return true;
-        }
-        else
-        {
-            departments.put(department.getId(), department);
-            return true;
-        }
+        return AccountsManager.getInstance().getDepartments().putIfAbsent(department.getId(), department) == null;
     }
 
     public boolean removeDepartment(String deptId)
     {
-        Map<String,Department> departments = AccountsManager.getInstance().getDepartments();
-        if(!departments.containsKey(deptId))
-            return false;
-        departments.remove(deptId);
-        return true;
+        return AccountsManager.getInstance().getDepartments().remove(deptId) != null;
     }
 
     public boolean assignHoD(String deptId, HoD hod)

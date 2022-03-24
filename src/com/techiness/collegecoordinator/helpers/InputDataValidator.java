@@ -16,7 +16,7 @@ public class InputDataValidator
         [6-9]: starting of the number may contain a digit between 6 and 9
         [0-9]: then contains digits 0 to 9
          */
-        String phonePattern = "(0/91)?[7-9][0-9]{9}";
+        String phonePattern = "(0/91)?[6-9][0-9]{9}";
         return Pattern.compile(phonePattern).matcher(phone).matches();
     }
 

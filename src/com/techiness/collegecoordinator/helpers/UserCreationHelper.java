@@ -56,6 +56,8 @@ public class UserCreationHelper
         {
             println("Enter the age of "+userType+":");
             age = readInt();
+            if(age == -1)
+                continue;
             if(!InputDataValidator.validateAge(age))
                 println("Warning : Age should be between 18 and 100 ! Enter the actual age of "+userType+" to proceed...");
         }

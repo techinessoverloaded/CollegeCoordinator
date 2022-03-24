@@ -109,6 +109,11 @@ public final class AccountsManager implements Serializable
         return admin == null;
     }
 
+    public boolean checkIfAnyUserAvailable(UserType userType)
+    {
+        return users.values().stream().map(User::getId).map(StringToEnumUtils::getUserTypeFromUserId).anyMatch(uType -> uType == userType);
+    }
+
     public void persistState() throws IOException
     {
         SerializationHelper serializationHelper = SerializationHelper.getInstance();

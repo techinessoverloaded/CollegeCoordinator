@@ -38,12 +38,24 @@ public final class IOUtils
         System.out.print(val);
     }
 
-    public static String readLine() {
+    public static String readLine()
+    {
         return scanner.nextLine().trim();
     }
 
-    public static int readInt() {
-        return scanner.nextInt();
+    public static int readInt()
+    {
+        int val = -1;
+        try
+        {
+            val = Integer.parseInt(readLine());
+        }
+        catch (NumberFormatException e)
+        {
+            println2("Invalid Input ! Input should be a positive number !");
+            return val;
+        }
+        return val;
     }
 
     public static double readDouble() {

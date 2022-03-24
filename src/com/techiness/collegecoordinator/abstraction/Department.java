@@ -103,7 +103,7 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     @Override
     public int compareTo(Department o)
     {
-        return getId().compareTo(o.getId());
+        return name.compareTo(o.name);
     }
 
     @Override

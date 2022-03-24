@@ -68,7 +68,8 @@ public abstract class AbstractUserUI implements Observer
                 {
                     println("Enter the new age:");
                     age = readInt();
-                    readLine();
+                    if(age == -1)
+                        continue;
                     if(!InputDataValidator.validateAge(age))
                         println("Warning : Age should be between 18 and 100 ! Please enter the new age to proceed...");
                 }
@@ -96,7 +97,8 @@ public abstract class AbstractUserUI implements Observer
                 {
                     println("Enter the new new Gender:");
                     genderChoice = genderMenu.displayMenuAndGetChoice();
-                    readLine();
+                    if(genderChoice == -1)
+                        continue;
                     switch (genderChoice)
                     {
                         case 1:

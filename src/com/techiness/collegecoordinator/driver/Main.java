@@ -60,7 +60,7 @@ public class Main
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
-            scanner.close();
+            //scanner.close();
             for(Department department : accountsManager.getDepartments().values())
             {
                 department.getHod().getLetters().entrySet().removeIf(entry -> entry.getValue().getIsNotifiedToRequester());

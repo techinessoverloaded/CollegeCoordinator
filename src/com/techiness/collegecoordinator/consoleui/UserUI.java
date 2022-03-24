@@ -83,6 +83,8 @@ public final class UserUI<T extends User> extends AbstractUserUI
         while(true)
         {
             deptChoice = departmentMenu.displayMenuAndGetChoice();
+            if(deptChoice == -1)
+                continue;
             switch (deptChoice)
             {
                 case 1:
@@ -107,6 +109,8 @@ public final class UserUI<T extends User> extends AbstractUserUI
         while(true)
         {
             choice = userMenu.displayMenuAndGetChoice();
+            if(choice == -1)
+                continue;
             switch (choice)
             {
                 case 1: case 2: case 3: case 4: case 5: case 6:
@@ -116,7 +120,6 @@ public final class UserUI<T extends User> extends AbstractUserUI
                     Department newDepartment = createDepartment();
                     if (newDepartment != null)
                     {
-                        admin.addDepartment(newDepartment);
                         printDepartmentCreationSuccess(newDepartment);
                         println("You have to assign HoD to the newly created department now !");
                         println("Create an account for the HoD and note down the credentials for the HoD to use later !");
@@ -128,6 +131,7 @@ public final class UserUI<T extends User> extends AbstractUserUI
                         hod.setDeptId(newDepartment.getId());
                         newDepartment.setHod(hod);
                         accountsManager.getUsers().put(hod.getId(), hod);
+                        admin.addDepartment(newDepartment);
                         println("HoD: " + hod.getName() + " assigned to Department: " + newDepartment.getId() + " successfully \n!");
                     }
                     else
@@ -140,7 +144,6 @@ public final class UserUI<T extends User> extends AbstractUserUI
                     Department newDepartment1 = createDepartment();
                     if (newDepartment1 != null)
                     {
-                        admin.addDepartment(newDepartment1);
                         printDepartmentCreationSuccess(newDepartment1);
                         println();
                         println("You have to assign HoD to the newly created department now !");
@@ -171,13 +174,14 @@ public final class UserUI<T extends User> extends AbstractUserUI
                         HoD newHoD = admin.promoteFacultyToDifferentDeptHoD(facultyId, deptId, newDepartment1.getId(), false);
                         if(newHoD != null)
                         {
+                            admin.addDepartment(newDepartment1);
                             printAccountCreationSuccess(newHoD);
                             println();
                             println("HoD "+newHoD.getName()+" assigned to Department: "+newDepartment1.getId()+" successfully\n!");
                         }
                         else
                         {
-                            println("HoD assignment to new Department failed !");
+                            println("HoD assignment to new Department failed ! Department Creation failed !");
                         }
                     }
                     else
@@ -187,6 +191,8 @@ public final class UserUI<T extends User> extends AbstractUserUI
                     break;
 
                 case 9:
+                    //Promote existing faculty as HoD for department and Demote current HoD as staff of same department
+
                 case 10:
                 case 11:
                 case 12:

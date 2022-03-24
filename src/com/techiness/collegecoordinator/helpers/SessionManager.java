@@ -70,8 +70,10 @@ public final class SessionManager
 
     public boolean loginUser(String userId, String password)
     {
-        String deptId = userId.substring(userId.indexOf('#')+1,userId.indexOf('_'));
-        UserType currentUserType = UserType.valueOf(userId.substring(userId.indexOf('_')+1));
+        String deptId = userId.substring(userId.indexOf('@')+1,userId.indexOf('_'));
+        UserType currentUserType = StringToEnumUtils.getUserTypeFromUserId(userId);
+        System.out.println(deptId);
+        System.out.println(currentUserType);
         Department department = accountsManager.getDepartments(deptId);
         User reference;
         if(department == null)

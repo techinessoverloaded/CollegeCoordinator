@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.helpers;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +92,6 @@ public class Menu
         println('\n');
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();
-        readLine();
         return selectedChoice;
     }
 
