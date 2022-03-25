@@ -1,10 +1,7 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
-import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.consoleui.MainUI;
-import com.techiness.collegecoordinator.consoleui.UserUI;
-import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.*;
 import java.util.HashMap;
 import static com.techiness.collegecoordinator.consoleui.IOUtils.*;

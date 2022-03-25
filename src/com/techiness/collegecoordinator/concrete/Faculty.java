@@ -53,6 +53,8 @@ public class Faculty extends User
     public void setId(String id)
     {
         this.id = id;
+        setChanged();
+        notifyObservers();
     }
 
     public String getDeptId()
@@ -63,6 +65,8 @@ public class Faculty extends User
     public void setDeptId(String deptId)
     {
         this.deptId = deptId;
+        setChanged();
+        notifyObservers();
     }
 
     public List<String> getSubjectsHandled()
@@ -73,6 +77,8 @@ public class Faculty extends User
     public void setSubjectsHandled(List<String> subjectsHandled)
     {
         this.subjectsHandled = subjectsHandled;
+        setChanged();
+        notifyObservers();
     }
 
     public List<String> getQualifications()
@@ -83,6 +89,8 @@ public class Faculty extends User
     public void setQualifications(List<String> qualifications)
     {
         this.qualifications = qualifications;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean addQualification(String qualification)
@@ -93,6 +101,8 @@ public class Faculty extends User
                 return false;
         }
         qualifications.add(qualification);
+        setChanged();
+        notifyObservers();
         return true;
     }
 
@@ -101,6 +111,8 @@ public class Faculty extends User
         if(!qualifications.contains(qualification))
             return false;
         qualifications.remove(qualification);
+        setChanged();
+        notifyObservers();
         return true;
     }
 
@@ -112,6 +124,8 @@ public class Faculty extends User
     public void setExperience(int experience)
     {
         this.experience = experience;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean addStudent(Student student)

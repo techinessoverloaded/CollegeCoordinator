@@ -37,7 +37,7 @@ public final class MainUI
         accountsManager.setAdmin(admin);
         printAccountCreationSuccess(admin);
         sessionManager.loginUser(admin.getId(), admin.getPassword());
-        new UserUI<Admin>(admin).displayUIAndExecuteActions();
+        new AdminUI(admin).displayUIAndExecuteActions();
     }
 
     public void displayUIAndExecuteActions()

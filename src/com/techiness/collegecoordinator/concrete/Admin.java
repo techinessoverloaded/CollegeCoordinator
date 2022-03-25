@@ -5,6 +5,7 @@ import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
+import javafx.util.Pair;
 
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public final class Admin extends User
     public void setId(String id)
     {
         this.id = id;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean addDepartment(Department department)
@@ -76,26 +79,27 @@ public final class Admin extends User
     }
 
 
-    public boolean promoteFacultyToSameDeptHoD(String facultyId, String deptId, boolean isDemoted, String... diffDeptId)
+    public Pair<HoD,Faculty> promoteFacultyToSameDeptHoD(String facultyId, String deptId, boolean isDemoted, String... diffDeptId)
     {
         AccountsManager accountsManager = AccountsManager.getInstance();
         Map<String,Department> departments = accountsManager.getDepartments();
         if(!departments.containsKey(deptId) || departments.get(deptId) == null)
-            return false;
+            return null;
         Department currentDepartment = departments.get(deptId);
         HoD oldHoD = currentDepartment.getHod();
         Faculty existingFaculty = currentDepartment.getFaculties(facultyId);
         if(existingFaculty == null)
-            return false;
+            return null;
         HoD newHoD = new HoD(existingFaculty, deptId, oldHoD.letters);
         accountsManager.getUsers().remove(facultyId);
         accountsManager.getUsers().put(newHoD.getId(), newHoD);
         currentDepartment.getFaculties().remove(facultyId);
         currentDepartment.setHod(newHoD);
+        Faculty newFaculty = null;
         if(isDemoted)
         {
             String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : deptId;
-            Faculty newFaculty = new Faculty(oldHoD, assigningDeptId);
+            newFaculty = new Faculty(oldHoD, assigningDeptId);
             accountsManager.getUsers().remove(oldHoD.getId());
             accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
             accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
@@ -104,11 +108,11 @@ public final class Admin extends User
         {
             accountsManager.getUsers().remove(oldHoD.getId());
         }
-        return true;
+        return new Pair<>(newHoD, newFaculty);
     }
 
-    public HoD promoteFacultyToDifferentDeptHoD(String facultyId, String currentDeptId, String destDeptId,
-                                                    boolean isDemoted, String... diffDeptId)
+    public Pair<HoD,Faculty> promoteFacultyToDifferentDeptHoD(String facultyId, String currentDeptId, String destDeptId,
+                                                     boolean isDemoted, String... diffDeptId)
     {
         AccountsManager accountsManager = AccountsManager.getInstance();
         Map<String,Department> departments = accountsManager.getDepartments();
@@ -125,12 +129,13 @@ public final class Admin extends User
         accountsManager.getUsers().remove(facultyId);
         currentDepartment.getFaculties().remove(facultyId);
         destinationDepartment.setHod(newHoD);
+        Faculty newFaculty = null;
         if(oldHoD != null)
         {
             if (isDemoted)
             {
                 String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : destDeptId;
-                Faculty newFaculty = new Faculty(oldHoD, assigningDeptId);
+                newFaculty = new Faculty(oldHoD, assigningDeptId);
                 accountsManager.getUsers().remove(oldHoD.getId());
                 accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
                 accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
@@ -140,7 +145,7 @@ public final class Admin extends User
                 accountsManager.getUsers().remove(oldHoD.getId());
             }
         }
-        return newHoD;
+        return new Pair<>(newHoD, newFaculty);
     }
 
     @Override

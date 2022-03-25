@@ -53,8 +53,7 @@ public class UserCreationHelper
         println();
         while(!InputDataValidator.validateAge(age))
         {
-            println("Enter the age of "+userType+":");
-            age = readInt();
+            age = getUserInput(age,"Age of the "+userType);
             if(age == -1)
                 continue;
             if(!InputDataValidator.validateAge(age))
@@ -63,7 +62,10 @@ public class UserCreationHelper
         println();
         Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
         Menu genderMenu = genderMenuBuilder.setHeader("Gender Selection")
-                .addOption("Male").addOption("Female").addOption("Other").build();
+                .addOption("Male")
+                .addOption("Female")
+                .addOption("Other")
+                .build();
         while(gender==null)
         {
             genderChoice = genderMenu.displayMenuAndGetChoice();
@@ -87,16 +89,14 @@ public class UserCreationHelper
         println();
         while(!InputDataValidator.validatePhone(phone))
         {
-            println("Enter the phone number of "+userType+":");
-            phone = readLine();
+            phone = getUserInput(phone,"Phone Number of the "+userType);
             if(!InputDataValidator.validatePhone(phone))
                 println("Invalid Phone Number ! Enter valid phone number of "+userType+" to proceed...");
         }
         println();
         while(!InputDataValidator.validateEmail(email))
         {
-            println("Enter the Email ID of "+userType+":");
-            email = readLine();
+            email = getUserInput(email, "Email ID of the "+userType);
             if(!InputDataValidator.validateEmail(email))
                 println("Invalid Email ID ! Enter valid Email ID of "+userType+" to proceed...");
         }
@@ -104,14 +104,12 @@ public class UserCreationHelper
         while(!InputDataValidator.validatePassword(password))
         {
             println("Criteria for password : ");
-            println("Password must contain at least one digit [0-9].\n" +
+            println2("Password must contain at least one digit [0-9].\n" +
                     "Password must contain at least one lowercase character [a-z].\n" +
                     "Password must contain at least one uppercase character [A-Z].\n" +
                     "Password must contain at least one special character like ! @ # & ( ).\n" +
                     "Password must contain a length of at least 8 characters and a maximum of 20 characters.");
-            println();
-            println("Enter the desired password for "+userType+":");
-            password = readPassword();
+            password = getPasswordInput("desired Password for the "+userType);
             if(!InputDataValidator.validatePassword(password))
                 println("Invalid Password ! Try entering a different password matching the given criteria for "+userType+"to proceed...");
         }
@@ -121,18 +119,17 @@ public class UserCreationHelper
     private void getFacultyDetails()
     {
         getBasicDataOfUser();
-        println("Enter the qualifications of "+userType+ ", separated by commas on a single line:");
+        println("Enter the Qualifications of the "+userType+ ", separated by commas on a single line :");
         qualString = readLine();
         qualifications = new ArrayList<>(Arrays.asList(qualString.split(",")));
-        println("Enter the experience of "+userType+" in years:");
+        println("Enter the Experience of the "+userType+" in years :");
         experience = readInt();
-        readLine();
     }
 
     private void getHoDDetails()
     {
         getFacultyDetails();
-        println("Enter the subjects handled by the "+userType+", separated by commas on a single line:");
+        println("Enter the Subjects handled by the "+userType+", separated by commas on a single line :");
         subjectString = readLine();
         subjectsHandled = new ArrayList<>(Arrays.asList(subjectString.split(",")));
     }

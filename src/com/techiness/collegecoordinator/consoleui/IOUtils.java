@@ -138,7 +138,7 @@ public final class IOUtils
         println();
         println2(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
         println2("\nAccount Details:" + user);
-        println("NOTE: You would need your User ID and Password for logging in next time!\n");
+        println2("NOTE: You would need your User ID and Password for logging in next time!");
     }
 
     public static void printDepartmentCreationSuccess(Department department)

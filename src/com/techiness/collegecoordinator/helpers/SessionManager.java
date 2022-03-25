@@ -136,27 +136,27 @@ public final class SessionManager
         switch (currentUserType)
         {
             case ADMIN:
-                UserUI<Admin> adminUI = new UserUI<>((Admin) currentUser);
+                AdminUI adminUI = new AdminUI( (Admin) currentUser);
                 currentUser.addObserver(adminUI);
                 adminUI.displayUIAndExecuteActions();
                 return true;
             case HOD:
-                UserUI<HoD> hodUI = new UserUI<>((HoD) currentUser);
+                HoDUI hodUI = new HoDUI((HoD) currentUser);
                 currentUser.addObserver(hodUI);
                 hodUI.displayUIAndExecuteActions();
                 return true;
             case TRAINING_HEAD:
-                UserUI<TrainingHead> trainingHeadUI = new UserUI<>((TrainingHead) currentUser);
+                TrainingHeadUI trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
                 currentUser.addObserver(trainingHeadUI);
                 trainingHeadUI.displayUIAndExecuteActions();
                 return true;
             case FACULTY:
-                UserUI<Faculty> facultyUI = new UserUI<>((Faculty) currentUser);
+                FacultyUI facultyUI = new FacultyUI((Faculty) currentUser);
                 currentUser.addObserver(facultyUI);
                 facultyUI.displayUIAndExecuteActions();
                 return true;
             case STUDENT:
-                UserUI<Student> studentUI = new UserUI<>((Student) currentUser);
+                StudentUI studentUI = new StudentUI((Student) currentUser);
                 currentUser.addObserver(studentUI);
                 studentUI.displayUIAndExecuteActions();
                 return true;
