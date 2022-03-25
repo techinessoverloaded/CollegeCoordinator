@@ -25,7 +25,6 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
         this.isGranted = this.isNotifiedToRequester = false;
     }
 
-
     @Override
     public String getId()
     {

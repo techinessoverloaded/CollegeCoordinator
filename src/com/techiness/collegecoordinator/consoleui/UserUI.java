@@ -7,6 +7,9 @@ import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.*;
+
+import java.util.HashMap;
+
 import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 
 public final class UserUI<T extends User> extends AbstractUserUI
@@ -56,6 +59,7 @@ public final class UserUI<T extends User> extends AbstractUserUI
                         .addOption("Remove a department")
                         .addOption("Get existing departments")
                         .addOption("Logout")
+                        .addOption("Factory Reset Application")
                         .build());
                 break;
         }
@@ -150,11 +154,10 @@ public final class UserUI<T extends User> extends AbstractUserUI
                         println();
                         println("You have to assign HoD to the newly created department now !");
                         Department existingDepartment = null;
-                        String deptId = null;
+                        String deptId = "";
                         while(existingDepartment == null)
                         {
-                            println("Enter the department ID of the faculty\'s Department:");
-                            deptId = readLine();
+                            deptId = getUserInput(deptId,"Department ID of the Faculty\'s Department");
                             existingDepartment = accountsManager.getDepartments(deptId);
                             if (existingDepartment == null)
                             {
@@ -162,11 +165,10 @@ public final class UserUI<T extends User> extends AbstractUserUI
                             }
                         }
                         Faculty existingFaculty = null;
-                        String facultyId = null;
+                        String facultyId = "";
                         while(existingFaculty == null)
                         {
-                            println("Enter the faculty ID of the faculty to be promoted as HoD");
-                            facultyId = readLine();
+                            facultyId = getUserInput(facultyId,"Faculty ID of the Faculty to be promoted as HoD");
                             existingFaculty = existingDepartment.getFaculties(facultyId);
                             if(existingFaculty == null)
                             {
@@ -206,6 +208,44 @@ public final class UserUI<T extends User> extends AbstractUserUI
                     printlnWithAnim("Logging out...");
                     sessionManager.logoutUser();
                     return;
+                case 18:
+                    println2("WARNING: Factory Resetting the Application will clear all the User Data and all Accounts including this Admin Account will be deleted !!!");
+                    String resetChoice = "";
+                    while(true)
+                    {
+                        resetChoice = getUserInput(resetChoice, "Do you want to proceed ? Enter Yes/No");
+                        if(!(resetChoice.equalsIgnoreCase("Yes") || resetChoice.equalsIgnoreCase("No")))
+                        {
+                            println2("Enter either Yes/No");
+                            continue;
+                        }
+                        if(resetChoice.equalsIgnoreCase("Yes"))
+                        {
+                            printlnWithAnim("Factory resetting the Application...");
+                            try
+                            {
+                                SerializationHelper.getInstance().clearStoredData("departments.txt","isFirstTime.txt","users.txt");
+                                AccountsManager.getInstance().setDepartments(new HashMap<>());
+                                AccountsManager.getInstance().setUsers(new HashMap<>());
+                                SessionManager.getInstance().setFirstTime(true);
+                                SessionManager.getInstance().logoutUser();
+                                SerializationHelper.getInstance().clearStoredData("admin.txt");
+                                AccountsManager.getInstance().setAdmin(null);
+                                sessionManager.setFactoryResetDone(true);
+                            }
+                            catch (Exception e)
+                            {
+                                println("Error occurred during Factory Reset!");
+                            }
+                            printlnValLn("The Application will behave like opening for the First Time !");
+                            return;
+                        }
+                        else if(resetChoice.equalsIgnoreCase("No"))
+                        {
+                            println2("Cancelled Factory Reset");
+                            break;
+                        }
+                    }
             }
         }
     }

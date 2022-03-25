@@ -46,10 +46,9 @@ public class UserCreationHelper
         resetVariables();
         while(!InputDataValidator.validateName(name))
         {
-            println("Enter the name of "+userType+":");
-            name = readLine();
+            name = getUserInput(name,"Name of the "+userType);
             if(!InputDataValidator.validateName(name))
-                println("Please enter the name of "+userType+" to proceed...");
+                println("Please enter the Name of the "+userType+" to proceed...");
         }
         println();
         while(!InputDataValidator.validateAge(age))

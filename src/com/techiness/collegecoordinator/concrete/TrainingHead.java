@@ -42,7 +42,7 @@ public final class TrainingHead extends HoD
     public boolean addOffer(String studentId, Offer offer)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        if(!students.containsKey(studentId)||students.get(studentId)==null)
+        if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
         Student currentStudent = students.get(studentId);
         return currentStudent.getOffers().putIfAbsent(offer.getId(), offer) == null;

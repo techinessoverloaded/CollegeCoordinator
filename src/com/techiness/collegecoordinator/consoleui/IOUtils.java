@@ -5,6 +5,7 @@ import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
 import java.io.Console;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,8 +35,23 @@ public final class IOUtils
         println(val+"\n");
     }
 
+    public static void printlnVal(Object val)
+    {
+        println("\n"+val);
+    }
+
+    public static void printlnValLn(Object val)
+    {
+        printlnVal(val+"\n");
+    }
+
     public static void print(Object val) {
         System.out.print(val);
+    }
+
+    public static void write(byte[] bytes) throws IOException
+    {
+        System.out.write(bytes);
     }
 
     public static String readLine()
@@ -58,8 +74,19 @@ public final class IOUtils
         return val;
     }
 
-    public static double readDouble() {
-        return scanner.nextDouble();
+    public static double readDouble()
+    {
+        double val = -1;
+        try
+        {
+            val = Double.parseDouble(readLine());
+        }
+        catch (NumberFormatException e)
+        {
+            println2("Invalid Input ! Input should be a positive decimal number !");
+            return val;
+        }
+        return val;
     }
 
     public static void printSymbols(char symbol, int count)
@@ -83,26 +110,34 @@ public final class IOUtils
 
     public static void printlnWithAnim(String text)
     {
-        for (char c : text.toCharArray())
+        char incomplete = '░';
+        char complete = '█';
+        StringBuilder builder = new StringBuilder();
+        int count = text.length();
+        Stream.generate(() -> incomplete).limit(count).forEach(builder::append);
+        printlnVal(text);
+        for(int i = 0; i < count; i++)
         {
-            print(c);
+            builder.replace(i,i+1,String.valueOf(complete));
+            String output = "\r"+builder;
+            print(output);
             try
             {
-                Thread.sleep(205);
+                Thread.sleep(100);
             }
-            catch (InterruptedException e)
+            catch (InterruptedException ignored)
             {
-                e.printStackTrace();
+
             }
         }
-        println();
+        println2();
     }
 
     public static void printAccountCreationSuccess(User user)
     {
         println();
         println2(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
-        println2("\nAccount Details:\n\n" + user);
+        println2("\nAccount Details:" + user);
         println("NOTE: You would need your User ID and Password for logging in next time!\n");
     }
 
@@ -148,5 +183,31 @@ public final class IOUtils
     public static <T extends Identifiable> String getStringOfIdentifiableMap(Map<String,T> map)
     {
         return getStringOfIdentifiableCollection(map.values());
+    }
+
+    public static <T> T getUserInput(T container, String message)
+    {
+        if(container instanceof Integer)
+        {
+            println("Enter the "+message+" :");
+            container = (T)Integer.valueOf(readInt());
+        }
+        else if(container instanceof String)
+        {
+            println("Enter the "+message+" :");
+            container = (T)readLine();
+        }
+        else if(container instanceof Double)
+        {
+            println("Enter the "+message+" :");
+            container = (T)Double.valueOf(readDouble());
+        }
+        return container;
+    }
+
+    public static String getPasswordInput(String message)
+    {
+        println("Enter the "+message+" :");
+        return readPassword();
     }
 }

@@ -20,6 +20,8 @@ public class Main
         sessionManager =  SessionManager.getInstance();
         try
         {
+            printlnWithAnim("Retrieving Stored Data...");
+            println2();
             accountsManager.restoreState();
         }
         catch (Exception e)
@@ -29,33 +31,30 @@ public class Main
             if(accountsManager.getDepartments() == null)
                 accountsManager.setDepartments(new HashMap<>());
             println("User Data Lost/Not obtained Unfortunately!!!");
-            println("The Application may behave like opening for the first time...");
-            println();
+            println2("The Application may behave like opening for the first time...");
         }
     }
 
     public static void main(String args[])
     {
-        if(accountsManager.isFirstTime())
+        if(sessionManager.isFirstTime() || accountsManager.noAdminAvailable())
         {
-            accountsManager.setFirstTime(false);
+            sessionManager.setFirstTime(false);
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
+            new MainUI().displayUIForFirstTime();
         }
-        //println(accountsManager.getUsers());
-        //println(accountsManager.isFirstTime());
-        printTextWithinStarPattern("Welcome to CollegeCoordinator !");
-        if (accountsManager.noAdminAvailable())
+        else
         {
-            UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
-            println("You have to create an Admin account to proceed further....");
-            println();
-            Admin admin = (Admin) userCreatorHelper.getNewUser();
-            accountsManager.getUsers().put(admin.getId(), admin);
-            accountsManager.setAdmin(admin);
-            printAccountCreationSuccess(admin);
-            sessionManager.loginUser(admin.getId(), admin.getPassword());
-            new UserUI<Admin>(admin).displayUIAndExecuteActions();
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
+            new MainUI().displayUIAndExecuteActions();
         }
-        new MainUI().displayUIAndExecuteActions();
+
+        if (sessionManager.isFactoryResetDone())
+        {
+            sessionManager.setFactoryResetDone(false);
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
+            new MainUI().displayUIForFirstTime();
+        }
 
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
@@ -68,8 +67,9 @@ public class Main
 
             try
             {
-                accountsManager.persistState();
+                printlnValLn("Don't terminate application abruptly ! It might result in loss of data !");
                 printlnWithAnim("Saving data before exiting...");
+                accountsManager.persistState();
             }
             catch (Exception e)
             {

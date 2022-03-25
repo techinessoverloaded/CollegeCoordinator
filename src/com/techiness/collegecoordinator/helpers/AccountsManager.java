@@ -3,8 +3,6 @@ package com.techiness.collegecoordinator.helpers;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.Admin;
-import com.techiness.collegecoordinator.concrete.CourseDepartment;
-import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.enums.UserType;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,7 +15,7 @@ public final class AccountsManager implements Serializable
     private Map<String, Department> departments = null;
     private Map<String, User> users = null;
     private Admin admin = null;
-    private boolean isFirstTime = true;
+
 
     private AccountsManager()
     {
@@ -60,16 +58,6 @@ public final class AccountsManager implements Serializable
     private boolean checkIfDeptIdExists(int deptIdToBeChecked)
     {
         return departments.values().stream().map(Department::getId).mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == deptIdToBeChecked);
-    }
-
-    public boolean isFirstTime()
-    {
-        return isFirstTime;
-    }
-
-    public void setFirstTime(boolean firstTime)
-    {
-        this.isFirstTime = firstTime;
     }
 
     public Map<String, Department> getDepartments()
@@ -147,7 +135,7 @@ public final class AccountsManager implements Serializable
     {
         SerializationHelper serializationHelper = SerializationHelper.getInstance();
         serializationHelper.persistObject(admin,"admin.txt");
-        serializationHelper.persistObject(isFirstTime,"isFirstTime.txt");
+        serializationHelper.persistObject(SessionManager.getInstance().isFirstTime(), "isFirstTime.txt");
         serializationHelper.persistObject((HashMap<String,User>)users,"users.txt");
         serializationHelper.persistObject((HashMap<String,Department>)departments,"departments.txt");
     }
@@ -158,6 +146,6 @@ public final class AccountsManager implements Serializable
         admin = serializationHelper.retrieveObject("admin.txt");
         users = serializationHelper.retrieveObject("users.txt");
         departments = serializationHelper.retrieveObject("departments.txt");
-        isFirstTime = serializationHelper.retrieveObject("isFirstTime.txt");
+        SessionManager.getInstance().setFirstTime(serializationHelper.retrieveObject("isFirstTime.txt"));
     }
 }

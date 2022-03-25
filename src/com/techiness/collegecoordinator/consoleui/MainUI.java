@@ -1,9 +1,11 @@
 package com.techiness.collegecoordinator.consoleui;
 
+import com.techiness.collegecoordinator.concrete.Admin;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Menu;
 import com.techiness.collegecoordinator.helpers.SessionManager;
+import com.techiness.collegecoordinator.helpers.UserCreationHelper;
 
 import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 
@@ -26,6 +28,18 @@ public final class MainUI
         this.accountsManager = AccountsManager.getInstance();
     }
 
+    public void displayUIForFirstTime()
+    {
+        UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
+        println2("You have to create an Admin account to proceed further....");
+        Admin admin = (Admin) userCreatorHelper.getNewUser();
+        accountsManager.getUsers().put(admin.getId(), admin);
+        accountsManager.setAdmin(admin);
+        printAccountCreationSuccess(admin);
+        sessionManager.loginUser(admin.getId(), admin.getPassword());
+        new UserUI<Admin>(admin).displayUIAndExecuteActions();
+    }
+
     public void displayUIAndExecuteActions()
     {
         int choice = -1;
@@ -37,11 +51,9 @@ public final class MainUI
             switch (choice)
             {
                 case 1:
-                    String adminId, adminPassword;
-                    println("Enter admin ID:");
-                    adminId = readLine();
-                    println("Enter admin Password:");
-                    adminPassword = readPassword();
+                    String adminId="", adminPassword="";
+                    adminId = getUserInput(adminId,"admin ID");//readLine();
+                    adminPassword = getPasswordInput("admin Password");
                     printlnWithAnim("Trying to login as Admin...");
                     if(sessionManager.loginAdmin(adminId, adminPassword))
                     {
@@ -58,11 +70,9 @@ public final class MainUI
                         println2("No Training Head account exists !");
                         continue;
                     }
-                    String trainingHeadId, trainingHeadPassword;
-                    println("Enter Training Head ID:");
-                    trainingHeadId = readLine();
-                    println("Enter Training Head Password:");
-                    trainingHeadPassword = readPassword();
+                    String trainingHeadId = "", trainingHeadPassword = "";
+                    trainingHeadId = getUserInput(trainingHeadId,"Training Head ID");
+                    trainingHeadPassword = getPasswordInput("Training Head Password");
                     printlnWithAnim("Trying to login as Training Head...");
                     if(sessionManager.loginUser(trainingHeadId, trainingHeadPassword))
                     {
@@ -79,11 +89,9 @@ public final class MainUI
                         println2("No HoD account exists !");
                         continue;
                     }
-                    String hodId, hodPassword;
-                    println("Enter HoD ID:");
-                    hodId = readLine();
-                    println("Enter HoD Password:");
-                    hodPassword = readPassword();
+                    String hodId="", hodPassword="";
+                    hodId = getUserInput(hodId,"HoD ID");
+                    hodPassword = getPasswordInput("HoD Password");
                     printlnWithAnim("Trying to login as HoD...");
                     if(sessionManager.loginUser(hodId, hodPassword))
                     {
@@ -100,11 +108,9 @@ public final class MainUI
                         println2("No Faculty account exists !");
                         continue;
                     }
-                    String facultyId, facultyPassword;
-                    println("Enter Faculty ID:");
-                    facultyId = readLine();
-                    println("Enter Faculty Password:");
-                    facultyPassword = readPassword();
+                    String facultyId = "", facultyPassword = "";
+                    facultyId = getUserInput(facultyId,"Faculty ID");
+                    facultyPassword = getPasswordInput("Faculty Password");
                     printlnWithAnim("Trying to login as Faculty...");
                     if(sessionManager.loginUser(facultyId, facultyPassword))
                     {
@@ -121,11 +127,9 @@ public final class MainUI
                         println2("No Student account exists !");
                         continue;
                     }
-                    String studentId, studentPassword;
-                    println("Enter Student ID:");
-                    studentId = readLine();
-                    println("Enter Student Password:");
-                    studentPassword = readPassword();
+                    String studentId="", studentPassword="";
+                    studentId = getUserInput(studentId,"Student ID");
+                    studentPassword = getPasswordInput("Student Password");
                     printlnWithAnim("Trying to login as Student...");
                     if(sessionManager.loginUser(studentId, studentPassword))
                     {

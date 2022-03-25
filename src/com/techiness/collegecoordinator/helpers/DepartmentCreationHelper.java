@@ -37,10 +37,8 @@ public class DepartmentCreationHelper
     private void getCourseDepartmentDetails()
     {
         resetVariables();
-        println("Enter the name of the department:");
-        deptName = readLine();
-        println("Enter the course id:");
-        courseId = readLine();
+        deptName = getUserInput(deptName,"Name of the Department");
+        courseId = getUserInput(courseId,"Course ID of the Department");
     }
 
     public Department getNewDepartment()

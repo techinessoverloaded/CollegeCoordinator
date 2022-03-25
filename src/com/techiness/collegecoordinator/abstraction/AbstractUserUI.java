@@ -43,13 +43,18 @@ public abstract class AbstractUserUI implements Observer
                 String newName = "";
                 while(!InputDataValidator.validateName(newName))
                 {
-                    println("Enter the new name:");
-                    newName = readLine();
+                    newName = getUserInput(newName,"New Name");
                     if(!InputDataValidator.validateName(newName))
+                    {
                         println("Please enter the new name to proceed...");
+                        continue;
+                    }
+                    if(user.getName().equals(newName))
+                    {
+                        println("You have entered the current name again!");
+                    }
                 }
-                println("Enter your password to confirm name change:");
-                String password = readPassword();
+                String password = getPasswordInput("Password to confirm Name Change");
                 if(password.equals(user.getPassword()))
                 {
                     printlnWithAnim("Changing name...");
@@ -66,15 +71,20 @@ public abstract class AbstractUserUI implements Observer
                 int age = -1;
                 while(!InputDataValidator.validateAge(age))
                 {
-                    println("Enter the new age:");
-                    age = readInt();
+                    age = getUserInput(age,"New Age");
                     if(age == -1)
                         continue;
                     if(!InputDataValidator.validateAge(age))
+                    {
                         println("Warning : Age should be between 18 and 100 ! Please enter the new age to proceed...");
+                        continue;
+                    }
+                    if(user.getAge() == age)
+                    {
+                        println("You have entered the current age again!");
+                    }
                 }
-                println("Enter your password to confirm age change:");
-                String password1 = readPassword();
+                String password1 = getPasswordInput("Password to confirm Age Change");
                 if(password1.equals(user.getPassword()))
                 {
                     printlnWithAnim("Changing age...");

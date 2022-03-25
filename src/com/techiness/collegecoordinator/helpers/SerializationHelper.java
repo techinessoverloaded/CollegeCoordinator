@@ -1,11 +1,12 @@
 package com.techiness.collegecoordinator.helpers;
 
 import java.io.*;
+import java.util.List;
 
 public class SerializationHelper
 {
     private static SerializationHelper instance = null;
-    private static String parentPath = "/Users/arun-pt5167/IdeaProjects/CollegeCoordinator/src/com/techiness/collegecoordinator/data/";
+    private static final String parentPath = "/Users/arun-pt5167/IdeaProjects/CollegeCoordinator/src/com/techiness/collegecoordinator/data/";
 
     private SerializationHelper()
     {
@@ -40,5 +41,15 @@ public class SerializationHelper
         objIn.close();
         fin.close();
         return retrievedObject;
+    }
+
+    public void clearStoredData(String... fileNames) throws IOException, SecurityException
+    {
+        for(String fName : fileNames)
+        {
+            String exactPath = parentPath + fName;
+            FileOutputStream fout = new FileOutputStream(exactPath);
+            fout.close();
+        }
     }
 }

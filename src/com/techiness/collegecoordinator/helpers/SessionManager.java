@@ -12,6 +12,8 @@ public final class SessionManager
     private UserType currentUserType;
     private User currentUser;
     private AccountsManager accountsManager;
+    private boolean factoryResetDone = false;
+    private boolean isFirstTime = true;
 
     private SessionManager()
     {
@@ -27,6 +29,16 @@ public final class SessionManager
             instance = new SessionManager();
         }
         return instance;
+    }
+
+    public boolean isFirstTime()
+    {
+        return isFirstTime;
+    }
+
+    public void setFirstTime(boolean firstTime)
+    {
+        isFirstTime = firstTime;
     }
 
     public UserType getCurrentUserType()
@@ -161,5 +173,15 @@ public final class SessionManager
         currentUser = null;
         currentUserType = null;
         return true;
+    }
+
+    public boolean isFactoryResetDone()
+    {
+        return factoryResetDone;
+    }
+
+    public void setFactoryResetDone(boolean factoryResetDone)
+    {
+        this.factoryResetDone = factoryResetDone;
     }
 }
