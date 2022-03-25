@@ -3,6 +3,8 @@ package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.concrete.Faculty;
 import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.concrete.Student;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+
 import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfNameableMap;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -16,7 +18,6 @@ import java.util.Map;
  */
 public abstract class Department implements Serializable, Nameable, Comparable<Department>
 {
-    protected static int idGen = 1;
     protected String id;
     protected String name;
     protected HoD hod;
@@ -25,22 +26,11 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
 
     public Department(String name, HoD hod, Map<String,Faculty> faculties, Map<String, Student> students)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
+        this.id = String.valueOf(AccountsManager.getInstance().getDepartmentIdGen());
         this.name = name;
         this.hod = hod;
         this.students = students;
         this.faculties = faculties;
-    }
-
-    public static int getIdGen()
-    {
-        return idGen;
-    }
-
-    public static void setIdGen(int idGen)
-    {
-        Department.idGen = idGen;
     }
 
     @Override

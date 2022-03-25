@@ -8,7 +8,6 @@ import java.util.Date;
 public class Letter implements Serializable, Identifiable, Comparable<Letter>
 {
     private String id;
-    private static int idGen = 1;
     private String requesterId;
     private LetterType letterType;
     private Date date;
@@ -16,10 +15,9 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
     private boolean isGranted;
     private boolean isNotifiedToRequester;
 
-    public Letter(String requesterId, LetterType letterType, Date date, String reason)
+    public Letter(int id, String requesterId, LetterType letterType, Date date, String reason)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
+        this.id = String.valueOf(id);
         this.requesterId = requesterId;
         this.letterType = letterType;
         this.date = date;
@@ -27,15 +25,6 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
         this.isGranted = this.isNotifiedToRequester = false;
     }
 
-    public static int getIdGen()
-    {
-        return idGen;
-    }
-
-    public static void setIdGen(int idGen)
-    {
-        Letter.idGen = idGen;
-    }
 
     @Override
     public String getId()

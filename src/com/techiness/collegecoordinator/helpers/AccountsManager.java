@@ -32,6 +32,36 @@ public final class AccountsManager implements Serializable
         return instance;
     }
 
+    public int getUserIdGen()
+    {
+        int userIdGen = users.size()+1;
+        while (checkIfUserIdExists(userIdGen))
+        {
+            ++userIdGen;
+        }
+        return userIdGen;
+    }
+
+    private boolean checkIfUserIdExists(int userIdToBeChecked)
+    {
+        return users.values().stream().map(User::getId).mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == userIdToBeChecked);
+    }
+
+    public int getDepartmentIdGen()
+    {
+        int deptIdGen = departments.size()+1;
+        while (checkIfDeptIdExists(deptIdGen))
+        {
+            ++deptIdGen;
+        }
+        return deptIdGen;
+    }
+
+    private boolean checkIfDeptIdExists(int deptIdToBeChecked)
+    {
+        return departments.values().stream().map(Department::getId).mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == deptIdToBeChecked);
+    }
+
     public boolean isFirstTime()
     {
         return isFirstTime;
@@ -87,7 +117,6 @@ public final class AccountsManager implements Serializable
         this.admin = admin;
     }
 
-
     public boolean deleteUser(String id)
     {
         if(!users.containsKey(id)||users.get(id)==null)
@@ -121,16 +150,6 @@ public final class AccountsManager implements Serializable
         serializationHelper.persistObject(isFirstTime,"isFirstTime.txt");
         serializationHelper.persistObject((HashMap<String,User>)users,"users.txt");
         serializationHelper.persistObject((HashMap<String,Department>)departments,"departments.txt");
-        int userIdGen = User.getIdGen();
-        serializationHelper.persistObject(userIdGen,"userIdGen.txt");
-        int deptIdGen = Department.getIdGen();
-        serializationHelper.persistObject(deptIdGen,"deptIdGen.txt");
-        int letterIdGen = Letter.getIdGen();
-        serializationHelper.persistObject(letterIdGen,"letterIdGen.txt");
-        int companyIdGen = Company.getIdGen();
-        serializationHelper.persistObject(companyIdGen,"companyIdGen.txt");
-        int offerIdGen = Offer.getIdGen();
-        serializationHelper.persistObject(offerIdGen,"offerIdGen.txt");
     }
 
     public void restoreState() throws IOException, ClassNotFoundException
@@ -140,10 +159,5 @@ public final class AccountsManager implements Serializable
         users = serializationHelper.retrieveObject("users.txt");
         departments = serializationHelper.retrieveObject("departments.txt");
         isFirstTime = serializationHelper.retrieveObject("isFirstTime.txt");
-        User.setIdGen(serializationHelper.retrieveObject("userIdGen.txt"));
-        Department.setIdGen(serializationHelper.retrieveObject("deptIdGen.txt"));
-        Letter.setIdGen(serializationHelper.retrieveObject("letterIdGen.txt"));
-        Company.setIdGen(serializationHelper.retrieveObject("companyIdGen.txt"));
-        Offer.setIdGen(serializationHelper.retrieveObject("offerIdGen.txt"));
     }
 }

@@ -117,6 +117,7 @@ public final class UserUI<T extends User> extends AbstractUserUI
                 executeGeneralUserActions(admin,choice);
                 break;
                 case 7:
+                    //Create a department and assign new HoD
                     Department newDepartment = createDepartment();
                     if (newDepartment != null)
                     {
@@ -141,6 +142,7 @@ public final class UserUI<T extends User> extends AbstractUserUI
                     break;
 
                 case 8:
+                    //Create a department and assign an existing faculty as its HoD
                     Department newDepartment1 = createDepartment();
                     if (newDepartment1 != null)
                     {

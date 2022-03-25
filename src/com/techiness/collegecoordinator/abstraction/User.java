@@ -1,5 +1,7 @@
 package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+
 import java.util.Observable;
 import java.io.Serializable;
 
@@ -10,7 +12,6 @@ import java.io.Serializable;
  */
 public abstract class User extends Observable implements Serializable, Nameable, Comparable<User>
 {
-    protected static int idGen = 1;
     protected String id;
     protected String name;
     protected int age;
@@ -21,24 +22,13 @@ public abstract class User extends Observable implements Serializable, Nameable,
 
     public User(String name, int age, Gender gender, String phone, String email, String password)
     {
-        this.id = String.valueOf(idGen);
-        idGen += 1;
+        this.id = String.valueOf(AccountsManager.getInstance().getUserIdGen());
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.phone = phone;
         this.email = email;
         this.password = password;
-    }
-
-    public static int getIdGen()
-    {
-        return idGen;
-    }
-
-    public static void setIdGen(int idGen)
-    {
-        User.idGen = idGen;
     }
 
     @Override

@@ -9,14 +9,12 @@ public class Company implements Serializable, Nameable
 {
     private String name;
     private String id;
-    private static int idGen = 1;
     private String location;
     private Map<String,Pair<Double,Integer>> jobRoles;
 
-    public Company(String name, String location, Map<String, Pair<Double, Integer>> jobRoles)
+    public Company(int id, String name, String location, Map<String, Pair<Double, Integer>> jobRoles)
     {
-        this.id = idGen+"_COMPANY";
-        idGen += 1;
+        this.id = String.valueOf(id);
         this.name = name;
         this.location = location;
         this.jobRoles = jobRoles;
@@ -32,16 +30,6 @@ public class Company implements Serializable, Nameable
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public static int getIdGen()
-    {
-        return idGen;
-    }
-
-    public static void setIdGen(int idGen)
-    {
-        Company.idGen = idGen;
     }
 
     @Override
