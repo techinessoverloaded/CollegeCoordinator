@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.consoleui;
 
-import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
@@ -13,14 +12,10 @@ import static com.techiness.collegecoordinator.consoleui.IOUtils.println2;
 
 public final class AdminUI extends AbstractUserUI
 {
-    private final Admin admin;
-    private final AccountsManager accountsManager;
-    private final SessionManager sessionManager;
+    private  Admin admin;
     public AdminUI(Admin admin)
     {
         this.admin = admin;
-        this.accountsManager = AccountsManager.getInstance();
-        this.sessionManager = SessionManager.getInstance();
         this.userMenu.extendMenu(new Menu.MenuBuilder().setHeader("Admin Menu")
                 .addOption("Create a department and assign new HoD")
                 .addOption("Create a department and assign an existing Faculty as its HoD")
@@ -70,31 +65,28 @@ public final class AdminUI extends AbstractUserUI
     public void displayUIAndExecuteActions()
     {
         int choice = -1;
-        AccountsManager accountsManager = AccountsManager.getInstance();
         while(true)
         {
             choice = userMenu.displayMenuAndGetChoice();
             if (choice == -1)
                 continue;
-            switch (choice) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    executeGeneralUserActions(admin, choice);
-                    break;
-                case 7:
+            if(choice >= 1 && choice <= 7)
+            {
+                executeGeneralUserActions(admin, choice);
+                continue;
+            }
+            switch (choice)
+            {
+                case 8:
                     //Create a department and assign new HoD
                     Department newDepartment = createDepartment();
                     if (newDepartment != null) {
-                        printDepartmentCreationSuccess(newDepartment);
+                        printDepartmentDetails(newDepartment,true);
                         println("You have to assign HoD to the newly created department now !");
                         println("Create an account for the HoD and note down the credentials for the HoD to use later !");
                         HoD hod = (HoD) new UserCreationHelper(UserType.HOD).getNewUser();
                         println();
-                        printAccountCreationSuccess(hod);
+                        printAccountDetails(hod,true);
                         println();
                         printlnWithAnim("Assigning HoD: " + hod.getName() + " to " + newDepartment.getName() + " with department ID: " + newDepartment.getId());
                         hod.setDeptId(newDepartment.getId());
@@ -107,11 +99,11 @@ public final class AdminUI extends AbstractUserUI
                     }
                     break;
 
-                case 8:
+                case 9:
                     //Create a department and assign an existing faculty as its HoD
                     Department newDepartment1 = createDepartment();
                     if (newDepartment1 != null) {
-                        printDepartmentCreationSuccess(newDepartment1);
+                        printDepartmentDetails(newDepartment1,true);
                         println();
                         println("You have to assign HoD to the newly created department now !");
                         Department existingDepartment = null;
@@ -135,7 +127,7 @@ public final class AdminUI extends AbstractUserUI
                         HoD newHoD = admin.promoteFacultyToDifferentDeptHoD(facultyId, deptId, newDepartment1.getId(), false).getKey();
                         if (newHoD != null) {
                             admin.addDepartment(newDepartment1);
-                            printAccountCreationSuccess(newHoD);
+                            printAccountDetails(newHoD,true);
                             println2("HoD " + newHoD.getName() + " assigned to Department: " + newDepartment1.getId() + " successfully!");
                         } else {
                             println2("HoD assignment to new Department failed ! Department Creation failed !");
@@ -145,7 +137,7 @@ public final class AdminUI extends AbstractUserUI
                     }
                     break;
 
-                case 9:
+                case 10:
                     //Promote existing Faculty as HoD for SAME department and Demote current HoD as Faculty of same department
                     Department existingDepartment9 = null;
                     String deptId9 = "";
@@ -170,26 +162,25 @@ public final class AdminUI extends AbstractUserUI
                     Faculty newFaculty9 = result9.getValue();
                     if (result9 != null) {
                         println2("Old Faculty: " + existingFacultyId9 + " promoted as Current HoD: " + newHoD9.getId() + " successfully !");
-                        printAccountCreationSuccess(newHoD9);
+                        printAccountDetails(newHoD9,true);
                         println2("Old HoD: " + existingDepartment9.getHod().getId() + " promoted as Current Faculty: " + newFaculty9.getId() + " successfully !");
-                        printAccountCreationSuccess(newFaculty9);
+                        printAccountDetails(newFaculty9,true);
                     } else {
                         println2("Failed to promote Faculty as HoD !");
                     }
                     break;
 
-                case 10:
                 case 11:
                 case 12:
                 case 13:
                 case 14:
                 case 15:
                 case 16:
-                case 17:
+                case 18:
                     printlnWithAnim("Logging out...");
                     sessionManager.logoutUser();
                     return;
-                case 18:
+                case 19:
                     println2("WARNING: Factory Resetting the Application will clear all the User Data and all Accounts including this Admin Account will be deleted !!!");
                     String resetChoice = "";
                     while (true) {
@@ -202,17 +193,17 @@ public final class AdminUI extends AbstractUserUI
                             printlnWithAnim("Factory resetting the Application...");
                             try {
                                 SerializationHelper.getInstance().clearStoredData("departments.txt", "isFirstTime.txt", "users.txt");
-                                AccountsManager.getInstance().setDepartments(new HashMap<>());
-                                AccountsManager.getInstance().setUsers(new HashMap<>());
-                                SessionManager.getInstance().setFirstTime(true);
-                                SessionManager.getInstance().logoutUser();
+                                accountsManager.setDepartments(new HashMap<>());
+                                accountsManager.setUsers(new HashMap<>());
+                                sessionManager.setFirstTime(true);
+                                sessionManager.logoutUser();
                                 SerializationHelper.getInstance().clearStoredData("admin.txt");
-                                AccountsManager.getInstance().setAdmin(null);
+                                accountsManager.setAdmin(null);
                                 sessionManager.setFactoryResetDone(true);
                             } catch (Exception e) {
                                 println("Error occurred during Factory Reset!");
                             }
-                            printlnValLn("The Application will behave like opening for the First Time !");
+                            printlnValLn("The Application may behave like opening for the First Time...");
                             return;
                         } else if (resetChoice.equalsIgnoreCase("No")) {
                             println2("Cancelled Factory Reset");

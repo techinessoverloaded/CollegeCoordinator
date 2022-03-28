@@ -1,9 +1,12 @@
-package com.techiness.collegecoordinator.abstraction;
+package com.techiness.collegecoordinator.consoleui;
+import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.helpers.InputDataValidator;
 import com.techiness.collegecoordinator.helpers.Menu;
+import com.techiness.collegecoordinator.helpers.SessionManager;
+
 import java.util.Observable;
 import java.util.Observer;
 import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
@@ -12,19 +15,22 @@ import static com.techiness.collegecoordinator.consoleui.IOUtils.println;
 public abstract class AbstractUserUI implements Observer
 {
     protected Menu userMenu;
-    private AccountsManager accountsManager;
-
+    protected AccountsManager accountsManager;
+    protected SessionManager sessionManager;
     public AbstractUserUI()
     {
-        this.userMenu = new Menu.MenuBuilder()
+       userMenu = new Menu.MenuBuilder()
+               .setHeader("User Menu")
                 .addOption("Change name")
                 .addOption("Change age")
                 .addOption("Change gender")
                 .addOption("Change phone number")
                 .addOption("Change email ID")
                 .addOption("Change password")
+                .addOption("Display Account Details")
                 .build();
         accountsManager = AccountsManager.getInstance();
+        sessionManager = SessionManager.getInstance();
     }
 
     public Menu getUserMenu()
@@ -36,7 +42,6 @@ public abstract class AbstractUserUI implements Observer
 
     protected final void executeGeneralUserActions(User user, int selection)
     {
-        AccountsManager accountsManager = AccountsManager.getInstance();
         switch (selection)
         {
             case 1:
@@ -204,6 +209,9 @@ public abstract class AbstractUserUI implements Observer
                 {
                     println("Wrong Password ! Password Change Request failed!!!");
                 }
+                break;
+            case 7:
+                printAccountDetails(user,false);
                 break;
         }
     }

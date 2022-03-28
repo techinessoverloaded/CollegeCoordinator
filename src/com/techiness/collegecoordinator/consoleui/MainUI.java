@@ -14,6 +14,7 @@ public final class MainUI
     private Menu mainMenu;
     private SessionManager sessionManager;
     private AccountsManager accountsManager;
+
     public MainUI()
     {
         this.mainMenu = new Menu.MenuBuilder().setHeader("Main Menu")
@@ -28,20 +29,26 @@ public final class MainUI
         this.accountsManager = AccountsManager.getInstance();
     }
 
-    public void displayUIForFirstTime()
+    public void displayUIAndExecuteActions(boolean isFirstTime)
     {
-        UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
-        println2("You have to create an Admin account to proceed further....");
-        Admin admin = (Admin) userCreatorHelper.getNewUser();
-        accountsManager.getUsers().put(admin.getId(), admin);
-        accountsManager.setAdmin(admin);
-        printAccountCreationSuccess(admin);
-        sessionManager.loginUser(admin.getId(), admin.getPassword());
-        new AdminUI(admin).displayUIAndExecuteActions();
-    }
-
-    public void displayUIAndExecuteActions()
-    {
+        if(isFirstTime)
+        {
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
+            UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
+            println2("You have to create an Admin account to proceed further....");
+            Admin admin = (Admin) userCreatorHelper.getNewUser();
+            accountsManager.getUsers().put(admin.getId(), admin);
+            accountsManager.setAdmin(admin);
+            printAccountDetails(admin,true);
+            sessionManager.loginAdmin(admin.getId(), admin.getPassword());
+            sessionManager.redirectToRespectiveUI();
+        }
+        if(sessionManager.isFactoryResetDone())
+        {
+            sessionManager.setFactoryResetDone(false);
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
+            displayUIAndExecuteActions(true);
+        }
         int choice = -1;
         while(true)
         {
@@ -52,7 +59,7 @@ public final class MainUI
             {
                 case 1:
                     String adminId="", adminPassword="";
-                    adminId = getUserInput(adminId,"admin ID");//readLine();
+                    adminId = getUserInput(adminId,"Admin ID");
                     adminPassword = getPasswordInput("admin Password");
                     printlnWithAnim("Trying to login as Admin...");
                     if(sessionManager.loginAdmin(adminId, adminPassword))
@@ -149,6 +156,5 @@ public final class MainUI
             }
             break;
         }
-
     }
 }

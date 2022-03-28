@@ -4,6 +4,8 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.helpers.StringToEnumUtils;
+
 import java.io.Console;
 import java.io.IOException;
 import java.util.*;
@@ -123,7 +125,7 @@ public final class IOUtils
             print(output);
             try
             {
-                Thread.sleep(100);
+                Thread.sleep(75);
             }
             catch (InterruptedException ignored)
             {
@@ -133,18 +135,24 @@ public final class IOUtils
         println2();
     }
 
-    public static void printAccountCreationSuccess(User user)
+    public static void printAccountDetails(User user, boolean onCreation)
     {
         println();
-        println2(user.getId().substring(user.getId().indexOf('_') + 1) + " Account created successfully with User ID: " + user.getId());
-        println2("\nAccount Details:" + user);
-        println2("NOTE: You would need your User ID and Password for logging in next time!");
+        if(onCreation)
+        {
+            println2(StringToEnumUtils.getUserTypeFromUserId(user.getId()) + " Account created successfully with User ID: " + user.getId());
+            println2("NOTE: You would need your User ID and Password for logging in next time!");
+        }
+        println2("\nAccount Details\n\n" + user);
     }
 
-    public static void printDepartmentCreationSuccess(Department department)
+    public static void printDepartmentDetails(Department department, boolean onCreation)
     {
         println();
-        println2(department.getId().substring(department.getId().indexOf('@')+1) + " created successfully with Department ID: " + department.getId());
+        if(onCreation)
+        {
+            println2(StringToEnumUtils.getDepartmentTypeFromDeptId(department.getId()) + " created successfully with Department ID: " + department.getId());
+        }
         println2("\nDepartment Details:\n\n" + department);
     }
 

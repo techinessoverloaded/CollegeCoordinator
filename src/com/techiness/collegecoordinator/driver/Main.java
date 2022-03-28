@@ -34,25 +34,24 @@ public class Main
 
     public static void main(String args[])
     {
-        if(sessionManager.isFirstTime() || accountsManager.noAdminAvailable())
+        if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
-            printTextWithinStarPattern("Welcome to CollegeCoordinator");
-            new MainUI().displayUIForFirstTime();
+            new MainUI().displayUIAndExecuteActions(true);
+        }
+        else if(accountsManager.noAdminAvailable())
+        {
+            new MainUI().displayUIAndExecuteActions(true);
+        }
+        else if(sessionManager.isFactoryResetDone())
+        {
+            sessionManager.setFactoryResetDone(false);
+            new MainUI().displayUIAndExecuteActions(true);
         }
         else
         {
-            printTextWithinStarPattern("Welcome to CollegeCoordinator");
-            new MainUI().displayUIAndExecuteActions();
+            new MainUI().displayUIAndExecuteActions(false);
         }
-
-        if (sessionManager.isFactoryResetDone())
-        {
-            sessionManager.setFactoryResetDone(false);
-            printTextWithinStarPattern("Welcome to CollegeCoordinator");
-            new MainUI().displayUIForFirstTime();
-        }
-
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
@@ -61,7 +60,6 @@ public class Main
             {
                 department.getHod().getLetters().entrySet().removeIf(entry -> entry.getValue().getIsNotifiedToRequester());
             }
-
             try
             {
                 printlnValLn("Don't terminate application abruptly ! It might result in loss of data !");

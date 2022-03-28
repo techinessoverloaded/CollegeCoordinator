@@ -1,7 +1,7 @@
 package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
-
 import java.util.Observable;
 import java.io.Serializable;
 

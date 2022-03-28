@@ -13,6 +13,6 @@ public class StringToEnumUtils
 
     public static DepartmentType getDepartmentTypeFromDeptId(String deptId)
     {
-        return null;
+        return DepartmentType.valueOf(deptId.substring(deptId.indexOf("#")+1));
     }
 }
