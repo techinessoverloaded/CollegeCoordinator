@@ -1,13 +1,14 @@
-package com.techiness.collegecoordinator.consoleui;
+package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
-import com.techiness.collegecoordinator.helpers.StringToEnumUtils;
-
 import java.io.Console;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.DosFileAttributes;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -217,5 +218,26 @@ public final class IOUtils
     {
         println("Enter the "+message+" :");
         return readPassword();
+    }
+
+    public static void hideFile(Path filePath)
+    {
+        try
+        {
+            DosFileAttributes attributes = Files.readAttributes(filePath, DosFileAttributes.class);
+            if (!attributes.isHidden())
+                Files.setAttribute(filePath, "dos:hidden", true);
+        }
+        catch (IOException ignored)
+        {
+
+        }
+    }
+
+    public static void unHideFile(Path filePath) throws IOException
+    {
+        DosFileAttributes attributes = Files.readAttributes(filePath,DosFileAttributes.class);
+        if(attributes.isHidden())
+            Files.setAttribute(filePath,"dos:hidden",false);
     }
 }

@@ -7,7 +7,7 @@ import com.techiness.collegecoordinator.helpers.Menu;
 import com.techiness.collegecoordinator.helpers.SessionManager;
 import com.techiness.collegecoordinator.helpers.UserCreationHelper;
 
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public final class MainUI
 {

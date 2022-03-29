@@ -1,16 +1,30 @@
 package com.techiness.collegecoordinator.helpers;
 
-import java.io.*;
+import com.techiness.collegecoordinator.enums.OSType;
 
+import java.io.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.hideFile;
 
 public final class SerializationHelper
 {
     private static SerializationHelper instance = null;
-    private static final String parentPath = System.getProperty("user.dir")+"/data/";
-
+    private static final String parentPath = System.getProperty("user.dir")+"/.data/";
+    private static final String lettersPath = parentPath+".letters/";
     private SerializationHelper()
     {
+        File dataDir = new File(parentPath);
+        if(!dataDir.exists())
+            dataDir.mkdir();
+        File lettersDir = new File(lettersPath);
+        if(!lettersDir.exists())
+            lettersDir.mkdir();
 
+        // Implementation of Cross-Platform functionality. The folders will be hidden no matter what OS the JVM is running on
+        if(OSDetector.getCurrentOS() == OSType.WINDOWS)
+        {
+            hideFile(dataDir.toPath());
+            hideFile(lettersDir.toPath());
+        }
     }
 
     public synchronized static SerializationHelper getInstance()
@@ -23,8 +37,6 @@ public final class SerializationHelper
     public <T extends Serializable> void persistObject(T object, String name) throws IOException
     {
         File file = new File(parentPath+name);
-        if(!file.getParentFile().exists())
-            file.getParentFile().mkdir();
         if(!file.exists())
             file.createNewFile();
         FileOutputStream fout = new FileOutputStream(file);
@@ -37,8 +49,6 @@ public final class SerializationHelper
     public <T extends Serializable> T retrieveObject(String name) throws IOException, ClassNotFoundException
     {
         File file = new File(parentPath+name);
-        if(!file.getParentFile().exists())
-            file.getParentFile().mkdir();
         if(!file.exists())
             file.createNewFile();
         FileInputStream fin = new FileInputStream(file);

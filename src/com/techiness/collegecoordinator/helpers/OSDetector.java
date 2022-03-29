@@ -1,0 +1,23 @@
+package com.techiness.collegecoordinator.helpers;
+
+import com.techiness.collegecoordinator.enums.OSType;
+
+public class OSDetector
+{
+    private static String OS = System.getProperty("os.name").toLowerCase();
+
+    public static OSType getCurrentOS()
+    {
+        if(OS.contains("mac"))
+            return OSType.MACOS;
+
+        else if(OS.contains("win"))
+            return OSType.WINDOWS;
+
+        else if(OS.contains("nix") || OS.contains("nux") || OS.contains("aix"))
+            return OSType.UNIX_LINUX;
+
+        else
+            return OSType.UNKNOWN;
+    }
+}

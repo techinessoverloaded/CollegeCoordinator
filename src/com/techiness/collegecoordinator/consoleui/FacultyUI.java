@@ -3,8 +3,8 @@ package com.techiness.collegecoordinator.consoleui;
 import com.techiness.collegecoordinator.concrete.Faculty;
 import com.techiness.collegecoordinator.helpers.Menu;
 
-import static com.techiness.collegecoordinator.consoleui.IOUtils.println;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.printlnWithAnim;
+import static com.techiness.collegecoordinator.helpers.IOUtils.println;
+import static com.techiness.collegecoordinator.helpers.IOUtils.printlnWithAnim;
 
 public class FacultyUI extends AbstractUserUI
 {

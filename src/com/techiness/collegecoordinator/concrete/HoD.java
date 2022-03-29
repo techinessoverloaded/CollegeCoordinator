@@ -6,7 +6,7 @@ import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
 import java.util.List;
 import java.util.Map;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfIdentifiableMap;
+import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
 
 public class HoD extends Faculty
 {

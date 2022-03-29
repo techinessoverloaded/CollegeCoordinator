@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class UserCreationHelper
 {

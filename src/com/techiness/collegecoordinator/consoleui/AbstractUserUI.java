@@ -9,8 +9,8 @@ import com.techiness.collegecoordinator.helpers.SessionManager;
 
 import java.util.Observable;
 import java.util.Observer;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.println;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.println;
 
 public abstract class AbstractUserUI implements Observer
 {

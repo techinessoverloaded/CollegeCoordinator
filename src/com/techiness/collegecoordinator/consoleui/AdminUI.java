@@ -7,8 +7,8 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.*;
 import javafx.util.Pair;
 import java.util.HashMap;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.println2;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.println2;
 
 public final class AdminUI extends AbstractUserUI
 {

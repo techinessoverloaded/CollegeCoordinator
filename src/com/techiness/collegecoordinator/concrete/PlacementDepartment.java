@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfNameableMap;
+import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameableMap;
 
 public class PlacementDepartment extends Department
 {

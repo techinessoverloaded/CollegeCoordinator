@@ -7,7 +7,7 @@ import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
 import java.util.Map;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.getStringOfIdentifiableMap;
+import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
 
 public final class Student extends User
 {

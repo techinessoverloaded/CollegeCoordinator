@@ -4,12 +4,13 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.consoleui.MainUI;
 import com.techiness.collegecoordinator.helpers.*;
 import java.util.HashMap;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class Main
 {
     private static final AccountsManager accountsManager;
     private static final SessionManager sessionManager;
+
     //Retrieving state
     static
     {
@@ -30,7 +31,6 @@ public class Main
             println("User Data Lost/Not obtained Unfortunately!!!");
             println2("The Application may behave like opening for the first time...");
         }
-        println(System.getProperty("user.dir"));
     }
 
     public static void main(String args[])
@@ -56,6 +56,7 @@ public class Main
         {
             mainUI.displayUIAndExecuteActions();
         }
+
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {

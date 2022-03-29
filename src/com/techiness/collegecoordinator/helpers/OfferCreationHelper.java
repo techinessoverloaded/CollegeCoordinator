@@ -2,7 +2,7 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.concrete.Student;
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 public class OfferCreationHelper
 {
     private String studentId;

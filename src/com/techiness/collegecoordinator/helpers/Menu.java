@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 /**
  * A Helper Class for building Menu for each Type of {@link User}. Serial Number for option is generated automatically.
