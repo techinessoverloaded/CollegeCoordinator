@@ -11,9 +11,9 @@ import static com.techiness.collegecoordinator.consoleui.IOUtils.*;
 
 public final class MainUI
 {
-    private Menu mainMenu;
-    private SessionManager sessionManager;
-    private AccountsManager accountsManager;
+    private final Menu mainMenu;
+    private final SessionManager sessionManager;
+    private final AccountsManager accountsManager;
 
     public MainUI()
     {
@@ -29,26 +29,25 @@ public final class MainUI
         this.accountsManager = AccountsManager.getInstance();
     }
 
-    public void displayUIAndExecuteActions(boolean isFirstTime)
+    public void displayUIForFirstTime(boolean onFactoryRest)
     {
-        if(isFirstTime)
-        {
-            printTextWithinStarPattern("Welcome to CollegeCoordinator");
-            UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
-            println2("You have to create an Admin account to proceed further....");
-            Admin admin = (Admin) userCreatorHelper.getNewUser();
-            accountsManager.getUsers().put(admin.getId(), admin);
-            accountsManager.setAdmin(admin);
-            printAccountDetails(admin,true);
-            sessionManager.loginAdmin(admin.getId(), admin.getPassword());
-            sessionManager.redirectToRespectiveUI();
-        }
-        if(sessionManager.isFactoryResetDone())
+        if(onFactoryRest)
         {
             sessionManager.setFactoryResetDone(false);
-            printTextWithinStarPattern("Welcome to CollegeCoordinator");
-            displayUIAndExecuteActions(true);
         }
+        printTextWithinStarPattern("Welcome to CollegeCoordinator");
+        UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
+        println2("You have to create an Admin account to proceed further....");
+        Admin admin = (Admin) userCreatorHelper.getNewUser();
+        accountsManager.getUsers().put(admin.getId(), admin);
+        accountsManager.setAdmin(admin);
+        printAccountDetails(admin,true);
+        sessionManager.loginAdmin(admin.getId(), admin.getPassword());
+        sessionManager.redirectToRespectiveUI();
+    }
+
+    public void displayUIAndExecuteActions()
+    {
         int choice = -1;
         while(true)
         {
@@ -58,6 +57,11 @@ public final class MainUI
             switch (choice)
             {
                 case 1:
+                    if(accountsManager.noAdminAvailable())
+                    {
+                        println2("No Admin account exists !");
+                        continue;
+                    }
                     String adminId="", adminPassword="";
                     adminId = getUserInput(adminId,"Admin ID");
                     adminPassword = getPasswordInput("admin Password");
@@ -155,6 +159,11 @@ public final class MainUI
                     continue;
             }
             break;
+        }
+        if(sessionManager.isFactoryResetDone())
+        {
+            sessionManager.setFactoryResetDone(false);
+            displayUIForFirstTime(true);
         }
     }
 }

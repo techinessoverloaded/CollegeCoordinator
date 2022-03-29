@@ -200,7 +200,9 @@ public final class AdminUI extends AbstractUserUI
                                 SerializationHelper.getInstance().clearStoredData("admin.txt");
                                 accountsManager.setAdmin(null);
                                 sessionManager.setFactoryResetDone(true);
-                            } catch (Exception e) {
+                            } catch (Exception e)
+                            {
+                                e.printStackTrace();
                                 println("Error occurred during Factory Reset!");
                             }
                             printlnValLn("The Application may behave like opening for the First Time...");

@@ -30,27 +30,31 @@ public class Main
             println("User Data Lost/Not obtained Unfortunately!!!");
             println2("The Application may behave like opening for the first time...");
         }
+        println(System.getProperty("user.dir"));
     }
 
     public static void main(String args[])
     {
+        MainUI mainUI = new MainUI();
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
-            new MainUI().displayUIAndExecuteActions(true);
+            mainUI.displayUIForFirstTime(false);
+            mainUI.displayUIAndExecuteActions();
         }
         else if(accountsManager.noAdminAvailable())
         {
-            new MainUI().displayUIAndExecuteActions(true);
+            mainUI.displayUIForFirstTime(false);
+            mainUI.displayUIAndExecuteActions();
         }
         else if(sessionManager.isFactoryResetDone())
         {
-            sessionManager.setFactoryResetDone(false);
-            new MainUI().displayUIAndExecuteActions(true);
+            mainUI.displayUIForFirstTime(true);
+            mainUI.displayUIAndExecuteActions();
         }
         else
         {
-            new MainUI().displayUIAndExecuteActions(false);
+            mainUI.displayUIAndExecuteActions();
         }
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
