@@ -1,4 +1,4 @@
-package com.techiness.collegecoordinator.consoleui;
+package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
@@ -46,17 +46,13 @@ public abstract class AbstractUserUI implements Observer
         {
             case 1:
                 String newName = "";
-                while(!InputDataValidator.validateName(newName))
+                while(!InputDataValidator.validateName(newName,user.getName()))
                 {
                     newName = getUserInput(newName,"New Name");
-                    if(!InputDataValidator.validateName(newName))
+                    if(!InputDataValidator.validateName(newName,user.getName()))
                     {
                         println("Please enter the new name to proceed...");
                         continue;
-                    }
-                    if(user.getName().equals(newName))
-                    {
-                        println("You have entered the current name again!");
                     }
                 }
                 String password = getPasswordInput("Password to confirm Name Change");
@@ -74,19 +70,15 @@ public abstract class AbstractUserUI implements Observer
 
             case 2:
                 int age = -1;
-                while(!InputDataValidator.validateAge(age))
+                while(!InputDataValidator.validateAge(age,user.getAge()))
                 {
                     age = getUserInput(age,"New Age");
                     if(age == -1)
                         continue;
-                    if(!InputDataValidator.validateAge(age))
+                    if(!InputDataValidator.validateAge(age,user.getAge()))
                     {
                         println("Warning : Age should be between 18 and 100 ! Please enter the new age to proceed...");
                         continue;
-                    }
-                    if(user.getAge() == age)
-                    {
-                        println("You have entered the current age again!");
                     }
                 }
                 String password1 = getPasswordInput("Password to confirm Age Change");
@@ -131,6 +123,11 @@ public abstract class AbstractUserUI implements Observer
                             break;
                     }
                 }
+                if(newGender == user.getGender())
+                {
+                    println("You have entered the same gender again!");
+                    break;
+                }
                 println("Enter your password to confirm Gender change:");
                 String password2 = readPassword();
                 if(password2.equals(user.getPassword()))
@@ -146,11 +143,11 @@ public abstract class AbstractUserUI implements Observer
                 break;
             case 4:
                 String newPhone = "";
-                while(!InputDataValidator.validatePhone(newPhone))
+                while(!InputDataValidator.validatePhone(newPhone,user.getPhone()))
                 {
                     println("Enter the new phone number:");
                     newPhone = readLine();
-                    if(!InputDataValidator.validatePhone(newPhone))
+                    if(!InputDataValidator.validatePhone(newPhone,user.getPhone()))
                         println("Please enter a valid phone number to proceed...");
                 }
                 println("Enter your password to confirm phone number change:");
@@ -168,11 +165,11 @@ public abstract class AbstractUserUI implements Observer
                 break;
             case 5:
                 String newEmail = "";
-                while(!InputDataValidator.validateEmail(newEmail))
+                while(!InputDataValidator.validateEmail(newEmail,user.getEmail()))
                 {
                     println("Enter the new email ID:");
                     newEmail = readLine();
-                    if(!InputDataValidator.validateEmail(newEmail))
+                    if(!InputDataValidator.validateEmail(newEmail,user.getEmail()))
                         println("Please enter a valid email ID to proceed...");
                 }
                 println("Enter your password to confirm email ID change:");
@@ -190,11 +187,11 @@ public abstract class AbstractUserUI implements Observer
                 break;
             case 6:
                 String newPassword = "";
-                while(!InputDataValidator.validatePassword(newPassword))
+                while(!InputDataValidator.validatePassword(newPassword,false,user.getPassword()))
                 {
                     println("Enter the new password:");
                     newPassword = readPassword();
-                    if(!InputDataValidator.validatePassword(newPassword))
+                    if(!InputDataValidator.validatePassword(newPassword,false,user.getPassword()))
                         println("Please enter a valid password to proceed...");
                 }
                 println("Enter your CURRENT password to confirm password change:");

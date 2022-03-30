@@ -2,26 +2,29 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.Grade;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
 import com.techiness.collegecoordinator.helpers.Offer;
+
+import java.util.HashMap;
 import java.util.Map;
 import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
 
 public final class Student extends User
 {
-    private String grade;
     private boolean isPlaced;
     private boolean needsTraining;
     private Map<String, Offer> offers;
     private String deptId;
+    private Map<String, Grade> grades;
 
-    public Student(String name, int age, Gender gender, String phone, String email, String password, Map<String, Offer> offers, String deptId)
+    public Student(String name, int age, Gender gender, String phone, String email, String password, Map<String, Grade> grades, Map<String, Offer> offers, String deptId)
     {
         super(name, age, gender, phone, email, password);
         this.offers = offers;
-        this.grade = "";
+        this.grades = grades;
         this.isPlaced = false;
         this.needsTraining = false;
         this.deptId = deptId;
@@ -49,14 +52,19 @@ public final class Student extends User
         this.deptId = deptId;
     }
 
-    public String getGrade()
+    public Map<String, Grade> getGrades()
     {
-        return grade;
+        return grades;
     }
 
-    public void setGrade(String grade)
+    public Grade getGrades(String subjectName)
     {
-        this.grade = grade;
+        return grades.get(subjectName);
+    }
+
+    public void setGrades(Map<String, Grade> grades)
+    {
+        this.grades = grades;
     }
 
     public boolean getIsPlaced()
@@ -89,22 +97,21 @@ public final class Student extends User
         this.offers = offers;
     }
 
-    public String requestLeaveOrOD(Letter letter, String adminId)
+    public String submitLetterToHoD(Letter letter)
     {
-        AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter);
-        return letter.getId();
+        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter) ? letter.getId() : null;
     }
 
-    public boolean checkLeaveOrODGranted(String letterId, String adminId)
+    public boolean checkLetterApproved(String letterId)
     {
-        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().getLetters().get(letterId).getIsGranted();
+            return AccountsManager.getInstance().getDepartments().get(deptId).getHod().checkIfLetterApproved(letterId);
     }
 
     @Override
     public String toString()
     {
         return "Student"+super.toString()+
-                ", \ngrade = "+grade+
+                ", \ngrades = "+grades+
                 ", \nisPlaced = "+isPlaced+
                 ", \nneedsTraining = "+needsTraining+
                 ", \noffers = "+getStringOfIdentifiableMap(offers)+

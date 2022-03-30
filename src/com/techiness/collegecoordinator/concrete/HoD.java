@@ -1,9 +1,12 @@
 package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
+
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
@@ -13,7 +16,7 @@ public class HoD extends Faculty
     protected Map<String, Letter> letters;
 
     public HoD(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-               List<String> qualifications, int experience, Map<String, Letter> letters, String deptId)
+               EnumSet<Qualification> qualifications, int experience, Map<String, Letter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, deptId);
         this.letters = letters;
@@ -45,6 +48,11 @@ public class HoD extends Faculty
     public Map<String, Letter> getLetters()
     {
         return letters;
+    }
+
+    public Letter getLetters(String letterId)
+    {
+        return !letters.containsKey(letterId) || letters.get(letterId)==null ? null : letters.get(letterId);
     }
 
     public void setLetters(Map<String, Letter> letters)
@@ -94,14 +102,18 @@ public class HoD extends Faculty
         return true;
     }
 
-    public void signLetter(String letterId, boolean isGranted)
+    public boolean approveLetter(String letterId, boolean isApproved)
     {
-        letters.get(letterId).setIsGranted(isGranted);
+        Letter currentLetter = getLetters(letterId);
+        if(currentLetter == null)
+            return false;
+        currentLetter.setIsGranted(isApproved);
+        return true;
     }
 
-    public boolean checkIfPermissionGranted(String letterId)
+    public boolean checkIfLetterApproved(String letterId)
     {
-        Letter currentLetter = letters.get(letterId);
+        Letter currentLetter = getLetters(letterId);
         if(currentLetter == null)
             return false;
         currentLetter.setIsNotifiedToRequester(true);

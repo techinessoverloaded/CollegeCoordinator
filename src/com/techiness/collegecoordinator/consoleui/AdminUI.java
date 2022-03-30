@@ -1,5 +1,6 @@
 package com.techiness.collegecoordinator.consoleui;
 
+import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
@@ -12,7 +13,7 @@ import static com.techiness.collegecoordinator.helpers.IOUtils.println2;
 
 public final class AdminUI extends AbstractUserUI
 {
-    private  Admin admin;
+    private Admin admin;
     public AdminUI(Admin admin)
     {
         this.admin = admin;
@@ -27,6 +28,8 @@ public final class AdminUI extends AbstractUserUI
                 .addOption("Promote Faculty from another department as HoD for a department and Relieve current HoD from job")
                 .addOption("Remove a department")
                 .addOption("Get existing departments")
+                .addOption("Display all the Request Letters")
+                .addOption("View and Approve/Disapprove a Request Letter")
                 .addOption("Logout")
                 .addOption("Factory Reset Application")
                 .build());
@@ -176,11 +179,11 @@ public final class AdminUI extends AbstractUserUI
                 case 14:
                 case 15:
                 case 16:
-                case 18:
+                case 20:
                     printlnWithAnim("Logging out...");
                     sessionManager.logoutUser();
                     return;
-                case 19:
+                case 21:
                     println2("WARNING: Factory Resetting the Application will clear all the User Data and all Accounts including this Admin Account will be deleted !!!");
                     String resetChoice = "";
                     while (true) {

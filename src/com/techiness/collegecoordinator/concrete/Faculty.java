@@ -2,21 +2,24 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.Grade;
+import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Letter;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 public class Faculty extends User
 {
     protected List<String> subjectsHandled;
-    protected List<String> qualifications;
+    protected EnumSet<Qualification> qualifications;
     protected int experience;
     protected String deptId;
 
     public Faculty(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-                   List<String> qualifications, int experience, String deptId)
+                   EnumSet<Qualification> qualifications, int experience, String deptId)
     {
         super(name, age, gender, phone, email, password);
         this.subjectsHandled = subjectsHandled;
@@ -81,25 +84,22 @@ public class Faculty extends User
         notifyObservers();
     }
 
-    public List<String> getQualifications()
+    public EnumSet<Qualification> getQualifications()
     {
         return qualifications;
     }
 
-    public void setQualifications(List<String> qualifications)
+    public void setQualifications(EnumSet<Qualification> qualifications)
     {
         this.qualifications = qualifications;
         setChanged();
         notifyObservers();
     }
 
-    public boolean addQualification(String qualification)
+    public boolean addQualification(Qualification qualification)
     {
-        for(String q : qualifications)
-        {
-            if(q.equalsIgnoreCase(qualification))
-                return false;
-        }
+        if(qualifications.contains(qualification))
+            return false;
         qualifications.add(qualification);
         setChanged();
         notifyObservers();
@@ -141,13 +141,13 @@ public class Faculty extends User
         return students.remove(studentId) != null;
     }
 
-    public boolean setGrade(String studentId, String grade)
+    public boolean setGrade(String studentId, Map<String, Grade> grades)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
         if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
         Student currentStudent = students.get(studentId);
-        currentStudent.setGrade(grade);
+        currentStudent.setGrades(grades);
         return true;
     }
 
@@ -161,14 +161,14 @@ public class Faculty extends User
         return true;
     }
 
-    public String requestLeaveOrOD(Letter letter)
+    public String submitLetterToHoD(Letter letter)
     {
         return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter) ? letter.getId() : null;
     }
 
-    public boolean checkLeaveOrODGranted(String letterId)
+    public boolean checkLetterApproved(String letterId)
     {
-       return AccountsManager.getInstance().getDepartments().get(deptId).getHod().checkIfPermissionGranted(letterId);
+       return AccountsManager.getInstance().getDepartments().get(deptId).getHod().checkIfLetterApproved(letterId);
     }
 
     @Override

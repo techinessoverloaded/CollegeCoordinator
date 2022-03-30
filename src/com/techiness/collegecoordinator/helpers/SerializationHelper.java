@@ -10,6 +10,7 @@ public final class SerializationHelper
     private static SerializationHelper instance = null;
     private static final String parentPath = System.getProperty("user.dir")+"/.data/";
     private static final String lettersPath = parentPath+".letters/";
+
     private SerializationHelper()
     {
         File dataDir = new File(parentPath);

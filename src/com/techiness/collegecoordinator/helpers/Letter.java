@@ -3,24 +3,28 @@ package com.techiness.collegecoordinator.helpers;
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.enums.LetterType;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Observable;
 
-public class Letter implements Serializable, Identifiable, Comparable<Letter>
+public class Letter extends Observable implements Serializable, Identifiable, Comparable<Letter>
 {
     private String id;
     private String requesterId;
+    private String receiverId;
     private LetterType letterType;
     private Date date;
     private String reason;
     private boolean isGranted;
     private boolean isNotifiedToRequester;
 
-    public Letter(int id, String requesterId, LetterType letterType, Date date, String reason)
+    public Letter(int id, String requesterId, String recevierId, LetterType letterType, String reason)
     {
         this.id = String.valueOf(id);
         this.requesterId = requesterId;
+        this.receiverId = recevierId;
         this.letterType = letterType;
-        this.date = date;
+        this.date = Calendar.getInstance().getTime();
         this.reason = reason;
         this.isGranted = this.isNotifiedToRequester = false;
     }
@@ -28,7 +32,7 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
     @Override
     public String getId()
     {
-        return id +"$"+requesterId;
+        return id+"$"+requesterId+"~"+receiverId;
     }
 
     @Override
@@ -85,6 +89,8 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
     public void setIsGranted(boolean granted)
     {
         isGranted = granted;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean getIsNotifiedToRequester()
@@ -95,6 +101,18 @@ public class Letter implements Serializable, Identifiable, Comparable<Letter>
     public void setIsNotifiedToRequester(boolean notifiedToRequester)
     {
         isNotifiedToRequester = notifiedToRequester;
+        setChanged();
+        notifyObservers();
+    }
+
+    public String getReceiverId()
+    {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId)
+    {
+        this.receiverId = receiverId;
     }
 
     @Override

@@ -116,7 +116,7 @@ public final class IOUtils
         char incomplete = '░';
         char complete = '█';
         StringBuilder builder = new StringBuilder();
-        int count = text.length();
+        int count = 20;
         Stream.generate(() -> incomplete).limit(count).forEach(builder::append);
         printlnVal(text);
         for(int i = 0; i < count; i++)
@@ -126,7 +126,7 @@ public final class IOUtils
             print(output);
             try
             {
-                Thread.sleep(75);
+                Thread.sleep(60);
             }
             catch (InterruptedException ignored)
             {

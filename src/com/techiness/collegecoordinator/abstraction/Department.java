@@ -9,6 +9,7 @@ import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameab
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 /**
  * The Basic Root Abstract Class for the departments of this Application. Has the basic details of a department.
@@ -16,7 +17,7 @@ import java.util.Map;
  * The subclasses of this class must override {@link #getId()} and {@link #setId(String)} methods of the {@link Identifiable} interface and also
  * {@link #getName()} and {@link #setName(String)} methods of the {@link Nameable} interface.
  */
-public abstract class Department implements Serializable, Nameable, Comparable<Department>
+public abstract class Department extends Observable implements Serializable, Nameable, Comparable<Department>
 {
     protected String id;
     protected String name;
@@ -58,6 +59,8 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     public void setHod(HoD hod)
     {
         this.hod = hod;
+        setChanged();
+        notifyObservers();
     }
 
     public Map<String, Student> getStudents()
@@ -73,6 +76,8 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     public void setStudents(HashMap<String, Student> students)
     {
         this.students = students;
+        setChanged();
+        notifyObservers();
     }
 
     public Map<String, Faculty> getFaculties()
@@ -88,6 +93,8 @@ public abstract class Department implements Serializable, Nameable, Comparable<D
     public void setFaculties(Map<String, Faculty> faculties)
     {
         this.faculties = faculties;
+        setChanged();
+        notifyObservers();
     }
 
     @Override

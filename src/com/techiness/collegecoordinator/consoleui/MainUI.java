@@ -44,6 +44,7 @@ public final class MainUI
         printAccountDetails(admin,true);
         sessionManager.loginAdmin(admin.getId(), admin.getPassword());
         sessionManager.redirectToRespectiveUI();
+        sessionManager.redirectToRespectiveUI();
     }
 
     public void displayUIAndExecuteActions()

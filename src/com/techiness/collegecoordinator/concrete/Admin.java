@@ -5,15 +5,18 @@ import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.helpers.Letter;
 import javafx.util.Pair;
-
 import java.util.Map;
 
 public final class Admin extends User
 {
-    public Admin(String name, int age, Gender gender, String phone, String email, String password, Map<String,Department> departments)
+    private Map<String, Letter> letters;
+
+    public Admin(String name, int age, Gender gender, String phone, String email, String password, Map<String,Letter> letters)
     {
         super(name, age, gender, phone, email, password);
+        this.letters = letters;
     }
 
     @Override
@@ -28,6 +31,44 @@ public final class Admin extends User
         this.id = id;
         setChanged();
         notifyObservers();
+    }
+
+    public Map<String, Letter> getLetters()
+    {
+        return letters;
+    }
+
+    public Letter getLetters(String letterId)
+    {
+        return !letters.containsKey(letterId) || letters.get(letterId)==null ? null : letters.get(letterId);
+    }
+
+    public void setLetters(Map<String, Letter> letters)
+    {
+        this.letters = letters;
+    }
+
+    public boolean addLetter(Letter letter)
+    {
+        return letters.putIfAbsent(letter.getId(),letter) == null;
+    }
+
+    public boolean approveLetter(String letterId, boolean isApproved)
+    {
+        Letter currentLetter = getLetters(letterId);
+        if(currentLetter == null)
+            return false;
+        currentLetter.setIsGranted(isApproved);
+        return true;
+    }
+
+    public boolean checkIfLetterApproved(String letterId)
+    {
+        Letter currentLetter = getLetters(letterId);
+        if(currentLetter == null)
+            return false;
+        currentLetter.setIsNotifiedToRequester(true);
+        return currentLetter.getIsGranted();
     }
 
     public boolean addDepartment(Department department)

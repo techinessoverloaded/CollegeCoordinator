@@ -1,6 +1,8 @@
 package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.User;
+
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +37,16 @@ public class Menu
     }
 
     /**
+     * Alternate method of {@link #getOptions()} Method.
+     * @param index The {@link Integer} index of the Option to be retrieved.
+     * @return The {@link String} option present at the given index.
+     */
+    public String getOptions(int index)
+    {
+        return options.get(index);
+    }
+
+    /**
      * @param options The {@link Map} Object to be set.
      */
     public void setOptions(Map<Integer, String> options)
@@ -52,6 +64,13 @@ public class Menu
         options.put(options.size()+1,option);
     }
 
+    public void addMultipleOptions(String... multipleOptions)
+    {
+        if(multipleOptions.length == 0)
+            return;
+        Arrays.stream(multipleOptions).forEach(this::addOption);
+    }
+
     /**
      * Used to remove an option using its Index.
      * @param index The {@link Integer} index of the {@link String} option to be removed.
@@ -59,6 +78,7 @@ public class Menu
     public void removeOption(int index)
     {
         options.remove(index);
+        reallocateIndexes();
     }
 
     /**
@@ -88,10 +108,22 @@ public class Menu
         return options.entrySet().stream().filter(entry -> entry.getValue().equals(option)).collect(Collectors.toList()).get(0).getKey();
     }
 
+    public boolean contains(String option)
+    {
+        return options.containsValue(option);
+    }
+
     public void extendMenu(Menu extensionMenu)
     {
         this.header = extensionMenu.header;
         extensionMenu.getOptions().values().forEach(this::addOption);
+    }
+
+    private void reallocateIndexes()
+    {
+        Map<Integer, String> oldMap = options;
+        options = new HashMap<>();
+        oldMap.values().forEach(this::addOption);
     }
 
     private void displayHeader()
@@ -130,7 +162,7 @@ public class Menu
         println('\n');
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();
-        return selectedChoice;
+        return selectedChoice > options.size()+1 ? -1 : selectedChoice;
     }
 
     /**
@@ -180,6 +212,14 @@ public class Menu
         public MenuBuilder addOption(String option)
         {
             this.options.put(options.size()+1,option);
+            return this;
+        }
+
+        public MenuBuilder addMultipleOptions(String... multipleOptions)
+        {
+            if(multipleOptions.length == 0)
+                return this;
+            Arrays.stream(multipleOptions).forEach(this::addOption);
             return this;
         }
 

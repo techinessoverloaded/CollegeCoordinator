@@ -8,20 +8,22 @@ public class HoDUI extends FacultyUI
 
     public HoDUI(HoD hoD)
     {
-        super();
         this.hoD = hoD;
         prepareMenu();
     }
 
-    public HoDUI()
+    protected HoDUI()
     {
-        super();
         prepareMenu();
     }
 
     private void prepareMenu()
     {
         userMenu.removeOption(userMenu.indexOf("Logout"));
+        userMenu.getOptions().replace(userMenu.indexOf("Request Leave to HoD"),
+                        userMenu.getOptions(userMenu.indexOf("Request Leave to HoD")).replace("HoD","Admin"));
+        userMenu.getOptions().replace(userMenu.indexOf("Request On Duty to HoD"),
+                userMenu.getOptions(userMenu.indexOf("Request On Duty to HoD")).replace("HoD","Admin"));
         userMenu.extendMenu(new Menu.MenuBuilder().setHeader("HoD Menu")
                 .addOption("Add a Faculty to the Department")
                 .addOption("Remove a Faculty from the Department and relieve the Faculty the from Job")

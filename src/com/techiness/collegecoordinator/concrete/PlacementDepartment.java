@@ -2,23 +2,29 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Company;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameableMap;
 
-public class PlacementDepartment extends Department
+public final class PlacementDepartment extends Department
 {
     private TrainingHead trainingHead;
     private Map<String,Company> companies;
 
-    public PlacementDepartment(String name, TrainingHead trainingHead, Map<String, Faculty> faculties, Map<String, Student> students, Map<String,Company> companies)
+    public PlacementDepartment(String name, TrainingHead trainingHead, Map<String, Faculty> faculties, Map<String,Company> companies)
     {
-        super(name, trainingHead, faculties, students);
+        super(name, trainingHead, faculties, new HashMap<>());
         this.trainingHead = trainingHead;
         this.companies = companies;
+        List<Department> allCourseDepartments = AccountsManager.getInstance().getDepartments().values().stream().filter(department -> department instanceof CourseDepartment).collect(Collectors.toList());
+        List<Student> allDeptStudentsWhoNeedTraining = allCourseDepartments.stream().map(Department::getStudents).map(Map::values).flatMap(Collection::stream).filter(Student::isNeedsTraining).collect(Collectors.toList());
+        allDeptStudentsWhoNeedTraining.forEach(trainingHead::addStudent);
     }
 
     @Override

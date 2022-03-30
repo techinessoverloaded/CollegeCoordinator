@@ -3,16 +3,19 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class CourseDepartment extends Department
 {
     private String courseId;
+    private Set<String> courseSubjects;
 
-    public CourseDepartment(String name, HoD hod, Map<String, Faculty> faculties, Map<String, Student> students, String courseId)
+    public CourseDepartment(String name, HoD hod, Set<String> courseSubjects, Map<String, Faculty> faculties, Map<String, Student> students, String courseId)
     {
         super(name, hod, faculties, students);
         this.courseId = courseId;
+        this.courseSubjects = courseSubjects;
     }
 
     @Override
@@ -54,6 +57,16 @@ public final class CourseDepartment extends Department
     public void setCourseId(String courseId)
     {
         this.courseId = courseId;
+    }
+
+    public Set<String> getCourseSubjects()
+    {
+        return courseSubjects;
+    }
+
+    public void setCourseSubjects(Set<String> courseSubjects)
+    {
+        this.courseSubjects = courseSubjects;
     }
 
     @Override

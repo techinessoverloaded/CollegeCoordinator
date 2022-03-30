@@ -1,5 +1,6 @@
 package com.techiness.collegecoordinator.consoleui;
 
+import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.concrete.Student;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Menu;
@@ -20,8 +21,9 @@ public final class StudentUI extends AbstractUserUI
                 .addOption("Check if got Placed")
                 .addOption("Display all my Offers")
                 .addOption("Check my Grade")
-                .addOption("Request Leave or OD")
-                .addOption("Check if Leave or OD got Approved or not")
+                .addOption("Request Leave to HoD")
+                .addOption("Request On Duty to HoD")
+                .addOption("Check if Request Letter got Approved or not")
                 .addOption("Logout")
                 .build());
     }

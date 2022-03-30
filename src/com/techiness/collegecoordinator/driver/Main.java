@@ -1,8 +1,14 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.concrete.Faculty;
+import com.techiness.collegecoordinator.consoleui.FacultyUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
+import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.helpers.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
@@ -36,6 +42,10 @@ public class Main
     public static void main(String args[])
     {
         MainUI mainUI = new MainUI();
+        Faculty faculty = new Faculty("arun",21,
+                Gender.MALE,"7338817854","arun@gmail.com","Arun@262001",
+                new ArrayList<>(), EnumSet.allOf(Qualification.class),10,"");
+        new FacultyUI(faculty).displayUIAndExecuteActions();
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
