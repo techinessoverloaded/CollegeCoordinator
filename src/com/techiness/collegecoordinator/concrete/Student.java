@@ -5,10 +5,9 @@ import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Grade;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Letter;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.helpers.Offer;
 
-import java.util.HashMap;
 import java.util.Map;
 import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
 
@@ -97,9 +96,9 @@ public final class Student extends User
         this.offers = offers;
     }
 
-    public String submitLetterToHoD(Letter letter)
+    public String submitLetterToHoD(RequestLetter requestLetter)
     {
-        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter) ? letter.getId() : null;
+        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(requestLetter) ? requestLetter.getId() : null;
     }
 
     public boolean checkLetterApproved(String letterId)

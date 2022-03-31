@@ -1,5 +1,7 @@
 package com.techiness.collegecoordinator.enums;
 
+import java.util.stream.Stream;
+
 public enum Grade
 {
    O("91 - 100"),A_PLUS("81 - 90"),A("71 - 80"),B_PLUS("61 - 70"),B("51 - 60"),C("41 - 50"),FAIL("0 - 40");
@@ -9,6 +11,16 @@ public enum Grade
    Grade(String markRange)
    {
       this.markRange = markRange;
+   }
+
+   public String getMarkRange()
+   {
+      return markRange;
+   }
+
+   public static String[] getStringArrayOfValues()
+   {
+      return Stream.of(values()).map(Enum::name).toArray(String[]::new);
    }
 
    public Grade getExactGradeFromMark(double mark)
@@ -27,6 +39,5 @@ public enum Grade
          return C;
       else
          return FAIL;
-
    }
 }

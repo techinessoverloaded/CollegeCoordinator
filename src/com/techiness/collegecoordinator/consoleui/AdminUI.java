@@ -5,6 +5,8 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.factories.DepartmentFactory;
+import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.helpers.*;
 import javafx.util.Pair;
 import java.util.HashMap;
@@ -29,7 +31,7 @@ public final class AdminUI extends AbstractUserUI
                 .addOption("Remove a department")
                 .addOption("Get existing departments")
                 .addOption("Display all the Request Letters")
-                .addOption("View and Approve/Disapprove a Request Letter")
+                .addOption("View and Approve/Disapprove a Request RequestLetter")
                 .addOption("Logout")
                 .addOption("Factory Reset Application")
                 .build());
@@ -51,10 +53,10 @@ public final class AdminUI extends AbstractUserUI
             switch (deptChoice)
             {
                 case 1:
-                    Department newDepartment = new DepartmentCreationHelper(DepartmentType.COURSE).getNewDepartment();
+                    Department newDepartment = DepartmentFactory.getInstance().getNewDepartment(DepartmentType.COURSE);
                     return newDepartment == null ? null : (CourseDepartment) newDepartment;
                 case 2:
-                    Department newDepartment2 = new DepartmentCreationHelper(DepartmentType.PLACEMENT).getNewDepartment();
+                    Department newDepartment2 = DepartmentFactory.getInstance().getNewDepartment(DepartmentType.PLACEMENT);
                     return newDepartment2 == null ? null : (PlacementDepartment) newDepartment2;
                 case 3:
                     return null;
@@ -87,7 +89,7 @@ public final class AdminUI extends AbstractUserUI
                         printDepartmentDetails(newDepartment,true);
                         println("You have to assign HoD to the newly created department now !");
                         println("Create an account for the HoD and note down the credentials for the HoD to use later !");
-                        HoD hod = (HoD) new UserCreationHelper(UserType.HOD).getNewUser();
+                        HoD hod = (HoD) UserFactory.getInstance().getNewUser(UserType.HOD);
                         println();
                         printAccountDetails(hod,true);
                         println();

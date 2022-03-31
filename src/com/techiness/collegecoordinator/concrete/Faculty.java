@@ -6,7 +6,9 @@ import com.techiness.collegecoordinator.enums.Grade;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Letter;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
+import javafx.util.Pair;
+
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +134,7 @@ public class Faculty extends User
     {
         String studentId = student.getId();
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
-        return students.putIfAbsent(student.getId(),student) == null;
+        return students.putIfAbsent(studentId,student) == null;
     }
 
     public boolean removeStudent(String studentId)
@@ -141,13 +143,23 @@ public class Faculty extends User
         return students.remove(studentId) != null;
     }
 
-    public boolean setGrade(String studentId, Map<String, Grade> grades)
+    public boolean setGrade(String studentId, Map<String, Grade> allSubjectGrades)
     {
         Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
         if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
         Student currentStudent = students.get(studentId);
-        currentStudent.setGrades(grades);
+        currentStudent.setGrades(allSubjectGrades);
+        return true;
+    }
+
+    public boolean setGrade(String studentId, Pair<String, Grade> singleSubjectGrade)
+    {
+        Map<String,Student> students = AccountsManager.getInstance().getDepartments().get(deptId).getStudents();
+        if(!students.containsKey(studentId) || students.get(studentId) == null)
+            return false;
+        Student currentStudent = students.get(studentId);
+        currentStudent.getGrades().replace(singleSubjectGrade.getKey(), singleSubjectGrade.getValue());
         return true;
     }
 
@@ -161,9 +173,9 @@ public class Faculty extends User
         return true;
     }
 
-    public String submitLetterToHoD(Letter letter)
+    public String submitLetterToHoD(RequestLetter requestLetter)
     {
-        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(letter) ? letter.getId() : null;
+        return AccountsManager.getInstance().getDepartments().get(deptId).getHod().addLetter(requestLetter) ? requestLetter.getId() : null;
     }
 
     public boolean checkLetterApproved(String letterId)

@@ -5,7 +5,7 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Menu;
 import com.techiness.collegecoordinator.helpers.SessionManager;
-import com.techiness.collegecoordinator.helpers.UserCreationHelper;
+import com.techiness.collegecoordinator.factories.UserFactory;
 
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
@@ -36,9 +36,8 @@ public final class MainUI
             sessionManager.setFactoryResetDone(false);
         }
         printTextWithinStarPattern("Welcome to CollegeCoordinator");
-        UserCreationHelper userCreatorHelper = new UserCreationHelper(UserType.ADMIN);
         println2("You have to create an Admin account to proceed further....");
-        Admin admin = (Admin) userCreatorHelper.getNewUser();
+        Admin admin = (Admin) UserFactory.getInstance().getNewUser(UserType.ADMIN);
         accountsManager.getUsers().put(admin.getId(), admin);
         accountsManager.setAdmin(admin);
         printAccountDetails(admin,true);

@@ -1,10 +1,20 @@
 package com.techiness.collegecoordinator.consoleui;
 
 import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
-import com.techiness.collegecoordinator.concrete.Faculty;
+import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
+import com.techiness.collegecoordinator.concrete.*;
+import com.techiness.collegecoordinator.enums.Grade;
+import com.techiness.collegecoordinator.enums.LetterType;
 import com.techiness.collegecoordinator.enums.Qualification;
+import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.helpers.Menu;
+import com.techiness.collegecoordinator.factories.UserFactory;
+import javafx.util.Pair;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
@@ -35,22 +45,21 @@ public class FacultyUI extends AbstractUserUI
                 .addOption("Add a Student to the Department")
                 .addOption("Remove a Student from the Department")
                 .addOption("Display the Students under the Department")
-                .addOption("Set Grade for a Student")
-                .addOption("Set if a Student needs Training or not")
+                .addOption("Set/Change Grade for a Student")
+                .addOption("Set/Change if a Student needs Placement Training or not")
                 .addOption("Request Leave to HoD")
                 .addOption("Request On Duty to HoD")
                 .addOption("Request Department Change to Admin")
                 .addOption("Request Promotion to Admin")
                 .addOption("Request Resignation to Admin")
-                .addOption("Check if Request Letter got Approved or not")
+                .addOption("Check if Request RequestLetter got Approved or not")
                 .addOption("Logout")
                 .build());
     }
 
     protected void executeGeneralFacultyActions(Faculty faculty , int selection)
     {
-        switch (selection)
-        {
+        switch (selection) {
             //Display the Subjects to be handled
             case 8:
                 println2("Subjects Handled by you:");
@@ -59,8 +68,7 @@ public class FacultyUI extends AbstractUserUI
 
             //Add Qualification(s)
             case 9:
-                if(Qualification.getEnumSetDifference(faculty.getQualifications()) == 0)
-                {
+                if (Qualification.getEnumSetDifference(faculty.getQualifications()) == 0) {
                     println2("You already have all the available Qualifications ! Cannot add more !");
                     break;
                 }
@@ -71,25 +79,19 @@ public class FacultyUI extends AbstractUserUI
                 EnumSet<Qualification> newQualifications = EnumSet.noneOf(Qualification.class);
                 int selectedQualificationChoice = -1;
                 println2("Keep selecting Degrees one by one to add to the existing Qualifications...");
-                while(selectedQualificationChoice < qualificationMenu.getOptions().size()+1)
-                {
+                while (selectedQualificationChoice < qualificationMenu.getOptions().size() + 1) {
                     selectedQualificationChoice = qualificationMenu.displayMenuAndGetChoice();
 
                     if (selectedQualificationChoice == -1)
                         println("Invalid Choice ! Enter a Valid Choice...");
 
-                    else if (selectedQualificationChoice >= 1 && selectedQualificationChoice <= qualificationMenu.getOptions().size() - 1)
-                    {
+                    else if (selectedQualificationChoice >= 1 && selectedQualificationChoice <= qualificationMenu.getOptions().size() - 1) {
                         newQualifications.add(Qualification.valueOf(qualificationMenu.getOptions(selectedQualificationChoice)));
                         qualificationMenu.removeOption(selectedQualificationChoice);
-                    }
-                    else if (selectedQualificationChoice == qualificationMenu.getOptions().size())
-                    {
-                        if (newQualifications.size() == 0)
-                        {
+                    } else if (selectedQualificationChoice == qualificationMenu.getOptions().size()) {
+                        if (newQualifications.size() == 0) {
                             println("Must add at least one Qualification !");
-                        }
-                        else
+                        } else
                             break;
                     }
                 }
@@ -103,18 +105,15 @@ public class FacultyUI extends AbstractUserUI
                         .addMultipleOptions(Qualification.getStringArrayOfValues(faculty.getQualifications().toArray(new Qualification[0])))
                         .addOption("Stop removing Qualifications")
                         .build();
-                if(qualificationMenu2.getOptions().size() == 2)
-                {
+                if (qualificationMenu2.getOptions().size() == 2) {
                     println2("You need at least 1 Qualification ! Cannot remove Qualifications anymore !");
                     break;
                 }
                 EnumSet<Qualification> newQualifications2 = EnumSet.noneOf(Qualification.class);
                 int selectedQualificationChoice2 = -1;
                 println2("Keep selecting Degrees one by one to remove from the existing Qualifications...");
-                while(selectedQualificationChoice2 < qualificationMenu2.getOptions().size()+1)
-                {
-                    if(qualificationMenu2.getOptions().size() == 2)
-                    {
+                while (selectedQualificationChoice2 < qualificationMenu2.getOptions().size() + 1) {
+                    if (qualificationMenu2.getOptions().size() == 2) {
                         println2("You need at least 1 Qualification ! Cannot remove Qualifications anymore !");
                         break;
                     }
@@ -124,18 +123,13 @@ public class FacultyUI extends AbstractUserUI
                     if (selectedQualificationChoice2 == -1)
                         println("Invalid Choice ! Enter a Valid Choice...");
 
-                    else if (selectedQualificationChoice2 >= 1 && selectedQualificationChoice2 <= qualificationMenu2.getOptions().size() - 1)
-                    {
+                    else if (selectedQualificationChoice2 >= 1 && selectedQualificationChoice2 <= qualificationMenu2.getOptions().size() - 1) {
                         newQualifications2.add(Qualification.valueOf(qualificationMenu2.getOptions(selectedQualificationChoice2)));
                         qualificationMenu2.removeOption(selectedQualificationChoice2);
-                    }
-                    else if (selectedQualificationChoice2 == qualificationMenu2.getOptions().size())
-                    {
-                        if (newQualifications2.size() == 0)
-                        {
+                    } else if (selectedQualificationChoice2 == qualificationMenu2.getOptions().size()) {
+                        if (newQualifications2.size() == 0) {
                             println("Must remove at least one Qualification !");
-                        }
-                        else
+                        } else
                             break;
                     }
                 }
@@ -150,33 +144,183 @@ public class FacultyUI extends AbstractUserUI
                 break;
             //Set my experience
             case 12:
+                int newExperience = -1;
+                while (newExperience == -1) {
+                    newExperience = getUserInput(newExperience, "New Experience in years");
+                    if (newExperience == -1)
+                        println("Enter a valid Experience in years !");
+                    else if (newExperience == faculty.getExperience())
+                        println("You have entered the current Experience Again !");
+                }
+                printlnWithAnim("Setting new Experience...");
+                faculty.setExperience(newExperience);
+                println2("New Experience set successfully !");
                 break;
             //Display my experience
             case 13:
+                println("Your experience (in years) is : " + faculty.getExperience() + " years");
                 break;
             //Add a Student to the Department
             case 14:
+                Student student = (Student) UserFactory.getInstance().getNewUser(UserType.STUDENT);
+                printlnWithAnim("Creating new Student Account...");
+                if (faculty.addStudent(student)) {
+                    printAccountDetails(student, true);
+                    println2("New Student with ID: " + student.getId() + " created and added to the Department successfully !");
+                } else {
+                    println2("Some error occurred ! Either the Student exists already or the New Student Account couldn't be created !");
+                }
                 break;
             //Remove a Student from the Department
             case 15:
+                String studentId = "";
+                Department currentDepartment = accountsManager.getDepartments(faculty.getDeptId());
+                while (!currentDepartment.checkIfStudentIdValid(studentId)) {
+                    studentId = getUserInput(studentId, "Student ID of the Student to be removed from the Department");
+                    if (!currentDepartment.checkIfStudentIdValid(studentId))
+                        println("Invalid Student ID ! Enter a Valid Student ID !");
+                }
+                if (faculty.removeStudent(studentId)) {
+                    println2("Student with ID : " + studentId + " removed from the Department successfully !");
+                } else {
+                    println2("Some error occurred ! Unable to remove Student from the department !");
+                }
                 break;
             //Display the Students under the Department
             case 16:
+                println2("List of Students Under the Department");
+                println2(getStringOfNameableMap(accountsManager.getDepartments(faculty.getDeptId()).getStudents()));
                 break;
-            //Set Grade for a Student
+            //Set/Change Grade for a Student
             case 17:
+                String studentId2 = "";
+                Department currentDepartment2 = accountsManager.getDepartments(faculty.getDeptId());
+                while (!currentDepartment2.checkIfStudentIdValid(studentId2)) {
+                    studentId2 = getUserInput(studentId2, "Student ID of the Student whose grades have to be set");
+                    if (!currentDepartment2.checkIfStudentIdValid(studentId2)) {
+                        println("Invalid Student ID ! Enter a Valid Student ID !");
+                    }
+                }
+                Map<String, Grade> newGrades = new HashMap<>();
+                println2("Existing Grades of the Student with Student ID : " + studentId2);
+                println2(currentDepartment2.getStudents(studentId2).getGrades().toString());
+                Menu subjectMenu = new Menu.MenuBuilder().setHeader("Subject Menu")
+                        .addMultipleOptions(getStringArrayOfStringSet(((CourseDepartment) currentDepartment2).getCourseSubjects()))
+                        .addOption("Stop selecting Subjects")
+                        .build();
+                Menu gradeMenu = new Menu.MenuBuilder().setHeader("Grade Menu")
+                        .addMultipleOptions(Grade.getStringArrayOfValues())
+                        .build();
+                int selectedSubjectChoice = -1;
+                Grade currentGrade = null;
+                println2("Select the Subject to which you want to Set/Change the Grade...");
+                while (selectedSubjectChoice < subjectMenu.getOptions().size() + 1) {
+                    selectedSubjectChoice = subjectMenu.displayMenuAndGetChoice();
+
+                    if (selectedSubjectChoice == -1)
+                        println("Invalid Choice ! Enter a Valid Choice...");
+
+                    else if (selectedSubjectChoice >= 1 && selectedSubjectChoice <= subjectMenu.getOptions().size()) {
+                        while (currentGrade == null) {
+                            currentGrade = Grade.valueOf(gradeMenu.getOptions(gradeMenu.displayMenuAndGetChoice()));
+                            if (currentGrade == null)
+                                println("Enter a valid choice !");
+                        }
+                        newGrades.put(subjectMenu.getOptions(selectedSubjectChoice), currentGrade);
+                        subjectMenu.removeOption(selectedSubjectChoice);
+                    }
+                }
+                if (newGrades.size() > 0) {
+                    printlnWithAnim("Updating Grades for the Student...");
+                    if (newGrades.size() == ((CourseDepartment) currentDepartment2).getCourseSubjects().size())
+                        faculty.setGrade(studentId2, newGrades);
+                    else {
+                        String finalStudentId = studentId2;
+                        newGrades.forEach((k, v) -> {
+                            faculty.setGrade(finalStudentId, new Pair<>(k, v));
+                        });
+                    }
+                    println2("Grades updated for Student successfully !");
+                }
                 break;
-            //Set if a Student needs Training or not
+            //Set/Change if a Student needs Placement Training or not
             case 18:
+                String studentId3 = "";
+                Department currentDepartment3 = accountsManager.getDepartments(faculty.getDeptId());
+                while (!currentDepartment3.checkIfStudentIdValid(studentId3)) {
+                    studentId2 = getUserInput(studentId3, "Student ID of the Student Training necessity is to be set");
+                    if (!currentDepartment3.checkIfStudentIdValid(studentId3)) {
+                        println("Invalid Student ID ! Enter a Valid Student ID !");
+                    }
+                }
+                Boolean needsTraining = null;
+                Student currentStudent = currentDepartment3.getStudents(studentId3);
+                if (currentStudent.isNeedsTraining()) {
+                    int removeFromTrainingChoice = -1;
+                    println2("Student is already there in Placement Training. Do you want to Remove the Student from the Training ?");
+                    Menu removeFromTrainingMenu = Menu.getYesOrNoMenu();
+                    while (removeFromTrainingChoice == -1) {
+                        removeFromTrainingChoice = removeFromTrainingMenu.displayMenuAndGetChoice();
+                        if (removeFromTrainingChoice == -1) {
+                            println("Invalid Choice ! Enter a valid choice !");
+                            continue;
+                        }
+                        needsTraining = removeFromTrainingChoice == 1 ? Boolean.FALSE : Boolean.TRUE;
+                    }
+                } else {
+                    int addToTrainingChoice = -1;
+                    println2("Student is not there in Placement Training. Do you want to Add the Student to the Training ?");
+                    Menu addToTrainingMenu = Menu.getYesOrNoMenu();
+                    while (addToTrainingChoice == -1) {
+                        addToTrainingChoice = addToTrainingMenu.displayMenuAndGetChoice();
+                        if (addToTrainingChoice == -1) {
+                            println("Invalid Choice ! Enter a valid choice !");
+                            continue;
+                        }
+                        needsTraining = addToTrainingChoice == 1 ? Boolean.TRUE : Boolean.FALSE;
+                    }
+                }
+                printlnWithAnim("Updating Student's Training Necessity...");
+                faculty.setNeedsTraining(studentId3, needsTraining);
+                println2("Updated Student's Training Necessity successfully !");
                 break;
-            //Request Leave or OD
+            // Request Leave to HoD
             case 19:
+                Department currentDepartment4 = accountsManager.getDepartments(faculty.getDeptId());
+                HoD hod = currentDepartment4.getHod();
+                RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), LetterType.LEAVE);
+                printlnWithAnim("Submitting Leave RequestLetter to  HoD...");
+                hod.addLetter(leaveRequestLetter);
+                println("Submitted Leave RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
                 break;
-            //Check if Leave or OD got Approved or not
+            // Request On Duty to HoD
             case 20:
+                Department currentDepartment5 = accountsManager.getDepartments(faculty.getDeptId());
+                HoD hod2 = currentDepartment5.getHod();
+                RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), LetterType.ON_DUTY);
+                printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
+                hod2.addLetter(odRequestLetter);
+                println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                break;
+            // Request Department Change to Admin
+            case 21:
+                Admin admin = accountsManager.getAdmin();
+                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), LetterType.DEPT_CHANGE);
+                printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
+                hod2.addLetter(odRequestLetter);
+                println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                break;
+            // Request Promotion to Admin
+            case 22:
+                break;
+            // Request Resignation to Admin
+            case 23:
+                break;
+            // Check if Request RequestLetter got Approved or not
+            case 24:
                 break;
             default:
-                return;
+                println("Invalid Choice ! Enter a valid choice !");
         }
     }
 

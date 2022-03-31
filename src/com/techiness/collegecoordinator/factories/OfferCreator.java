@@ -1,16 +1,19 @@
-package com.techiness.collegecoordinator.helpers;
+package com.techiness.collegecoordinator.factories;
 
 import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.concrete.Student;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.helpers.Offer;
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
-public class OfferCreationHelper
+
+public class OfferCreator
 {
     private String studentId;
     private String placementDeptId;
     private String designation;
     private double compensation;
 
-    public OfferCreationHelper()
+    public OfferCreator()
     {
 
     }

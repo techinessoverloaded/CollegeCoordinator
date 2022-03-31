@@ -60,4 +60,9 @@ public final class InputDataValidator
             result = result && password.equals(existingPassword[0]);
         return result;
     }
+
+    public static boolean validateReason(String reason)
+    {
+        return !reason.isEmpty() && !reason.matches("\\d");
+    }
 }

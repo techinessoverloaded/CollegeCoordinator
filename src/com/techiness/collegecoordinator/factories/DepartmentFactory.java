@@ -1,33 +1,33 @@
-package com.techiness.collegecoordinator.helpers;
+package com.techiness.collegecoordinator.factories;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+
 import java.util.*;
 
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
-public class DepartmentCreationHelper
+// Factory Pattern
+public class DepartmentFactory
 {
-    private DepartmentType departmentType;
     private String courseId = "", deptName = "", courseSubjectString = "";
     private HoD hod = null;
     private TrainingHead trainingHead = null;
     private Set<String> courseSubjects = null;
+    private static DepartmentFactory instance = null;
 
-    public DepartmentCreationHelper(DepartmentType departmentType)
+    private DepartmentFactory()
     {
-        this.departmentType = departmentType;
+
     }
 
-    public DepartmentType getDepartmentType()
+    public synchronized static DepartmentFactory getInstance()
     {
-        return departmentType;
-    }
-
-    public void setDepartmentType(DepartmentType departmentType)
-    {
-        this.departmentType = departmentType;
+        if (instance == null)
+            instance = new DepartmentFactory();
+        return instance;
     }
 
     private void resetVariables()
@@ -56,12 +56,12 @@ public class DepartmentCreationHelper
         {
             courseSubjectString = getUserInput(courseSubjectString, "Names of the Course Subjects in a single line, separated by commas");
             if(courseSubjectString.equals(""))
-                println("Enter valid subjects...");
+                println("Enter valid Subjects...");
         }
         courseSubjects.addAll(Arrays.asList(courseSubjectString.split(",")));
     }
 
-    public Department getNewDepartment()
+    public Department getNewDepartment(DepartmentType departmentType)
     {
         switch (departmentType)
         {

@@ -45,6 +45,11 @@ public final class AccountsManager implements Serializable
         return users.values().stream().map(User::getId).mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == userIdToBeChecked);
     }
 
+    public boolean checkIfUserIdExists(String userIdToBeChecked)
+    {
+        return users.values().stream().map(User::getId).anyMatch(id -> id.equals(userIdToBeChecked));
+    }
+
     public int getDepartmentIdGen()
     {
         int deptIdGen = departments.size()+1;
@@ -58,6 +63,11 @@ public final class AccountsManager implements Serializable
     private boolean checkIfDeptIdExists(int deptIdToBeChecked)
     {
         return departments.values().stream().map(Department::getId).mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == deptIdToBeChecked);
+    }
+
+    public boolean checkIfDeptIdExists(String deptIdToBeChecked)
+    {
+        return departments.values().stream().map(Department::getId).anyMatch(deptId -> deptId.equals(deptIdToBeChecked));
     }
 
     public Map<String, Department> getDepartments()

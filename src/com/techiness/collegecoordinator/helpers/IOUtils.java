@@ -52,10 +52,6 @@ public final class IOUtils
         System.out.print(val);
     }
 
-    public static void write(byte[] bytes) throws IOException
-    {
-        System.out.write(bytes);
-    }
 
     public static String readLine()
     {
@@ -74,7 +70,7 @@ public final class IOUtils
             println2("Invalid Input ! Input should be a positive number !");
             return val;
         }
-        return val;
+        return val < 0 ? -1 : val;
     }
 
     public static double readDouble()
@@ -94,10 +90,6 @@ public final class IOUtils
 
     public static void printSymbols(char symbol, int count)
     {
-        /*
-         while(count--!=0)
-            print(symbol);
-         */
         Stream.generate(() -> symbol).limit(count).forEach(System.out::print);
     }
 
@@ -116,7 +108,7 @@ public final class IOUtils
         char incomplete = '░';
         char complete = '█';
         StringBuilder builder = new StringBuilder();
-        int count = 20;
+        int count = 25;
         Stream.generate(() -> incomplete).limit(count).forEach(builder::append);
         printlnVal(text);
         for(int i = 0; i < count; i++)
@@ -142,7 +134,7 @@ public final class IOUtils
         if(onCreation)
         {
             println2(StringToEnumUtils.getUserTypeFromUserId(user.getId()) + " Account created successfully with User ID: " + user.getId());
-            println2("NOTE: You would need your User ID and Password for logging in next time!");
+            println2("NOTE: You would need the User ID and Password for logging in next time!");
         }
         println2("\nAccount Details\n\n" + user);
     }
@@ -167,14 +159,12 @@ public final class IOUtils
         List<String> names = objects.stream().map(Nameable::getName).collect(Collectors.toList());
         List<String> ids = objects.stream().map(Nameable::getId).collect(Collectors.toList());
         StringBuilder builder = new StringBuilder();
-        builder.append("[ ");
         for(int i = 0; i < names.size(); ++i)
         {
-            builder.append(ids.get(i)).append(" : ").append(names.get(i));
+            builder.append(i+1).append(". ").append(ids.get(i)).append(" : ").append(names.get(i));
             if(i != names.size()-1)
-                builder.append(", ");
+                builder.append("\n");
         }
-        builder.append(" ]");
         return builder.toString();
     }
 
@@ -192,6 +182,11 @@ public final class IOUtils
     public static <T extends Identifiable> String getStringOfIdentifiableMap(Map<String,T> map)
     {
         return getStringOfIdentifiableCollection(map.values());
+    }
+
+    public static String[] getStringArrayOfStringSet(Set<String> set)
+    {
+        return set.toArray(new String[0]);
     }
 
     public static <T> T getUserInput(T container, String message)

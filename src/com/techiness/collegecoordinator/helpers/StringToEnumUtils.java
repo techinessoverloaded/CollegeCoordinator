@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.helpers;
 
-import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.UserType;
 

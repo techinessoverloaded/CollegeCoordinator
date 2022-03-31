@@ -69,6 +69,11 @@ public final class CourseDepartment extends Department
         this.courseSubjects = courseSubjects;
     }
 
+    public boolean isSubjectAvailable(String subjectName)
+    {
+        return courseSubjects.contains(subjectName);
+    }
+
     @Override
     public String toString()
     {

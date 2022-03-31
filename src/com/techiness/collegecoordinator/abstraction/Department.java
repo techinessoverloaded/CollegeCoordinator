@@ -97,6 +97,16 @@ public abstract class Department extends Observable implements Serializable, Nam
         notifyObservers();
     }
 
+    public boolean checkIfStudentIdValid(String studentId)
+    {
+        return students.values().stream().map(Student::getId).anyMatch(sId -> sId.equals(studentId));
+    }
+
+    public boolean checkIfFacultyIdValid(String facultyId)
+    {
+        return faculties.values().stream().map(Faculty::getId).anyMatch(fId -> fId.equals(facultyId));
+    }
+
     @Override
     public int compareTo(Department o)
     {

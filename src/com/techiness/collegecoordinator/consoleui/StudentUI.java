@@ -23,7 +23,7 @@ public final class StudentUI extends AbstractUserUI
                 .addOption("Check my Grade")
                 .addOption("Request Leave to HoD")
                 .addOption("Request On Duty to HoD")
-                .addOption("Check if Request Letter got Approved or not")
+                .addOption("Check if Request RequestLetter got Approved or not")
                 .addOption("Logout")
                 .build());
     }

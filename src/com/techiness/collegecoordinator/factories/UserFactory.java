@@ -1,47 +1,49 @@
-package com.techiness.collegecoordinator.helpers;
+package com.techiness.collegecoordinator.factories;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.helpers.InputDataValidator;
+import com.techiness.collegecoordinator.helpers.Menu;
 
 import java.util.*;
-
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
-public class UserCreationHelper
+// Factory Pattern
+public class UserFactory
 {
-    private UserType userType;
-    private String name = "", email = "", password = "", phone = "", qualString = "", subjectString = "";
+    private String name = "", email = "", password = "", phone = "", deptId = "";
     private Gender gender = null;
     private int age = -1, genderChoice = -1, experience = -1;
-    private EnumSet<Qualification> qualifications = null, subjectsHandled = null;
+    private EnumSet<Qualification> qualifications = null;
+    private Set<String> subjectsHandled = null;
+    private static UserFactory instance = null;
 
-    public UserCreationHelper(UserType userType)
+    private UserFactory()
     {
-        this.userType = userType;
+
     }
 
-    public UserType getUserType()
+    public synchronized static UserFactory getInstance()
     {
-        return userType;
-    }
-
-    public void setUserType(UserType userType)
-    {
-        this.userType = userType;
+        if(instance == null)
+            instance = new UserFactory();
+        return instance;
     }
 
     private void resetVariables()
     {
-        name = email = phone = password = qualString = subjectString = "";
+        name = email = phone = password = deptId = "";
         gender = null;
-        qualifications = subjectsHandled = null;
+        subjectsHandled = null;
+        qualifications = null;
         age = genderChoice =  experience = -1;
     }
 
-    private void getBasicDataOfUser()
+    private void getBasicDataOfUser(UserType userType)
     {
         resetVariables();
         while(!InputDataValidator.validateName(name))
@@ -116,9 +118,9 @@ public class UserCreationHelper
         println();
     }
 
-    private void getFacultyDetails()
+    private void getFacultyDetails(UserType userType)
     {
-        getBasicDataOfUser();
+        getBasicDataOfUser(userType);
         Menu qualificationMenu = new Menu.MenuBuilder().setHeader("Add Qualification(s) Menu")
                 .addMultipleOptions(Qualification.getStringArrayOfValues())
                 .addOption("Stop adding Qualifications")
@@ -150,43 +152,77 @@ public class UserCreationHelper
             }
         }
         experience = getUserInput(experience,"Experience of the "+ userType +" in years");
+        while(!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+        {
+            deptId = getUserInput(deptId, "Department ID of the Department where the faculty has to be added");
+            if(!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+                println("No such department exists ! Enter a valid department ID !");
+        }
+        CourseDepartment courseDepartment = (CourseDepartment) AccountsManager.getInstance().getDepartments(deptId);
+        Menu subjectMenu = new Menu.MenuBuilder().setHeader("Add Subject(s) Menu")
+                .addMultipleOptions(getStringArrayOfStringSet(courseDepartment.getCourseSubjects()))
+                .addOption("Stop adding Subjects")
+                .build();
+        subjectsHandled = new HashSet<>();
+        int selectedSubjectChoice = -1;
+        println2("Keep selecting Subjects one by one to add to the "+ userType +" 's subjects...");
+        while(selectedSubjectChoice < subjectMenu.getOptions().size()+1)
+        {
+            selectedSubjectChoice = subjectMenu.displayMenuAndGetChoice();
+
+            if(selectedSubjectChoice == -1)
+                println("Invalid Choice ! Enter a Valid Choice...");
+
+            else if(selectedSubjectChoice >= 1 && selectedSubjectChoice <= subjectMenu.getOptions().size()-1)
+            {
+                subjectsHandled.add(subjectMenu.getOptions(selectedSubjectChoice));
+                subjectMenu.removeOption(selectedSubjectChoice);
+            }
+
+            else if(selectedSubjectChoice == subjectMenu.getOptions().size())
+            {
+                if(subjectsHandled.size() == 0)
+                {
+                    println("Must add at least one Subject to be handled !");
+                }
+                else
+                    break;
+            }
+        }
     }
 
-    private void getHoDDetails()
+    private void getHoDDetails(UserType userType)
     {
-        getFacultyDetails();
-        println("Enter the Subjects handled by the "+userType+", separated by commas on a single line :");
-        subjectString = readLine();
-        subjectsHandled = EnumSet.allOf(Qualification.class);
+        getFacultyDetails(userType);
     }
 
-    private void getTrainingHeadDetails()
+    private void getTrainingHeadDetails(UserType userType)
     {
-        getHoDDetails();
+        getHoDDetails(userType);
     }
 
-    public User getNewUser()
+    public User getNewUser(UserType userType)
     {
         switch (userType)
         {
             case ADMIN:
-                getBasicDataOfUser();
+                getBasicDataOfUser(userType);
                 return new Admin(name, age, gender, phone, email, password, new HashMap<>());
             case HOD:
-                getHoDDetails();
+                getHoDDetails(userType);
                 return new HoD(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
-                        experience,new HashMap<>(),"");
+                        experience,new HashMap<>(),deptId);
             case FACULTY:
-                getFacultyDetails();
+                getFacultyDetails(userType);
                 return new Faculty(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
-                        experience,"");
+                        experience,deptId);
             case TRAINING_HEAD:
-                getTrainingHeadDetails();
+                getTrainingHeadDetails(userType);
                 return new TrainingHead(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
-                        experience,new HashMap<>(),"");
+                        experience,new HashMap<>(),deptId);
             case STUDENT:
-            getBasicDataOfUser();
-                return new Student(name, age, gender, phone, email, password,new HashMap<>() ,new HashMap<>(),"");
+                getBasicDataOfUser(userType);
+                return new Student(name, age, gender, phone, email, password,new HashMap<>() ,new HashMap<>(),deptId);
             default:
                 return null;
         }

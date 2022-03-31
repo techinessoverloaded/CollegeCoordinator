@@ -1,10 +1,10 @@
 package com.techiness.collegecoordinator.concrete;
 
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Letter;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -13,16 +13,16 @@ import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdenti
 
 public class HoD extends Faculty
 {
-    protected Map<String, Letter> letters;
+    protected Map<String, RequestLetter> letters;
 
     public HoD(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-               EnumSet<Qualification> qualifications, int experience, Map<String, Letter> letters, String deptId)
+               EnumSet<Qualification> qualifications, int experience, Map<String, RequestLetter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, deptId);
         this.letters = letters;
     }
 
-    public HoD(Faculty existingFaculty, String newDeptId ,Map<String, Letter> letters)
+    public HoD(Faculty existingFaculty, String newDeptId ,Map<String, RequestLetter> letters)
     {
         super(existingFaculty.getName(), existingFaculty.getAge(), existingFaculty.getGender(),
                 existingFaculty.getPhone(), existingFaculty.getEmail(), existingFaculty.getPassword(),
@@ -45,17 +45,17 @@ public class HoD extends Faculty
         return id+"@"+deptId+"_"+ UserType.HOD;
     }
 
-    public Map<String, Letter> getLetters()
+    public Map<String, RequestLetter> getLetters()
     {
         return letters;
     }
 
-    public Letter getLetters(String letterId)
+    public RequestLetter getLetters(String letterId)
     {
         return !letters.containsKey(letterId) || letters.get(letterId)==null ? null : letters.get(letterId);
     }
 
-    public void setLetters(Map<String, Letter> letters)
+    public void setLetters(Map<String, RequestLetter> letters)
     {
         this.letters = letters;
     }
@@ -73,9 +73,9 @@ public class HoD extends Faculty
         return faculties.remove(facultyId) != null;
     }
 
-    public boolean addLetter(Letter letter)
+    public boolean addLetter(RequestLetter requestLetter)
     {
-        return letters.putIfAbsent(letter.getId(),letter) == null;
+        return letters.putIfAbsent(requestLetter.getId(), requestLetter) == null;
     }
 
     public boolean addSubjectHandled(String facultyId, String subject)
@@ -104,20 +104,20 @@ public class HoD extends Faculty
 
     public boolean approveLetter(String letterId, boolean isApproved)
     {
-        Letter currentLetter = getLetters(letterId);
-        if(currentLetter == null)
+        RequestLetter currentRequestLetter = getLetters(letterId);
+        if(currentRequestLetter == null)
             return false;
-        currentLetter.setIsGranted(isApproved);
+        currentRequestLetter.setIsGranted(isApproved);
         return true;
     }
 
     public boolean checkIfLetterApproved(String letterId)
     {
-        Letter currentLetter = getLetters(letterId);
-        if(currentLetter == null)
+        RequestLetter currentRequestLetter = getLetters(letterId);
+        if(currentRequestLetter == null)
             return false;
-        currentLetter.setIsNotifiedToRequester(true);
-        return currentLetter.getIsGranted();
+        currentRequestLetter.setIsNotifiedToRequester(true);
+        return currentRequestLetter.getIsGranted();
     }
 
     @Override

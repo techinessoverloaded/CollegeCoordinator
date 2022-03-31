@@ -1,19 +1,19 @@
 package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Letter;
 import javafx.util.Pair;
 import java.util.Map;
 
 public final class Admin extends User
 {
-    private Map<String, Letter> letters;
+    private Map<String, RequestLetter> letters;
 
-    public Admin(String name, int age, Gender gender, String phone, String email, String password, Map<String,Letter> letters)
+    public Admin(String name, int age, Gender gender, String phone, String email, String password, Map<String, RequestLetter> letters)
     {
         super(name, age, gender, phone, email, password);
         this.letters = letters;
@@ -33,42 +33,42 @@ public final class Admin extends User
         notifyObservers();
     }
 
-    public Map<String, Letter> getLetters()
+    public Map<String, RequestLetter> getLetters()
     {
         return letters;
     }
 
-    public Letter getLetters(String letterId)
+    public RequestLetter getLetters(String letterId)
     {
         return !letters.containsKey(letterId) || letters.get(letterId)==null ? null : letters.get(letterId);
     }
 
-    public void setLetters(Map<String, Letter> letters)
+    public void setLetters(Map<String, RequestLetter> letters)
     {
         this.letters = letters;
     }
 
-    public boolean addLetter(Letter letter)
+    public boolean addLetter(RequestLetter requestLetter)
     {
-        return letters.putIfAbsent(letter.getId(),letter) == null;
+        return letters.putIfAbsent(requestLetter.getId(), requestLetter) == null;
     }
 
     public boolean approveLetter(String letterId, boolean isApproved)
     {
-        Letter currentLetter = getLetters(letterId);
-        if(currentLetter == null)
+        RequestLetter currentRequestLetter = getLetters(letterId);
+        if(currentRequestLetter == null)
             return false;
-        currentLetter.setIsGranted(isApproved);
+        currentRequestLetter.setIsGranted(isApproved);
         return true;
     }
 
     public boolean checkIfLetterApproved(String letterId)
     {
-        Letter currentLetter = getLetters(letterId);
-        if(currentLetter == null)
+        RequestLetter currentRequestLetter = getLetters(letterId);
+        if(currentRequestLetter == null)
             return false;
-        currentLetter.setIsNotifiedToRequester(true);
-        return currentLetter.getIsGranted();
+        currentRequestLetter.setIsNotifiedToRequester(true);
+        return currentRequestLetter.getIsGranted();
     }
 
     public boolean addDepartment(Department department)

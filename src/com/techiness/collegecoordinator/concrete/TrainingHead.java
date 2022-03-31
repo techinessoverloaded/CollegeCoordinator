@@ -5,7 +5,7 @@ import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Company;
-import com.techiness.collegecoordinator.helpers.Letter;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.helpers.Offer;
 
 import java.util.EnumSet;
@@ -15,12 +15,12 @@ import java.util.List;
 public final class TrainingHead extends HoD
 {
     public TrainingHead(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
-                        EnumSet<Qualification> qualifications, int experience, Map<String, Letter> letters, String deptId)
+                        EnumSet<Qualification> qualifications, int experience, Map<String, RequestLetter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, letters, deptId);
     }
 
-    public TrainingHead(Faculty existingFaculty, String newDeptId, Map<String, Letter> letters)
+    public TrainingHead(Faculty existingFaculty, String newDeptId, Map<String, RequestLetter> letters)
     {
         super(existingFaculty.getName(), existingFaculty.getAge(), existingFaculty.getGender(),
                 existingFaculty.getPhone(), existingFaculty.getEmail(), existingFaculty.getPassword(),

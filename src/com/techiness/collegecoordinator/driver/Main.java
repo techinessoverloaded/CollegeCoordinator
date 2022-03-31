@@ -7,9 +7,8 @@ import com.techiness.collegecoordinator.consoleui.MainUI;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.helpers.*;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
+import java.util.*;
+
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public class Main
@@ -25,7 +24,6 @@ public class Main
         try
         {
             printlnWithAnim("Retrieving Stored Data...");
-            println2();
             accountsManager.restoreState();
         }
         catch (Exception e)
@@ -39,7 +37,7 @@ public class Main
         }
     }
 
-    public static void main(String args[])
+    public static void main(String[] args)
     {
         MainUI mainUI = new MainUI();
         Faculty faculty = new Faculty("arun",21,

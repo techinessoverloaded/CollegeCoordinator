@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 /**
@@ -64,6 +63,10 @@ public class Menu
         options.put(options.size()+1,option);
     }
 
+    /**
+     * Used to add multiple {@link String} Options to the {@link Menu}
+     * @param multipleOptions The VarArgs {@link String} parameter.
+     */
     public void addMultipleOptions(String... multipleOptions)
     {
         if(multipleOptions.length == 0)
@@ -108,11 +111,20 @@ public class Menu
         return options.entrySet().stream().filter(entry -> entry.getValue().equals(option)).collect(Collectors.toList()).get(0).getKey();
     }
 
+    /**
+     * Used to check if a {@link String} Option is present already in the Options.
+     * @param option The {@link String} Option whose presence is to be checked.
+     * @return {@code true} if the Option is present, else {@code false}.
+     */
     public boolean contains(String option)
     {
         return options.containsValue(option);
     }
 
+    /**
+     * Used to extend the current Options with the extension {@link Menu}'s Options and also sets its Header as this {@link Menu}'s Header.
+     * @param extensionMenu The {@link Menu} Object whose Options are to be extended.
+     */
     public void extendMenu(Menu extensionMenu)
     {
         this.header = extensionMenu.header;
@@ -144,6 +156,10 @@ public class Menu
         println();
     }
 
+    /**
+     * Used to display the {@link Menu}'s Options and get {@link Integer} choice from the User.
+     * @return The {@link Integer} choice entered by the User. If the choice entered is out of bounds, {@code -1} is returned.
+     */
     public int displayMenuAndGetChoice()
     {
         selectedChoice = -1;
@@ -215,6 +231,11 @@ public class Menu
             return this;
         }
 
+        /**
+         * Used to add multiple {@link String} Options to the {@link Menu}.
+         * @param multipleOptions The VarArgs {@link String} parameter.
+         * @return The same {@link MenuBuilder} instance itself.
+         */
         public MenuBuilder addMultipleOptions(String... multipleOptions)
         {
             if(multipleOptions.length == 0)
@@ -242,5 +263,18 @@ public class Menu
         {
             return this.options.size() == 0 || this.header.equals("") ? null : new Menu(this.header,this.options);
         }
+    }
+
+    /**
+     * Utility Function to get a bi-value Yes/No {@link Menu}. When called from this {@link Menu},
+     * {@link Menu#displayMenuAndGetChoice()} will return {@code 1} representing {@code Yes}, or {@code 2} representing {@code No}, or {@code -1} representing invalid input.
+     * @return The {@link Menu} object built with Yes/No options.
+     */
+    public static Menu getYesOrNoMenu()
+    {
+        return new MenuBuilder().setHeader("Select Yes/No")
+                .addOption("Yes")
+                .addOption("No")
+                .build();
     }
 }

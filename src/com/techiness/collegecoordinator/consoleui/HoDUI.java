@@ -32,7 +32,7 @@ public class HoDUI extends FacultyUI
                 .addOption("Add Subject(s) handled by a Faculty")
                 .addOption("Remove Subject(s) handled by a Faculty")
                 .addOption("Display all the Request Letters")
-                .addOption("View and Approve/Disapprove a Request Letter")
+                .addOption("View and Approve/Disapprove a Request RequestLetter")
                 .addOption("Logout")
                 .build());
     }
