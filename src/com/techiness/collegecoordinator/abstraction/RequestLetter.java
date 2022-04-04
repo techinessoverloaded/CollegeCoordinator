@@ -4,10 +4,10 @@ import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.StringToEnumUtils;
-
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
+import static com.techiness.collegecoordinator.helpers.IOUtils.getDateFormatter;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Observable;
 
 public abstract class RequestLetter extends Observable implements Serializable, Identifiable, Comparable<RequestLetter>
@@ -15,10 +15,10 @@ public abstract class RequestLetter extends Observable implements Serializable, 
     private String id;
     private String requesterId;
     private String receiverId;
-    private Date submittedDate;
+    private String submittedDate;
     private String reasonForRequest;
     private String reasonForDisapproval;
-    private boolean isGranted;
+    private boolean isApproved;
     private boolean toBeNotifiedToRequester;
     private boolean isNotifiedToRequester;
 
@@ -26,9 +26,9 @@ public abstract class RequestLetter extends Observable implements Serializable, 
     {
         this.requesterId = requesterId;
         this.receiverId = receiverId;
-        this.submittedDate = Calendar.getInstance().getTime();
+        this.submittedDate = LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter());
         this.reasonForRequest = reasonForRequest;
-        this.isGranted = this.isNotifiedToRequester = this.toBeNotifiedToRequester = false;
+        this.isApproved = this.isNotifiedToRequester = this.toBeNotifiedToRequester = false;
         this.reasonForDisapproval = "";
         deduceLetterIdFromReceiverId();
     }
@@ -73,12 +73,12 @@ public abstract class RequestLetter extends Observable implements Serializable, 
         this.requesterId = requesterId;
     }
 
-    public Date getSubmittedDate()
+    public String getSubmittedDate()
     {
         return submittedDate;
     }
 
-    public void setSubmittedDate(Date submittedDate)
+    public void setSubmittedDate(String submittedDate)
     {
         this.submittedDate = submittedDate;
     }
@@ -123,14 +123,14 @@ public abstract class RequestLetter extends Observable implements Serializable, 
         isNotifiedToRequester = notifiedToRequester;
     }
 
-    public boolean getIsGranted()
+    public boolean getIsApproved()
     {
-        return isGranted;
+        return isApproved;
     }
 
-    public void setIsGranted(boolean granted)
+    public void setIsApproved(boolean granted)
     {
-        isGranted = granted;
+        isApproved = granted;
         setChanged();
         notifyObservers();
     }
@@ -161,5 +161,14 @@ public abstract class RequestLetter extends Observable implements Serializable, 
     public int compareTo(RequestLetter o)
     {
         return getId().compareTo(o.getId());
+    }
+
+    @Override
+    public String toString()
+    {
+
+        return " [ \nid = "+getId()+", \nrequesterId = "+requesterId+", \nreceiverId = "+receiverId+", \nsubmittedDate = "+submittedDate+
+                ", \nreasonForRequest = "+reasonForRequest+", \nreasonForDisapproval = "+reasonForDisapproval+"," +
+                ", \nisApproved = "+isApproved+", \ntoBeNotifiedToRequester = "+toBeNotifiedToRequester+", \nisNotifiedToRequester = "+ isNotifiedToRequester;
     }
 }

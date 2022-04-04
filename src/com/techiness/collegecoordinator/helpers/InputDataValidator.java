@@ -1,6 +1,11 @@
 package com.techiness.collegecoordinator.helpers;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.regex.Pattern;
+
+import static com.techiness.collegecoordinator.helpers.IOUtils.*;
 
 public final class InputDataValidator
 {
@@ -64,5 +69,34 @@ public final class InputDataValidator
     public static boolean validateReason(String reason)
     {
         return !reason.isEmpty() && !reason.matches("\\d");
+    }
+
+    public static boolean validateDateString(String date)
+    {
+        LocalDate parsedDate;
+        try
+        {
+            parsedDate = LocalDate.parse(date, getDateFormatter());
+            return parsedDate.isAfter(LocalDate.now(ZoneId.systemDefault())) && parsedDate.getDayOfWeek() != DayOfWeek.SUNDAY;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public static boolean validateDateString(String date, int noticePeriod)
+    {
+        LocalDate parsedDate;
+        try
+        {
+            parsedDate = LocalDate.parse(date, getDateFormatter());
+            LocalDate dateAfterNoticePeriod = LocalDate.now(ZoneId.systemDefault()).plusDays(noticePeriod-1);
+            return parsedDate.isAfter(dateAfterNoticePeriod) && parsedDate.getDayOfWeek() != DayOfWeek.SUNDAY;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 }

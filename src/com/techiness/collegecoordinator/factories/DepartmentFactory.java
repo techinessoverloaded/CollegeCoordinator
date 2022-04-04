@@ -61,7 +61,7 @@ public class DepartmentFactory
         courseSubjects.addAll(Arrays.asList(courseSubjectString.split(",")));
     }
 
-    public Department getNewDepartment(DepartmentType departmentType)
+    public synchronized Department getNewDepartment(DepartmentType departmentType)
     {
         switch (departmentType)
         {

@@ -6,9 +6,17 @@ import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
 import java.io.Console;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.DosFileAttributes;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -206,6 +214,11 @@ public final class IOUtils
             println("Enter the "+message+" :");
             container = (T)Double.valueOf(readDouble());
         }
+        else if(container instanceof String[])
+        {
+            println("Enter the "+message+" :");
+            container = (T) Arrays.stream(readLine().split(",")).map(String::trim).toArray(String[]::new);
+        }
         return container;
     }
 
@@ -234,5 +247,26 @@ public final class IOUtils
         DosFileAttributes attributes = Files.readAttributes(filePath,DosFileAttributes.class);
         if(attributes.isHidden())
             Files.setAttribute(filePath,"dos:hidden",false);
+    }
+
+    public static LocalDate convertDateToLocalDate(Date dateToBeConverted)
+    {
+        return Instant.ofEpochSecond(dateToBeConverted.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        //return dateToBeConverted.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static DateTimeFormatter getDateFormatter()
+    {
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    }
+
+    public static LocalDate parseStringWithDateFormatter(String dateString)
+    {
+        return LocalDate.parse(dateString, getDateFormatter());
+    }
+
+    public static String formatLocalDateWithDateFormatter(LocalDate localDate)
+    {
+        return localDate.format(getDateFormatter());
     }
 }

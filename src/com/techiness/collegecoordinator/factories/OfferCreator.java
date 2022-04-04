@@ -34,7 +34,7 @@ public class OfferCreator
     }
 
 
-    public Offer getNewOffer()
+    public synchronized Offer getNewOffer()
     {
         return null;
     }

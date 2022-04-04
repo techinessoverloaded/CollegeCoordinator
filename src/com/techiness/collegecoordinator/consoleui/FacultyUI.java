@@ -5,7 +5,7 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.Grade;
-import com.techiness.collegecoordinator.enums.LetterType;
+import com.techiness.collegecoordinator.enums.RequestLetterType;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
@@ -288,7 +288,7 @@ public class FacultyUI extends AbstractUserUI
             case 19:
                 Department currentDepartment4 = accountsManager.getDepartments(faculty.getDeptId());
                 HoD hod = currentDepartment4.getHod();
-                RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), LetterType.LEAVE);
+                RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), RequestLetterType.LEAVE);
                 printlnWithAnim("Submitting Leave RequestLetter to  HoD...");
                 hod.addLetter(leaveRequestLetter);
                 println("Submitted Leave RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
@@ -297,7 +297,7 @@ public class FacultyUI extends AbstractUserUI
             case 20:
                 Department currentDepartment5 = accountsManager.getDepartments(faculty.getDeptId());
                 HoD hod2 = currentDepartment5.getHod();
-                RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), LetterType.ON_DUTY);
+                RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), RequestLetterType.ON_DUTY);
                 printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
                 hod2.addLetter(odRequestLetter);
                 println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
@@ -305,9 +305,10 @@ public class FacultyUI extends AbstractUserUI
             // Request Department Change to Admin
             case 21:
                 Admin admin = accountsManager.getAdmin();
-                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), LetterType.DEPT_CHANGE);
+                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), RequestLetterType.DEPT_CHANGE);
                 printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
-                hod2.addLetter(odRequestLetter);
+                //HoD hod3 = c
+                //hod3.addLetter(odRequestLetter);
                 println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
                 break;
             // Request Promotion to Admin

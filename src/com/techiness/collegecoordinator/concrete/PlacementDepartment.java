@@ -4,12 +4,12 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.helpers.Company;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameableMap;
 
 public final class PlacementDepartment extends Department

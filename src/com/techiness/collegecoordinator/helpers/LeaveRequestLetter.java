@@ -2,24 +2,31 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 
-import java.util.Date;
+import java.util.Arrays;
 
 public final class LeaveRequestLetter extends RequestLetter
 {
-    private Date[] leaveRequestedDates;
-    public LeaveRequestLetter(String requesterId, String receiverId, String reasonForRequest, Date[] leaveRequestedDates)
+    private String[] leaveRequestedDates;
+
+    public LeaveRequestLetter(String requesterId, String receiverId, String reasonForRequest, String[] leaveRequestedDates)
     {
         super(requesterId, receiverId, reasonForRequest);
         this.leaveRequestedDates = leaveRequestedDates;
     }
 
-    public Date[] getLeaveRequestedDates()
+    public String[] getLeaveRequestedDates()
     {
         return leaveRequestedDates;
     }
 
-    public void setLeaveRequestedDates(Date[] leaveRequestedDates)
+    public void setLeaveRequestedDates(String[] leaveRequestedDates)
     {
         this.leaveRequestedDates = leaveRequestedDates;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "LeaveRequestLetter"+super.toString()+", \nleaveRequestedDates = "+ Arrays.toString(leaveRequestedDates) +" ]";
     }
 }

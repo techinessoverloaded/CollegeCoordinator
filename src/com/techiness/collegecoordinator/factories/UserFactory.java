@@ -201,7 +201,7 @@ public class UserFactory
         getHoDDetails(userType);
     }
 
-    public User getNewUser(UserType userType)
+    public synchronized User getNewUser(UserType userType)
     {
         switch (userType)
         {

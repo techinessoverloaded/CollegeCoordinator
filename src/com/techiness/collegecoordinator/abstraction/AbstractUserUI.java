@@ -1,12 +1,11 @@
 package com.techiness.collegecoordinator.abstraction;
-import com.techiness.collegecoordinator.abstraction.User;
+
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.helpers.AccountsManager;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.helpers.InputDataValidator;
 import com.techiness.collegecoordinator.helpers.Menu;
 import com.techiness.collegecoordinator.helpers.SessionManager;
-
 import java.util.Observable;
 import java.util.Observer;
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
@@ -19,8 +18,7 @@ public abstract class AbstractUserUI implements Observer
     protected SessionManager sessionManager;
     public AbstractUserUI()
     {
-       userMenu = new Menu.MenuBuilder()
-               .setHeader("User Menu")
+       userMenu = new Menu.MenuBuilder().setHeader("User Menu")
                 .addOption("Change name")
                 .addOption("Change age")
                 .addOption("Change gender")
