@@ -84,8 +84,6 @@ public final class SessionManager
     {
         String deptId = userId.substring(userId.indexOf('@')+1,userId.indexOf('_'));
         UserType currentUserType = StringToEnumUtils.getUserTypeFromUserId(userId);
-        System.out.println(deptId);
-        System.out.println(currentUserType);
         Department department = accountsManager.getDepartments(deptId);
         User reference;
         if(department == null)
@@ -140,26 +138,31 @@ public final class SessionManager
                 currentUser.addObserver(adminUI);
                 adminUI.displayUIAndExecuteActions();
                 return true;
+
             case HOD:
                 HoDUI hodUI = new HoDUI((HoD) currentUser);
                 currentUser.addObserver(hodUI);
                 hodUI.displayUIAndExecuteActions();
                 return true;
+
             case TRAINING_HEAD:
                 TrainingHeadUI trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
                 currentUser.addObserver(trainingHeadUI);
                 trainingHeadUI.displayUIAndExecuteActions();
                 return true;
+
             case FACULTY:
                 FacultyUI facultyUI = new FacultyUI((Faculty) currentUser);
                 currentUser.addObserver(facultyUI);
                 facultyUI.displayUIAndExecuteActions();
                 return true;
+
             case STUDENT:
                 StudentUI studentUI = new StudentUI((Student) currentUser);
                 currentUser.addObserver(studentUI);
                 studentUI.displayUIAndExecuteActions();
                 return true;
+
             default:
                 return false;
         }

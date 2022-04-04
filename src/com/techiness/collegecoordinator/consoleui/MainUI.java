@@ -41,9 +41,15 @@ public final class MainUI
         accountsManager.getUsers().put(admin.getId(), admin);
         accountsManager.setAdmin(admin);
         printAccountDetails(admin,true);
-        sessionManager.loginAdmin(admin.getId(), admin.getPassword());
-        sessionManager.redirectToRespectiveUI();
-        sessionManager.redirectToRespectiveUI();
+        if(sessionManager.loginAdmin(admin.getId(), admin.getPassword()))
+        {
+            println2("Logged in as Admin successfully !");
+            sessionManager.redirectToRespectiveUI();
+        }
+        if(!sessionManager.isFactoryResetDone())
+            displayUIAndExecuteActions();
+        else
+            displayUIForFirstTime(true);
     }
 
     public void displayUIAndExecuteActions()
@@ -73,6 +79,12 @@ public final class MainUI
                     }
                     else
                         println2("Invalid ID or Password ! Check your User ID and Password");
+                    if(sessionManager.isFactoryResetDone())
+                    {
+                        sessionManager.setFactoryResetDone(false);
+                        displayUIForFirstTime(true);
+                        return;
+                    }
                     continue;
 
                 case 2:
@@ -159,11 +171,6 @@ public final class MainUI
                     continue;
             }
             break;
-        }
-        if(sessionManager.isFactoryResetDone())
-        {
-            sessionManager.setFactoryResetDone(false);
-            displayUIForFirstTime(true);
         }
     }
 }

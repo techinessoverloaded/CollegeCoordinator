@@ -19,7 +19,7 @@ public final class AdminUI extends AbstractUserUI
     public AdminUI(Admin admin)
     {
         this.admin = admin;
-        this.userMenu.extendMenu(new Menu.MenuBuilder().setHeader("Admin Menu")
+        this.userMenu.extendMenu(new Menu.MenuBuilder().setHeader("Admin Menu ")
                 .addOption("Create a department and assign new HoD")
                 .addOption("Create a department and assign an existing Faculty as its HoD")
                 .addOption("Promote existing Faculty as HoD for same department and Demote current HoD as Faculty of same department")

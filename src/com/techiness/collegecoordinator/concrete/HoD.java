@@ -107,7 +107,7 @@ public class HoD extends Faculty
         RequestLetter currentRequestLetter = getLetters(letterId);
         if(currentRequestLetter == null)
             return false;
-        currentRequestLetter.setIsGranted(isApproved);
+        currentRequestLetter.setIsApproved(isApproved);
         return true;
     }
 
@@ -117,7 +117,7 @@ public class HoD extends Faculty
         if(currentRequestLetter == null)
             return false;
         currentRequestLetter.setIsNotifiedToRequester(true);
-        return currentRequestLetter.getIsGranted();
+        return currentRequestLetter.getIsApproved();
     }
 
     @Override
