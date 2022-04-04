@@ -51,6 +51,7 @@ public class FacultyUI extends AbstractUserUI
                 .addOption("Request On Duty to HoD")
                 .addOption("Request Department Change to Admin")
                 .addOption("Request Promotion to Admin")
+                .addOption("Request Demotion to Admin")
                 .addOption("Request Resignation to Admin")
                 .addOption("Check if Request RequestLetter got Approved or not")
                 .addOption("Logout")
@@ -289,37 +290,64 @@ public class FacultyUI extends AbstractUserUI
                 Department currentDepartment4 = accountsManager.getDepartments(faculty.getDeptId());
                 HoD hod = currentDepartment4.getHod();
                 RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), RequestLetterType.LEAVE);
-                printlnWithAnim("Submitting Leave RequestLetter to  HoD...");
+                printlnWithAnim("Submitting Leave Request Letter to  HoD...");
                 hod.addLetter(leaveRequestLetter);
-                println("Submitted Leave RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                println("Submitted Leave Request Letter to HoD. You can check the status of Approval after the HoD checks it.");
                 break;
             // Request On Duty to HoD
             case 20:
                 Department currentDepartment5 = accountsManager.getDepartments(faculty.getDeptId());
                 HoD hod2 = currentDepartment5.getHod();
                 RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), RequestLetterType.ON_DUTY);
-                printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
+                printlnWithAnim("Submitting On Duty Request Letter to  HoD...");
                 hod2.addLetter(odRequestLetter);
                 println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
                 break;
             // Request Department Change to Admin
             case 21:
                 Admin admin = accountsManager.getAdmin();
-                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), RequestLetterType.DEPT_CHANGE);
-                printlnWithAnim("Submitting On Duty RequestLetter to  HoD...");
-                //HoD hod3 = c
-                //hod3.addLetter(odRequestLetter);
-                println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), RequestLetterType.DEPT_CHANGE, faculty.getDeptId());
+                printlnWithAnim("Submitting Department Change Request Letter to  Admin...");
+                admin.addLetter(deptChangeRequestLetter);
+                println("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
                 break;
             // Request Promotion to Admin
             case 22:
+                Admin admin1 = accountsManager.getAdmin();
+                RequestLetter promotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin1.getId(), RequestLetterType.PROMOTION, faculty.getDeptId());
+                printlnWithAnim("Submitting Promotion Request Letter to Admin...");
+                admin1.addLetter(promotionLetter);
+                println("Submitted Promotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
                 break;
-            // Request Resignation to Admin
+            // Request Demotion to Admin
             case 23:
+                Admin admin2 = accountsManager.getAdmin();
+                RequestLetter demotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin2.getId(), RequestLetterType.DEMOTION, faculty.getDeptId());
+                printlnWithAnim("Submitting Demotion Request Letter to Admin...");
+                admin2.addLetter(demotionLetter);
+                println("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
                 break;
-            // Check if Request RequestLetter got Approved or not
+            //Request Resignation to Admin
             case 24:
+                Admin admin3 = accountsManager.getAdmin();
+                RequestLetter resignationLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin3.getId(), RequestLetterType.RESIGNATION, faculty.getDeptId());
+                printlnWithAnim("Submitting Resignation Request Letter to Admin...");
+                admin3.addLetter(resignationLetter);
+                println("Submitted Resignation Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
                 break;
+                // Check if Request RequestLetter got Approved or not
+            case 25:
+                Menu checkLetterTypeMenu = new Menu.MenuBuilder().setHeader("Type of Letter to be checked")
+                        .addMultipleOptions(RequestLetterType.getStringArrayOfValues())
+                        .build();
+                int checkLetterChoice = -1;
+                while(checkLetterChoice == -1)
+                {
+
+                }
+                break;
+            case 26:
+                return;
             default:
                 println("Invalid Choice ! Enter a valid choice !");
         }

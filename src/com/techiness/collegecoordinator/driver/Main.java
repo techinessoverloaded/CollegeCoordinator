@@ -1,7 +1,14 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.RequestLetter;
+import com.techiness.collegecoordinator.concrete.Faculty;
+import com.techiness.collegecoordinator.consoleui.FacultyUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
+import com.techiness.collegecoordinator.enums.Gender;
+import com.techiness.collegecoordinator.enums.Qualification;
+import com.techiness.collegecoordinator.enums.RequestLetterType;
+import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.helpers.*;
 import java.util.*;
 import static com.techiness.collegecoordinator.helpers.IOUtils.*;
@@ -38,10 +45,12 @@ public class Main
         //println2(LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter()));
         //println2(InputDataValidator.validateDateString("01/04/2022"));
         //RequestLetterFactory.getInstance();
-//        Faculty faculty = new Faculty("arun",21,
+//         Faculty faculty = new Faculty("arun",21,
 //                Gender.MALE,"7338817854","arun@gmail.com","Arun@262001",
 //                new ArrayList<>(), EnumSet.allOf(Qualification.class),10,"");
 //        new FacultyUI(faculty).displayUIAndExecuteActions();
+//        RequestLetter odLetter = RequestLetterFactory.getInstance().getLetter("2_FACULTY", "1_ADMIN", RequestLetterType.ON_DUTY,"2_CSE" );
+//        println(odLetter);
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
