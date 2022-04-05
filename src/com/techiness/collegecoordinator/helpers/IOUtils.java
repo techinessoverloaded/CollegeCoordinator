@@ -6,17 +6,13 @@ import com.techiness.collegecoordinator.abstraction.Nameable;
 import com.techiness.collegecoordinator.abstraction.User;
 import java.io.Console;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.DosFileAttributes;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +20,7 @@ import java.util.stream.Stream;
 public final class IOUtils
 {
     public static final Scanner scanner = new Scanner(System.in);
+
     public static final Console console = System.console();
 
     public static void println(Object val)

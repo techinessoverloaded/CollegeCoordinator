@@ -2,7 +2,7 @@ package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.enums.OSType;
 
-public class OSDetector
+public final class OSDetector
 {
     private static String OS = System.getProperty("os.name").toLowerCase();
 

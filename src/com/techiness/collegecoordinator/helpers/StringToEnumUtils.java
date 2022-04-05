@@ -3,7 +3,7 @@ package com.techiness.collegecoordinator.helpers;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.UserType;
 
-public class StringToEnumUtils
+public final class StringToEnumUtils
 {
     public static UserType getUserTypeFromUserId(String userId)
     {

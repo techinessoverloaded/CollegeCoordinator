@@ -131,6 +131,7 @@ public final class SessionManager
     {
         if(currentUser == null)
             return false;
+
         switch (currentUserType)
         {
             case ADMIN:

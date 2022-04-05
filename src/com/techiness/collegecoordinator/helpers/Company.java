@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import java.io.Serializable;
 import java.util.Map;
 
-public class Company implements Serializable, Nameable
+public final class Company implements Serializable, Nameable
 {
     private String name;
     private String id;

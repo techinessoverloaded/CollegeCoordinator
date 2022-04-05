@@ -1,10 +1,9 @@
 package com.techiness.collegecoordinator.helpers;
 
 import com.techiness.collegecoordinator.abstraction.Identifiable;
-
 import java.io.Serializable;
 
-public class Offer implements Serializable, Identifiable, Comparable<Offer>
+public final class Offer implements Serializable, Identifiable, Comparable<Offer>
 {
     private String id;
     private String studentId;

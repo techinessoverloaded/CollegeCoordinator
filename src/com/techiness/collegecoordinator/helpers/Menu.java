@@ -13,7 +13,7 @@ import static com.techiness.collegecoordinator.helpers.IOUtils.*;
  * A Helper Class for building Menu for each Type of {@link User}. Serial Number for option is generated automatically.
  * Instance of this Class is built using {@link MenuBuilder} Class.
  */
-public class Menu
+public final class Menu
 {
     private Map<Integer,String> options;
     private String header;
