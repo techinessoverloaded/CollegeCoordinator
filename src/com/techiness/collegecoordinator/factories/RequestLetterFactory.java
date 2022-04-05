@@ -232,6 +232,13 @@ public class RequestLetterFactory
                 getResignationLetterDetails();
                 return new ResignationRequestLetter(requesterId, receiverId, reasonForRequest, requestedQuitDate);
 
+            case TC:
+                if(crtDeptId.length != 1)
+                    return null;
+                getReason(RequestLetterType.TC);
+                currentDeptId = crtDeptId[0];
+                return new TCRequestLetter(requesterId,receiverId, reasonForRequest, currentDeptId);
+
             default:
                 return null;
         }

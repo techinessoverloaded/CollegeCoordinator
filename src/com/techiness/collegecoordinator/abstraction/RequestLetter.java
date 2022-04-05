@@ -19,7 +19,6 @@ public abstract class RequestLetter extends Observable implements Serializable, 
     private String reasonForRequest;
     private String reasonForDisapproval;
     private boolean isApproved;
-    private boolean toBeNotifiedToRequester;
     private boolean isNotifiedToRequester;
 
     public RequestLetter(String requesterId, String receiverId, String reasonForRequest)
@@ -28,7 +27,7 @@ public abstract class RequestLetter extends Observable implements Serializable, 
         this.receiverId = receiverId;
         this.submittedDate = LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter());
         this.reasonForRequest = reasonForRequest;
-        this.isApproved = this.isNotifiedToRequester = this.toBeNotifiedToRequester = false;
+        this.isApproved = this.isNotifiedToRequester = false;
         this.reasonForDisapproval = "";
         deduceLetterIdFromReceiverId();
     }
@@ -103,16 +102,6 @@ public abstract class RequestLetter extends Observable implements Serializable, 
         this.reasonForDisapproval = reasonForDisapproval;
     }
 
-    public boolean isToBeNotifiedToRequester()
-    {
-        return toBeNotifiedToRequester;
-    }
-
-    public void setToBeNotifiedToRequester(boolean toBeNotifiedToRequester)
-    {
-        this.toBeNotifiedToRequester = toBeNotifiedToRequester;
-    }
-
     public boolean isNotifiedToRequester()
     {
         return isNotifiedToRequester;
@@ -169,6 +158,6 @@ public abstract class RequestLetter extends Observable implements Serializable, 
 
         return " [ \nid = "+getId()+", \nrequesterId = "+requesterId+", \nreceiverId = "+receiverId+", \nsubmittedDate = "+submittedDate+
                 ", \nreasonForRequest = "+reasonForRequest+", \nreasonForDisapproval = "+reasonForDisapproval+"," +
-                ", \nisApproved = "+isApproved+", \ntoBeNotifiedToRequester = "+toBeNotifiedToRequester+", \nisNotifiedToRequester = "+ isNotifiedToRequester;
+                ", \nisApproved = "+isApproved+", \nisNotifiedToRequester = "+ isNotifiedToRequester;
     }
 }

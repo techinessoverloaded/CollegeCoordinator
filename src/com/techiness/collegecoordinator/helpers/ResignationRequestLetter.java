@@ -21,4 +21,10 @@ public final class ResignationRequestLetter extends RequestLetter
     {
         this.requestedQuitDate = requestedQuitDate;
     }
+
+    @Override
+    public String toString()
+    {
+        return "ResignationRequestLetter"+super.toString()+", \nrequestedQuitDate = "+ requestedQuitDate +" ]";
+    }
 }

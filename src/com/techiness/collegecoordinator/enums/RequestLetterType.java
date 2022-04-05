@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public enum RequestLetterType
 {
-    ON_DUTY,LEAVE,RESIGNATION,PROMOTION,DEMOTION,DEPT_CHANGE;
+    ON_DUTY,LEAVE,RESIGNATION,PROMOTION,DEMOTION,DEPT_CHANGE,TC;
 
     public static String[] getStringArrayOfValues()
     {

@@ -48,7 +48,7 @@ public class Main
 //         Faculty faculty = new Faculty("arun",21,
 //                Gender.MALE,"7338817854","arun@gmail.com","Arun@262001",
 //                new ArrayList<>(), EnumSet.allOf(Qualification.class),10,"");
-//        new FacultyUI(faculty).displayUIAndExecuteActions();
+//         new FacultyUI(faculty).displayUIAndExecuteActions();
 //        RequestLetter odLetter = RequestLetterFactory.getInstance().getLetter("2_FACULTY", "1_ADMIN", RequestLetterType.ON_DUTY,"2_CSE" );
 //        println(odLetter);
         if(sessionManager.isFirstTime())

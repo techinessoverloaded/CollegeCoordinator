@@ -11,6 +11,7 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.helpers.Menu;
 import com.techiness.collegecoordinator.factories.UserFactory;
+import com.techiness.collegecoordinator.helpers.TCRequestLetter;
 import javafx.util.Pair;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -53,14 +54,15 @@ public class FacultyUI extends AbstractUserUI
                 .addOption("Request Promotion to Admin")
                 .addOption("Request Demotion to Admin")
                 .addOption("Request Resignation to Admin")
-                .addOption("Check if Request RequestLetter got Approved or not")
+                .addOption("Check if Request Letter got Approved or not")
                 .addOption("Logout")
                 .build());
     }
 
-    protected void executeGeneralFacultyActions(Faculty faculty , int selection)
+    protected final void executeGeneralFacultyActions(Faculty faculty , int selection)
     {
-        switch (selection) {
+        switch (selection)
+        {
             //Display the Subjects to be handled
             case 8:
                 println2("Subjects Handled by you:");
@@ -176,15 +178,23 @@ public class FacultyUI extends AbstractUserUI
             case 15:
                 String studentId = "";
                 Department currentDepartment = accountsManager.getDepartments(faculty.getDeptId());
-                while (!currentDepartment.checkIfStudentIdValid(studentId)) {
+                Admin admin7 = accountsManager.getAdmin();
+                while (!currentDepartment.checkIfStudentIdValid(studentId))
+                {
                     studentId = getUserInput(studentId, "Student ID of the Student to be removed from the Department");
                     if (!currentDepartment.checkIfStudentIdValid(studentId))
                         println("Invalid Student ID ! Enter a Valid Student ID !");
                 }
-                if (faculty.removeStudent(studentId)) {
-                    println2("Student with ID : " + studentId + " removed from the Department successfully !");
-                } else {
-                    println2("Some error occurred ! Unable to remove Student from the department !");
+                TCRequestLetter tcRequestLetter = (TCRequestLetter) RequestLetterFactory.getInstance().getLetter(studentId, admin7.getId(), RequestLetterType.TC, faculty.getDeptId());
+                printlnWithAnim("Submitting TC Request Letter for Student to Admin...");
+                if(admin7.addLetter(tcRequestLetter))
+                {
+                    println2("Submitted TC Request Letter for Student to Admin successfully !");
+                    println2("Letter Details :\n"+ tcRequestLetter);
+                }
+                else
+                {
+                    println2("Some error occurred ! Unable to request TC for Student to the Admin !");
                 }
                 break;
             //Display the Students under the Department
@@ -287,37 +297,68 @@ public class FacultyUI extends AbstractUserUI
                 break;
             // Request Leave to HoD
             case 19:
-                Department currentDepartment4 = accountsManager.getDepartments(faculty.getDeptId());
-                HoD hod = currentDepartment4.getHod();
-                RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), RequestLetterType.LEAVE);
-                printlnWithAnim("Submitting Leave Request Letter to  HoD...");
-                hod.addLetter(leaveRequestLetter);
-                println("Submitted Leave Request Letter to HoD. You can check the status of Approval after the HoD checks it.");
+                if(faculty instanceof HoD)
+                {
+                    Admin admin5 = accountsManager.getAdmin();
+                    RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin5.getId(), RequestLetterType.LEAVE);
+                    printlnWithAnim("Submitting Leave Request Letter to  Admin...");
+                    admin5.addLetter(leaveRequestLetter);
+                    println2("Submitted Leave Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n"+leaveRequestLetter);
+                }
+                else
+                {
+                    Department currentDepartment4 = accountsManager.getDepartments(faculty.getDeptId());
+                    HoD hod = currentDepartment4.getHod();
+                    RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), RequestLetterType.LEAVE);
+                    printlnWithAnim("Submitting Leave Request Letter to  HoD...");
+                    hod.addLetter(leaveRequestLetter);
+                    println2("Submitted Leave Request Letter to HoD. You can check the status of Approval after the HoD checks it.");
+                    println2("Letter Details:\n"+leaveRequestLetter);
+                }
                 break;
+
             // Request On Duty to HoD
             case 20:
-                Department currentDepartment5 = accountsManager.getDepartments(faculty.getDeptId());
-                HoD hod2 = currentDepartment5.getHod();
-                RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), RequestLetterType.ON_DUTY);
-                printlnWithAnim("Submitting On Duty Request Letter to  HoD...");
-                hod2.addLetter(odRequestLetter);
-                println("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                if(faculty instanceof HoD)
+                {
+                    Admin admin6 = accountsManager.getAdmin();
+                    RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin6.getId(), RequestLetterType.ON_DUTY);
+                    printlnWithAnim("Submitting On Duty Request Letter to  Admin...");
+                    admin6.addLetter(odRequestLetter);
+                    println2("Submitted On Duty RequestLetter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n"+odRequestLetter);
+                }
+                else
+                {
+                    Department currentDepartment5 = accountsManager.getDepartments(faculty.getDeptId());
+                    HoD hod2 = currentDepartment5.getHod();
+                    RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), RequestLetterType.ON_DUTY);
+                    printlnWithAnim("Submitting On Duty Request Letter to  HoD...");
+                    hod2.addLetter(odRequestLetter);
+                    println2("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                    println2("Letter Details:\n"+odRequestLetter);
+                }
                 break;
+
             // Request Department Change to Admin
             case 21:
                 Admin admin = accountsManager.getAdmin();
                 RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), RequestLetterType.DEPT_CHANGE, faculty.getDeptId());
                 printlnWithAnim("Submitting Department Change Request Letter to  Admin...");
                 admin.addLetter(deptChangeRequestLetter);
-                println("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Letter Details:\n"+deptChangeRequestLetter);
                 break;
+
             // Request Promotion to Admin
             case 22:
                 Admin admin1 = accountsManager.getAdmin();
                 RequestLetter promotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin1.getId(), RequestLetterType.PROMOTION, faculty.getDeptId());
                 printlnWithAnim("Submitting Promotion Request Letter to Admin...");
                 admin1.addLetter(promotionLetter);
-                println("Submitted Promotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Submitted Promotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Letter Details:\n"+promotionLetter);
                 break;
             // Request Demotion to Admin
             case 23:
@@ -325,7 +366,8 @@ public class FacultyUI extends AbstractUserUI
                 RequestLetter demotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin2.getId(), RequestLetterType.DEMOTION, faculty.getDeptId());
                 printlnWithAnim("Submitting Demotion Request Letter to Admin...");
                 admin2.addLetter(demotionLetter);
-                println("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Letter Details:\n"+demotionLetter);
                 break;
             //Request Resignation to Admin
             case 24:
@@ -334,6 +376,7 @@ public class FacultyUI extends AbstractUserUI
                 printlnWithAnim("Submitting Resignation Request Letter to Admin...");
                 admin3.addLetter(resignationLetter);
                 println("Submitted Resignation Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                println2("Letter Details:\n"+resignationLetter);
                 break;
                 // Check if Request RequestLetter got Approved or not
             case 25:
@@ -341,15 +384,101 @@ public class FacultyUI extends AbstractUserUI
                         .addMultipleOptions(RequestLetterType.getStringArrayOfValues())
                         .build();
                 int checkLetterChoice = -1;
+                RequestLetterType enteredRequestLetterType;
                 while(checkLetterChoice == -1)
                 {
+                    checkLetterChoice = checkLetterTypeMenu.displayMenuAndGetChoice();
+                    if(checkLetterChoice == -1)
+                        println2("Invalid choice ! Enter a valid choice...");
+                }
+                enteredRequestLetterType = RequestLetterType.valueOf(checkLetterTypeMenu.getOptions(checkLetterChoice));
+                Department currentDepartment6 = accountsManager.getDepartments(faculty.getDeptId());
+                HoD hod3 = currentDepartment6.getHod();
+                Admin admin4 = accountsManager.getAdmin();
+                String letterId = "";
+                while(letterId.equals(""))
+                {
+                    letterId = getUserInput(letterId, "Letter ID of the Letter");
+                    if(letterId.equals(""))
+                    {
+                        println("Enter a valid letter ID...");
+                    }
+                }
+                switch (enteredRequestLetterType)
+                {
+                    case LEAVE:
+                        if(hod3.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(hod3.checkIfLetterApproved(letterId))
+                            println2("Your Leave Request Letter got approved by the HoD !");
+                        else
+                            println2("Your Leave Request Letter was not approved by the HoD ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
 
+                    case ON_DUTY:
+                        if(hod3.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(hod3.checkIfLetterApproved(letterId))
+                            println2("Your OD Request Letter got approved by the HoD !");
+                        else
+                            println2("Your OD Request Letter was not approved by the HoD ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
+
+                    case DEPT_CHANGE:
+                        if(admin4.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(admin4.checkIfLetterApproved(letterId))
+                            println2("Your Department Change Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
+                        else
+                            println2("Your Department Change Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
+
+                    case PROMOTION:
+                        if(admin4.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(admin4.checkIfLetterApproved(letterId))
+                            println2("Your Promotion Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
+                        else
+                            println2("Your Promotion Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
+
+                    case DEMOTION:
+                        if(admin4.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(admin4.checkIfLetterApproved(letterId))
+                            println2("Your Demotion Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
+                        else
+                            println2("Your Demotion Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
+
+                    case RESIGNATION:
+                        if(admin4.getLetters(letterId)==null)
+                        {
+                            println2("No such Letter ID exists !");
+                            break;
+                        }
+                        if(admin4.checkIfLetterApproved(letterId))
+                            println2("Your Resignation Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
+                        else
+                            println2("Your Resignation Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
+                        break;
                 }
                 break;
-            case 26:
-                return;
-            default:
-                println("Invalid Choice ! Enter a valid choice !");
         }
     }
 
@@ -365,9 +494,6 @@ public class FacultyUI extends AbstractUserUI
         while(true)
         {
             choice = userMenu.displayMenuAndGetChoice();
-            if (choice == -1)
-                continue;
-
             if(choice >= 1 && choice <= 7)
             {
                 executeGeneralUserActions(faculty, choice);
