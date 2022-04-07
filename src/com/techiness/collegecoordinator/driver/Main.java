@@ -1,20 +1,20 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
+import com.techiness.collegecoordinator.abstraction.EntryPointUI;
+import com.techiness.collegecoordinator.abstraction.UserInterface;
+import com.techiness.collegecoordinator.consoleui.FacultyUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
-import com.techiness.collegecoordinator.enums.Grade;
+import com.techiness.collegecoordinator.enums.UserType;
+import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
-import com.techiness.collegecoordinator.utils.IOUtils;
-import com.techiness.collegecoordinator.utils.Range;
-import javafx.util.Pair;
+import com.techiness.collegecoordinator.utils.Menu;
 
 import java.util.*;
-import java.util.stream.Stream;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
-public class Main
+public final class Main
 {
     private static final AccountsManager accountsManager;
     private static final SessionManager sessionManager;
@@ -42,7 +42,8 @@ public class Main
 
     public static void main(String[] args)
     {
-        MainUI mainUI = new MainUI();
+        EntryPointUI entryPointUI = new MainUI();
+        UserFactory.getInstance().getFacultyDetails(UserType.FACULTY);
         //println2(LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter()));
         //println2(InputDataValidator.validateDateString("01/04/2022"));
         //RequestLetterFactory.getInstance();
@@ -55,19 +56,19 @@ public class Main
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
-            mainUI.displayUIForFirstTime(false);
+            entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else if(accountsManager.noAdminAvailable())
         {
-            mainUI.displayUIForFirstTime(false);
+            entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else if(sessionManager.isFactoryResetDone())
         {
-            mainUI.displayUIForFirstTime(true);
+            entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else
         {
-            mainUI.displayUIAndExecuteActions();
+            entryPointUI.displayUIAndExecuteActions();
         }
 
         //Persisting State

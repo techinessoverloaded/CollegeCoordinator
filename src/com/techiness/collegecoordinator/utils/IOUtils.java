@@ -1,9 +1,7 @@
 package com.techiness.collegecoordinator.utils;
 
-import com.techiness.collegecoordinator.abstraction.Department;
-import com.techiness.collegecoordinator.abstraction.Identifiable;
-import com.techiness.collegecoordinator.abstraction.Nameable;
-import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.abstraction.*;
+
 import java.io.Console;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -265,5 +263,10 @@ public final class IOUtils
     public static String formatLocalDateWithDateFormatter(LocalDate localDate)
     {
         return localDate.format(getDateFormatter());
+    }
+
+    public static void printRequestLetter(RequestLetter requestLetter)
+    {
+        printSymbols('-', 90);
     }
 }

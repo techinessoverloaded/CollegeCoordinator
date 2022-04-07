@@ -6,9 +6,9 @@ public final class DemotionRequestLetter extends RequestLetter
 {
     private String destinationDeptId;
 
-    public DemotionRequestLetter(String requesterId, String receiverId, String reasonForRequest, String destinationDeptId)
+    public DemotionRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String destinationDeptId)
     {
-        super(requesterId, receiverId, reasonForRequest);
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.destinationDeptId = destinationDeptId;
     }
 

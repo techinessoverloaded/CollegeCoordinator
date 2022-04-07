@@ -8,6 +8,7 @@ import com.techiness.collegecoordinator.managers.AccountsManager;
 import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfNameableMap;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 
@@ -110,7 +111,7 @@ public abstract class Department extends Observable implements Serializable, Nam
     @Override
     public int compareTo(Department o)
     {
-        return name.compareTo(o.name);
+        return name.toLowerCase().compareTo(o.name.toLowerCase());
     }
 
     @Override

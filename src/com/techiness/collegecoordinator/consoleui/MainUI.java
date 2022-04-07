@@ -1,15 +1,15 @@
 package com.techiness.collegecoordinator.consoleui;
 
+import com.techiness.collegecoordinator.abstraction.EntryPointUI;
 import com.techiness.collegecoordinator.concrete.Admin;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.managers.SessionManager;
 import com.techiness.collegecoordinator.factories.UserFactory;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
-public final class MainUI
+public final class MainUI implements EntryPointUI
 {
     private final Menu mainMenu;
     private final SessionManager sessionManager;
@@ -29,9 +29,10 @@ public final class MainUI
         this.accountsManager = AccountsManager.getInstance();
     }
 
-    public void displayUIForFirstTime(boolean onFactoryReset)
+    @Override
+    public void displayUIForFirstTimeAndExecuteActions()
     {
-        if(onFactoryReset)
+        if(sessionManager.isFactoryResetDone())
         {
             sessionManager.setFactoryResetDone(false);
         }
@@ -49,9 +50,10 @@ public final class MainUI
         if(!sessionManager.isFactoryResetDone())
             displayUIAndExecuteActions();
         else
-            displayUIForFirstTime(true);
+            displayUIForFirstTimeAndExecuteActions();
     }
 
+    @Override
     public void displayUIAndExecuteActions()
     {
         int choice = -1;
@@ -82,7 +84,7 @@ public final class MainUI
                     if(sessionManager.isFactoryResetDone())
                     {
                         sessionManager.setFactoryResetDone(false);
-                        displayUIForFirstTime(true);
+                        displayUIForFirstTimeAndExecuteActions();
                         return;
                     }
                     continue;

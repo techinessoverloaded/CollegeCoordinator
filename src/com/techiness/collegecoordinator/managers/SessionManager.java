@@ -1,5 +1,6 @@
 package com.techiness.collegecoordinator.managers;
 
+import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.*;
@@ -12,7 +13,8 @@ public final class SessionManager
     private static SessionManager instance = null;
     private UserType currentUserType;
     private User currentUser;
-    private AccountsManager accountsManager;
+    private final AccountsManager accountsManager;
+    private final ReferenceManager referenceManager;
     private boolean factoryResetDone = false;
     private boolean isFirstTime = true;
 
@@ -21,6 +23,7 @@ public final class SessionManager
         currentUserType = null;
         currentUser = null;
         accountsManager = AccountsManager.getInstance();
+        referenceManager = ReferenceManager.getInstance();
     }
 
     public synchronized static SessionManager getInstance()
@@ -136,32 +139,32 @@ public final class SessionManager
         switch (currentUserType)
         {
             case ADMIN:
-                AdminUI adminUI = new AdminUI( (Admin) currentUser);
-                currentUser.addObserver(adminUI);
+                AbstractUserUI adminUI = new AdminUI( (Admin) currentUser);
+                currentUser.addObserver(referenceManager);
                 adminUI.displayUIAndExecuteActions();
                 return true;
 
             case HOD:
-                HoDUI hodUI = new HoDUI((HoD) currentUser);
-                currentUser.addObserver(hodUI);
+                AbstractUserUI hodUI = new HoDUI((HoD) currentUser);
+                currentUser.addObserver(referenceManager);
                 hodUI.displayUIAndExecuteActions();
                 return true;
 
             case TRAINING_HEAD:
-                TrainingHeadUI trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
-                currentUser.addObserver(trainingHeadUI);
+                AbstractUserUI trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
+                currentUser.addObserver(referenceManager);
                 trainingHeadUI.displayUIAndExecuteActions();
                 return true;
 
             case FACULTY:
-                FacultyUI facultyUI = new FacultyUI((Faculty) currentUser);
-                currentUser.addObserver(facultyUI);
+                AbstractUserUI facultyUI = new FacultyUI((Faculty) currentUser);
+                currentUser.addObserver(referenceManager);
                 facultyUI.displayUIAndExecuteActions();
                 return true;
 
             case STUDENT:
-                StudentUI studentUI = new StudentUI((Student) currentUser);
-                currentUser.addObserver(studentUI);
+                AbstractUserUI studentUI = new StudentUI((Student) currentUser);
+                currentUser.addObserver(referenceManager);
                 studentUI.displayUIAndExecuteActions();
                 return true;
 

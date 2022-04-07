@@ -8,14 +8,22 @@ import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class OfferCreator
 {
-    private String studentId;
-    private String placementDeptId;
-    private String designation;
-    private double compensation;
+    private String studentId = "";
+    private String placementDeptId = "";
+    private String designation = "";
+    private double compensation = -1;
+    private static OfferCreator instance = null;
 
-    public OfferCreator()
+    private OfferCreator()
     {
 
+    }
+
+    public synchronized static OfferCreator getInstance()
+    {
+        if(instance == null)
+            instance = new OfferCreator();
+        return instance;
     }
 
     private int getOfferIdGen()
@@ -25,10 +33,16 @@ public final class OfferCreator
         return currentStudent.getOffers().size()+1;
     }
 
+    private void resetVariables()
+    {
+        studentId = placementDeptId = designation = "";
+        compensation = -1;
+    }
+
     private void getOfferDetails()
     {
-        println("Enter the placement department ID:");
-        placementDeptId = readLine();
+
+        placementDeptId = getUserInput(placementDeptId, "Placement Department ID");
         println("Enter the student ID:");
         studentId = readLine();
     }

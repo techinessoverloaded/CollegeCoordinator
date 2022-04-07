@@ -14,7 +14,6 @@ public final class RequestLetterFactory
     private static RequestLetterFactory instance = null;
     private String reasonForRequest = "";
     private String destinationDeptId = "";
-    private String currentDeptId = "";
     private String[] odRequestedDates = new String[0];
     private String[] leaveRequestedDates = new String[0];
     private String requestedQuitDate = null;
@@ -35,7 +34,6 @@ public final class RequestLetterFactory
     {
         reasonForRequest = "";
         destinationDeptId = "";
-        currentDeptId = "";
         odRequestedDates = new String[0];
         leaveRequestedDates = new String[0];
         requestedQuitDate = null;
@@ -196,49 +194,37 @@ public final class RequestLetterFactory
         getReason(RequestLetterType.RESIGNATION);
     }
 
-    public synchronized RequestLetter getLetter(String requesterId, String receiverId, RequestLetterType requestLetterType, String... crtDeptId)
+    public synchronized RequestLetter getLetter(String requesterId, String receiverId, String currentDeptId, RequestLetterType requestLetterType)
     {
         switch (requestLetterType)
         {
             case LEAVE:
                 getLeaveLetterDetails();
-                return new LeaveRequestLetter(requesterId, receiverId, reasonForRequest, leaveRequestedDates);
+                return new LeaveRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, leaveRequestedDates);
 
             case ON_DUTY:
                 getOdLetterDetails();
-                return new ODRequestLetter(requesterId, receiverId, reasonForRequest, odRequestedDates);
+                return new ODRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, odRequestedDates);
 
             case DEPT_CHANGE:
-                if(crtDeptId.length != 1)
-                    return null;
                 getDeptChangeLetterDetails();
-                currentDeptId = crtDeptId[0];
-                return new DeptChangeRequestLetter(requesterId, receiverId, reasonForRequest, currentDeptId, destinationDeptId);
+                return new DeptChangeRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId);
 
             case PROMOTION:
-                if(crtDeptId.length != 1)
-                    return null;
                 getPromotionLetterDetails();
-                currentDeptId = crtDeptId[0];
-                return new PromotionRequestLetter(requesterId, receiverId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
+                return new PromotionRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
 
             case DEMOTION:
-                if(crtDeptId.length != 1)
-                    return null;
                 getDemotionLetterDetails();
-                currentDeptId = crtDeptId[0];
-                return new DemotionRequestLetter(requesterId, receiverId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
+                return new DemotionRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
 
             case RESIGNATION:
                 getResignationLetterDetails();
-                return new ResignationRequestLetter(requesterId, receiverId, reasonForRequest, requestedQuitDate);
+                return new ResignationRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, requestedQuitDate);
 
             case TC:
-                if(crtDeptId.length != 1)
-                    return null;
                 getReason(RequestLetterType.TC);
-                currentDeptId = crtDeptId[0];
-                return new TCRequestLetter(requesterId,receiverId, reasonForRequest, currentDeptId);
+                return new TCRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest);
 
             default:
                 return null;

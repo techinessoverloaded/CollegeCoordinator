@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * The Basic Root Abstract class for the users of this application. Has basic details about the user.
  * Implements the {@link Nameable} interface and the {@link Comparable<User>} interface. Also, implements the {@link Serializable} interface and hence, can be serialized.
- * The subclasses of this class must override {@link #getId()}  and {@link #setId(String)} methods of the {@link Identifiable} interface.
+ * The subclasses of this class must override the {@link #getId()} and {@link #setId(String)} methods of the {@link Identifiable} interface and also the {@link #getName()} and {@link #setName(String)} methods of the {@link Nameable} interface.
  */
 public abstract class User extends Observable implements Serializable, Nameable, Comparable<User>
 {

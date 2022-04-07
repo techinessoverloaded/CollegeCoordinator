@@ -113,7 +113,7 @@ public final class UserFactory
         println();
     }
 
-    private void getFacultyDetails(UserType userType)
+    public void getFacultyDetails(UserType userType)
     {
         getBasicDataOfUser(userType);
         Menu qualificationMenu = new Menu.MenuBuilder().setHeader("Add Qualification(s) Menu")
@@ -160,6 +160,7 @@ public final class UserFactory
                 .build();
         subjectsHandled = new HashSet<>();
         int selectedSubjectChoice = -1;
+        int size = subjectMenu.getOptions().size()-1;
         println2("Keep selecting Subjects one by one to add to the "+ userType +" 's subjects...");
         while(selectedSubjectChoice < subjectMenu.getOptions().size()+1)
         {
@@ -183,6 +184,9 @@ public final class UserFactory
                 else
                     break;
             }
+
+            if(subjectsHandled.size() == size)
+                break;
         }
     }
 

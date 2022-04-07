@@ -8,9 +8,9 @@ public final class ODRequestLetter extends RequestLetter
 {
     private String[] odRequestedDates;
 
-    public ODRequestLetter(String requesterId, String receiverId, String reasonForRequest, String[] odRequestedDates)
+    public ODRequestLetter(String requesterId, String receiverId, String requesterDeptId,String reasonForRequest, String[] odRequestedDates)
     {
-        super(requesterId, receiverId, reasonForRequest);
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.odRequestedDates = odRequestedDates;
     }
 

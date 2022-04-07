@@ -2,6 +2,7 @@ package com.techiness.collegecoordinator.utils;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
+import javafx.print.Printer;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,7 +26,7 @@ public final class Menu
     {
         this.options = options;
         this.header = header;
-        this.totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+        recalculateTotalChars();
     }
 
     /**
@@ -52,7 +53,7 @@ public final class Menu
     public void setOptions(Map<Integer, String> options)
     {
         this.options = options;
-        this.totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+        recalculateTotalChars();
     }
 
     /**
@@ -141,15 +142,16 @@ public final class Menu
 
     private void displayHeader()
     {
+        recalculateTotalChars();
         print("+");
         printSymbols('-',totalChars-2);
         print("+");
         println();
         print("|");
-        int spaces = header.length()%2==0 ? (totalChars-header.length())/2 : (totalChars-header.length()+1)/2;
+        int spaces = getSpaces();
         printSymbols(' ',spaces-1);
         print(header);
-        printSymbols(' ',spaces-1);
+        printSymbols(' ',spaces);
         println("|");
         print("+");
         printSymbols('-',totalChars-2);
@@ -164,15 +166,13 @@ public final class Menu
     public int displayMenuAndGetChoice()
     {
         selectedChoice = -1;
-        totalChars = 40+options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
         displayHeader();
-        for(Integer key : options.keySet())
-        {
-            print("|  "+key+". "+options.get(key));
-            printSymbols(' ', totalChars - (options.get(key)).length() - ((key>9) ? 8 : 7));
+        options.forEach((key, value) -> {
+            print("|  " + key + ". " + value);
+            printSymbols(' ', totalChars - (value).length() - ((key > 9) ? 8 : 7));
             print("|");
             println();
-        }
+        });
         print("+");
         printSymbols('-',totalChars-2);
         print("+");
@@ -284,5 +284,24 @@ public final class Menu
         return new MenuBuilder().setHeader("Gender Menu")
                 .addMultipleOptions(Gender.getStringArrayOfValues())
                 .build();
+    }
+
+    private void recalculateTotalChars()
+    {
+        totalChars = 40 + options.values().stream().max(Comparator.comparingInt(String::length)).get().length();
+        totalChars = totalChars % 2 == 1 ? totalChars+1 : totalChars;
+    }
+
+    public int getTotalChars()
+    {
+        return totalChars;
+    }
+
+    private int getSpaces()
+    {
+        int spaces = 0;
+        int hLength = header.length();
+        hLength = hLength % 2 == 1 ? hLength+1 : hLength;
+        return (totalChars-hLength)/2;
     }
 }

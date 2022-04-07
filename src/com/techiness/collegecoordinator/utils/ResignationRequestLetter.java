@@ -6,9 +6,9 @@ public final class ResignationRequestLetter extends RequestLetter
 {
     private String requestedQuitDate;
 
-    public ResignationRequestLetter(String requesterId, String receiverId, String reasonForRequest, String requestedQuitDate)
+    public ResignationRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String requestedQuitDate)
     {
-        super(requesterId, receiverId, reasonForRequest);
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.requestedQuitDate = requestedQuitDate;
     }
 

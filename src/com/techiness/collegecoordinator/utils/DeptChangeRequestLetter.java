@@ -5,23 +5,11 @@ import com.techiness.collegecoordinator.abstraction.RequestLetter;
 public final class DeptChangeRequestLetter extends RequestLetter
 {
     private String destinationDeptId;
-    private String currentDeptId;
 
-    public DeptChangeRequestLetter(String requesterId, String receiverId, String reasonForRequest, String currentDeptId, String destinationDeptId)
+    public DeptChangeRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String destinationDeptId)
     {
-        super(requesterId, receiverId, reasonForRequest);
-        this.currentDeptId = currentDeptId;
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.destinationDeptId = destinationDeptId;
-    }
-
-    public String getCurrentDeptId()
-    {
-        return currentDeptId;
-    }
-
-    public void setCurrentDeptId(String currentDeptId)
-    {
-        this.currentDeptId = currentDeptId;
     }
 
     public String getDestinationDeptId()
@@ -38,7 +26,6 @@ public final class DeptChangeRequestLetter extends RequestLetter
     public String toString()
     {
         return "DeptChangeRequestLetter" + super.toString() +
-                ", \ndestinationDeptId = " + destinationDeptId +
-                ", \ncurrentDeptId = " + currentDeptId + " ]";
+                ", \ndestinationDeptId = " + destinationDeptId + " ]";
     }
 }

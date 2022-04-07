@@ -88,8 +88,18 @@ public class HoD extends Faculty
         Faculty currentFaculty = faculties.get(facultyId);
         if(currentFaculty.getSubjectsHandled() == null || currentFaculty.getSubjectsHandled().contains(subject))
             return false;
-        currentFaculty.getSubjectsHandled().add(subject);
-        return true;
+        return currentFaculty.getSubjectsHandled().add(subject);
+    }
+
+    public boolean addSubjectHandled(String facultyId, Set<String> subjects)
+    {
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
+        if(!faculties.containsKey(facultyId) || faculties.get(facultyId) == null)
+            return false;
+        Faculty currentFaculty = faculties.get(facultyId);
+        if(currentFaculty.getSubjectsHandled() == null || subjects.stream().anyMatch(s-> currentFaculty.getSubjectsHandled().contains(s)))
+            return false;
+        return currentFaculty.getSubjectsHandled().addAll(subjects);
     }
 
     public boolean removeSubjectHandled(String facultyId, String subject)
@@ -100,8 +110,23 @@ public class HoD extends Faculty
         Faculty currentFaculty = faculties.get(facultyId);
         if(currentFaculty.getSubjectsHandled() == null || !currentFaculty.getSubjectsHandled().contains(subject))
             return false;
-        currentFaculty.getSubjectsHandled().remove(subject);
-        return true;
+        return currentFaculty.getSubjectsHandled().remove(subject);
+    }
+
+    public boolean removeSubjectHandled(String facultyId, Set<String> subjects)
+    {
+        Map<String,Faculty> faculties = AccountsManager.getInstance().getDepartments().get(deptId).getFaculties();
+        if(!faculties.containsKey(facultyId) || faculties.get(facultyId) == null)
+            return false;
+        Faculty currentFaculty = faculties.get(facultyId);
+        if(currentFaculty.getSubjectsHandled() == null || !currentFaculty.getSubjectsHandled().containsAll(subjects))
+            return false;
+        return currentFaculty.getSubjectsHandled().removeAll(subjects);
+    }
+
+    public void displayLetters()
+    {
+        //letters.values().stream().map(requestLetter -> new)
     }
 
     public boolean approveLetter(String letterId, boolean isApproved)

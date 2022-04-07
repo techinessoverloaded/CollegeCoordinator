@@ -8,9 +8,9 @@ public final class LeaveRequestLetter extends RequestLetter
 {
     private String[] leaveRequestedDates;
 
-    public LeaveRequestLetter(String requesterId, String receiverId, String reasonForRequest, String[] leaveRequestedDates)
+    public LeaveRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String[] leaveRequestedDates)
     {
-        super(requesterId, receiverId, reasonForRequest);
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.leaveRequestedDates = leaveRequestedDates;
     }
 

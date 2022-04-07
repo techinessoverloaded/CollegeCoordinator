@@ -1,21 +1,19 @@
 package com.techiness.collegecoordinator.abstraction;
 
-import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.managers.SessionManager;
-import java.util.Observable;
-import java.util.Observer;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.println;
 
-public abstract class AbstractUserUI implements Observer
+public abstract class AbstractUserUI implements UserInterface
 {
     protected Menu userMenu;
     protected AccountsManager accountsManager;
     protected SessionManager sessionManager;
+
     public AbstractUserUI()
     {
        userMenu = new Menu.MenuBuilder().setHeader("User Menu")
@@ -36,6 +34,7 @@ public abstract class AbstractUserUI implements Observer
         return userMenu;
     }
 
+    @Override
     public abstract void displayUIAndExecuteActions();
 
     protected final void executeGeneralUserActions(User user, int selection)
@@ -206,41 +205,6 @@ public abstract class AbstractUserUI implements Observer
             case 7:
                 printAccountDetails(user,false);
                 break;
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg)
-    {
-        if(o instanceof Admin)
-        {
-            Admin admin = (Admin) o;
-            accountsManager.getUsers().replace(admin.getId(),admin);
-            accountsManager.setAdmin(admin);
-        }
-        else if(o instanceof TrainingHead)
-        {
-            TrainingHead trainingHead = (TrainingHead) o;
-            accountsManager.getUsers().replace(trainingHead.getId(), trainingHead);
-            accountsManager.getDepartments(trainingHead.getDeptId()).setHod(trainingHead);
-        }
-        else if(o instanceof HoD)
-        {
-            HoD hoD = (HoD) o;
-            accountsManager.getUsers().replace(hoD.getId(), hoD);
-            accountsManager.getDepartments(hoD.getDeptId()).setHod(hoD);
-        }
-        else if(o instanceof Faculty)
-        {
-            Faculty faculty = (Faculty) o;
-            accountsManager.getUsers().replace(faculty.getId(), faculty);
-            accountsManager.getDepartments(faculty.getDeptId()).getFaculties().replace(faculty.getId(),faculty);
-        }
-        else if(o instanceof Student)
-        {
-            Student student = (Student) o;
-            accountsManager.getUsers().replace(student.getId(), student);
-            accountsManager.getDepartments(student.getDeptId()).getStudents().replace(student.getId(), student);
         }
     }
 }

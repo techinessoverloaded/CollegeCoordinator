@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import java.io.Serializable;
 import java.util.Map;
 
-public final class Company implements Serializable, Nameable
+public final class Company implements Serializable, Nameable, Comparable<Company>
 {
     private String name;
     private String id;
@@ -61,5 +61,21 @@ public final class Company implements Serializable, Nameable
 
     public void setJobRoles(Map<String, Pair<Double, Integer>> jobRoles) {
         this.jobRoles = jobRoles;
+    }
+
+    @Override
+    public int compareTo(Company o)
+    {
+        return getId().compareTo(o.getId());
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Company [ " +
+                "\nname = " + name +
+                ", \nid = " + id +
+                ", \nlocation = " + location +
+                ", \njobRoles = " + jobRoles + " ]";
     }
 }

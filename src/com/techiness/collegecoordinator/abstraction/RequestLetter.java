@@ -12,19 +12,21 @@ import java.util.Observable;
 
 public abstract class RequestLetter extends Observable implements Serializable, Identifiable, Comparable<RequestLetter>
 {
-    private String id;
-    private String requesterId;
-    private String receiverId;
-    private String submittedDate;
-    private String reasonForRequest;
-    private String reasonForDisapproval;
-    private boolean isApproved;
-    private boolean isNotifiedToRequester;
+    protected String id;
+    protected String requesterId;
+    protected String requesterDeptId;
+    protected String receiverId;
+    protected String submittedDate;
+    protected String reasonForRequest;
+    protected String reasonForDisapproval;
+    protected boolean isApproved;
+    protected boolean isNotifiedToRequester;
 
-    public RequestLetter(String requesterId, String receiverId, String reasonForRequest)
+    public RequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest)
     {
         this.requesterId = requesterId;
         this.receiverId = receiverId;
+        this.requesterDeptId = requesterDeptId;
         this.submittedDate = LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter());
         this.reasonForRequest = reasonForRequest;
         this.isApproved = this.isNotifiedToRequester = false;
@@ -70,6 +72,16 @@ public abstract class RequestLetter extends Observable implements Serializable, 
     public void setRequesterId(String requesterId)
     {
         this.requesterId = requesterId;
+    }
+
+    public String getRequesterDeptId()
+    {
+        return requesterDeptId;
+    }
+
+    public void setRequesterDeptId(String requesterDeptId)
+    {
+        this.requesterDeptId = requesterDeptId;
     }
 
     public String getSubmittedDate()

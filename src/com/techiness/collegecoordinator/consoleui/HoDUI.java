@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.consoleui;
 
-import com.sun.org.apache.xml.internal.serializer.utils.SerializerMessages_zh_TW;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.concrete.Admin;
@@ -81,7 +80,7 @@ public class HoDUI extends FacultyUI
                 {
                     facultyIdToBeRemoved = getUserInput(facultyIdToBeRemoved, "Faculty ID of the Faculty whom you want to remove from the Department");
                 }
-                RequestLetter facultyResignationLetter = RequestLetterFactory.getInstance().getLetter(facultyIdToBeRemoved, admin.getId(), RequestLetterType.RESIGNATION);
+                RequestLetter facultyResignationLetter = RequestLetterFactory.getInstance().getLetter(facultyIdToBeRemoved, admin.getId(), hod.getDeptId(), RequestLetterType.RESIGNATION);
                 printlnWithAnim("Submitting Resignation Letter of Faculty to Admin...");
                 if(admin.addLetter(facultyResignationLetter))
                 {
@@ -101,7 +100,7 @@ public class HoDUI extends FacultyUI
                 {
                     facultyIdToBeTransferred = getUserInput(facultyIdToBeTransferred, "Faculty ID of the Faculty whom you want to transfer to another Department");
                 }
-                RequestLetter facultyTransferLetter = RequestLetterFactory.getInstance().getLetter(facultyIdToBeTransferred, admin2.getId(), RequestLetterType.DEPT_CHANGE, currentDepartment2.getId());
+                RequestLetter facultyTransferLetter = RequestLetterFactory.getInstance().getLetter(facultyIdToBeTransferred, admin2.getId(), hod.getDeptId(), RequestLetterType.DEPT_CHANGE);
                 printlnWithAnim("Submitting Department Change Request Letter of Faculty to Admin...");
                 if(admin2.addLetter(facultyTransferLetter))
                 {
@@ -128,16 +127,103 @@ public class HoDUI extends FacultyUI
                 Faculty facultyToAddSubjects = currentDepartment3.getFaculties(facultyIdToAddSubjects);
                 Set<String> availableSubjects = currentDepartment3.getCourseSubjects();
                 availableSubjects.removeAll(facultyToAddSubjects.getSubjectsHandled());
+                Set<String> subjectsToBeAdded = new HashSet<>();
                 Menu subjectMenu = new Menu.MenuBuilder().setHeader("Add Subject(s) Menu")
                         .addMultipleOptions(getStringArrayOfStringSet(availableSubjects))
                         .addOption("Stop adding Subjects")
                         .build();
+                int selectedSubjectChoice = -1;
+                println2("Keep selecting Subjects one by one to add to the Faculty 's subjects...");
+                while(selectedSubjectChoice < subjectMenu.getOptions().size()+1)
+                {
+                    selectedSubjectChoice = subjectMenu.displayMenuAndGetChoice();
+
+                    if(selectedSubjectChoice == -1)
+                        println("Invalid Choice ! Enter a Valid Choice...");
+
+                    else if(selectedSubjectChoice >= 1 && selectedSubjectChoice <= subjectMenu.getOptions().size()-1)
+                    {
+                        subjectsToBeAdded.add(subjectMenu.getOptions(selectedSubjectChoice));
+                        subjectMenu.removeOption(selectedSubjectChoice);
+                    }
+
+                    else if(selectedSubjectChoice == subjectMenu.getOptions().size())
+                    {
+                        if(subjectsToBeAdded.size() == 0)
+                        {
+                            println("Must add at least one Subject to be handled !");
+                        }
+                        else
+                            break;
+                    }
+                }
+                printlnWithAnim("Adding the chosen subjects to faculty's responsibilities...");
+                if(hod.addSubjectHandled(facultyIdToAddSubjects, subjectsToBeAdded))
+                {
+                    println2("Added the chosen subjects to faculty's responsibilities successfully !");
+                }
+                else
+                {
+                    println2("Failed to add the chosen subjects to faculty's responsibilities !");
+                }
+                break;
             //Remove Subject(s) handled by a Faculty
             case 32:
+                String facultyIdToRemoveSubjects = "";
+                CourseDepartment currentDepartment4 = (CourseDepartment) accountsManager.getDepartments(hod.getDeptId());
+                while(!currentDepartment4.checkIfFacultyIdValid(facultyIdToRemoveSubjects))
+                {
+                    facultyIdToAddSubjects = getUserInput(facultyIdToRemoveSubjects, "Faculty ID of the Faculty for whom you want to remove the assigned subjects");
+                }
+                Faculty facultyToRemoveSubjects = currentDepartment4.getFaculties(facultyIdToRemoveSubjects);
+                Set<String> alreadyAssignedSubjects = facultyToRemoveSubjects.getSubjectsHandled();
+                Set<String> subjectsToBeRemoved = new HashSet<>();
+                    Menu subjectMenu2 = new Menu.MenuBuilder().setHeader("Remove Subject(s) Menu")
+                        .addMultipleOptions(getStringArrayOfStringSet(alreadyAssignedSubjects))
+                        .addOption("Stop removing Subjects")
+                        .build();
+                int selectedSubjectChoice2 = -1;
+                println2("Keep selecting Subjects one by one to remove from the Faculty 's subjects...");
+                while(selectedSubjectChoice2 < subjectMenu2.getOptions().size()+1)
+                {
+                    selectedSubjectChoice2 = subjectMenu2.displayMenuAndGetChoice();
+
+                    if(selectedSubjectChoice2 == -1)
+                        println("Invalid Choice ! Enter a Valid Choice...");
+
+                    else if(selectedSubjectChoice2 >= 1 && selectedSubjectChoice2 <= subjectMenu2.getOptions().size()-1)
+                    {
+                        subjectsToBeRemoved.add(subjectMenu2.getOptions(selectedSubjectChoice2));
+                        subjectMenu2.removeOption(selectedSubjectChoice2);
+                    }
+
+                    else if(selectedSubjectChoice2 == subjectMenu2.getOptions().size())
+                    {
+                        if(subjectsToBeRemoved.size() == 0)
+                        {
+                            println("Must add at least one Subject to be handled !");
+                        }
+                        else
+                            break;
+                    }
+                }
+                printlnWithAnim("Removing the chosen subjects from the faculty's responsibilities...");
+                if(hod.addSubjectHandled(facultyIdToRemoveSubjects, subjectsToBeRemoved))
+                {
+                    println2("Removed the chosen subjects from the faculty's responsibilities successfully !");
+                }
+                else
+                {
+                    println2("Failed to remove the chosen subjects to faculty's responsibilities !");
+                }
+                break;
             //Display all the Request Letters
             case 33:
-                //View and Approve/Disapprove a Request RequestLetter
+
+                break;
+            //View and Approve/Disapprove a Request RequestLetter
             case 34:
+                break;
         }
     }
 

@@ -6,9 +6,9 @@ public final class PromotionRequestLetter extends RequestLetter
 {
     private String destinationDeptId;
 
-    public PromotionRequestLetter(String requesterId, String receiverId, String reasonForRequest, String destinationDeptId)
+    public PromotionRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String destinationDeptId)
     {
-        super(requesterId, receiverId, reasonForRequest);
+        super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.destinationDeptId = destinationDeptId;
     }
 
