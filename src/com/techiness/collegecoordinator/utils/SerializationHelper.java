@@ -48,8 +48,8 @@ public final class SerializationHelper
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fout);
         objectOutputStream.writeObject(object);
         objectOutputStream.close();
-        //file.setWritable(false);
-        //file.setReadable(false);
+        file.setWritable(false);
+        file.setReadable(false);
         fout.close();
     }
 
@@ -66,8 +66,8 @@ public final class SerializationHelper
         ObjectInputStream objIn = new ObjectInputStream(fin);
         T retrievedObject = (T)objIn.readObject();
         objIn.close();
-        //file.setReadable(false);
-        //file.setWritable(false);
+        file.setReadable(false);
+        file.setWritable(false);
         fin.close();
         return retrievedObject;
     }
@@ -86,8 +86,8 @@ public final class SerializationHelper
                 file.setReadable(true);
             FileOutputStream fout = new FileOutputStream(file);
             fout.close();
-            //file.setReadable(false);
-            //file.setWritable(false);
+            file.setReadable(false);
+            file.setWritable(false);
         }
     }
 }
