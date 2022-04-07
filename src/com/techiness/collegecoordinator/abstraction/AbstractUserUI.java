@@ -1,15 +1,15 @@
 package com.techiness.collegecoordinator.abstraction;
 
 import com.techiness.collegecoordinator.concrete.*;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.enums.Gender;
-import com.techiness.collegecoordinator.helpers.InputDataValidator;
-import com.techiness.collegecoordinator.helpers.Menu;
-import com.techiness.collegecoordinator.helpers.SessionManager;
+import com.techiness.collegecoordinator.utils.InputDataValidator;
+import com.techiness.collegecoordinator.utils.Menu;
+import com.techiness.collegecoordinator.managers.SessionManager;
 import java.util.Observable;
 import java.util.Observer;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
-import static com.techiness.collegecoordinator.helpers.IOUtils.println;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.println;
 
 public abstract class AbstractUserUI implements Observer
 {
@@ -95,9 +95,7 @@ public abstract class AbstractUserUI implements Observer
             case 3:
                 Gender newGender = null;
                 int genderChoice = -1;
-                Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
-                Menu genderMenu = genderMenuBuilder.setHeader("Gender Selection")
-                        .addOption("Male").addOption("Female").addOption("Other").build();
+                Menu genderMenu = Menu.getGenderSelectionMenu();
                 while(newGender == null)
                 {
                     println("Enter the new new Gender:");

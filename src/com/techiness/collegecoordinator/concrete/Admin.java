@@ -5,7 +5,7 @@ import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 import javafx.util.Pair;
 import java.util.Map;
 

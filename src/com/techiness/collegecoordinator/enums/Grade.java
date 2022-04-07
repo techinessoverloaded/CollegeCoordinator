@@ -1,5 +1,7 @@
 package com.techiness.collegecoordinator.enums;
 
+import com.techiness.collegecoordinator.utils.Range;
+
 import java.util.stream.Stream;
 
 public enum Grade
@@ -23,21 +25,44 @@ public enum Grade
       return Stream.of(values()).map(Enum::name).toArray(String[]::new);
    }
 
-   public Grade getExactGradeFromMark(double mark)
+   public static Grade getExactGradeFromMark(double mark)
    {
-      if(mark >= 91 && mark <= 100)
+      Range markRange = new Range(91, 100, true);
+      if(markRange.isNumberInRange(mark))
          return O;
-      else if(mark >= 81 && mark <= 90)
+      else if(markRange.resetBounds(81, 90).isNumberInRange(mark))
          return A_PLUS;
-      else if(mark >= 71 && mark <= 80)
+      else if(markRange.resetBounds(71, 80).isNumberInRange(mark))
          return A;
-      else if(mark >= 61 && mark <= 70)
+      else if(markRange.resetBounds(61, 70).isNumberInRange(mark))
          return B_PLUS;
-      else if(mark >= 51 && mark <= 60)
+      else if(markRange.resetBounds(51, 60).isNumberInRange(mark))
          return B;
-      else if(mark >= 41 && mark <= 50)
+      else if(markRange.resetBounds(41, 50).isNumberInRange(mark))
          return C;
       else
          return FAIL;
+   }
+
+   public static double getGradePointFromGrade(Grade grade)
+   {
+      switch (grade)
+      {
+         case O:
+            return 10;
+         case A_PLUS:
+            return 9;
+         case A:
+            return 8;
+         case B_PLUS:
+            return 7;
+         case B:
+            return 6;
+         case C:
+            return 5;
+         case FAIL:
+            return 0;
+      }
+      return -1;
    }
 }

@@ -2,9 +2,9 @@ package com.techiness.collegecoordinator.consoleui;
 
 import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.concrete.Student;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Menu;
-import com.techiness.collegecoordinator.helpers.SessionManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.Menu;
+import com.techiness.collegecoordinator.managers.SessionManager;
 
 public final class StudentUI extends AbstractUserUI
 {

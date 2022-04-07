@@ -3,9 +3,9 @@ package com.techiness.collegecoordinator.abstraction;
 import com.techiness.collegecoordinator.concrete.Faculty;
 import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.concrete.Student;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 
-import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameableMap;
+import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfNameableMap;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

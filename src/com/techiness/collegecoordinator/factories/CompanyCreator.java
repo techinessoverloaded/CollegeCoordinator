@@ -1,6 +1,6 @@
 package com.techiness.collegecoordinator.factories;
 
-public class CompanyCreator
+public final class CompanyCreator
 {
     private static CompanyCreator instance = null;
 

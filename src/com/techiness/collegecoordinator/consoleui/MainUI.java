@@ -2,12 +2,12 @@ package com.techiness.collegecoordinator.consoleui;
 
 import com.techiness.collegecoordinator.concrete.Admin;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Menu;
-import com.techiness.collegecoordinator.helpers.SessionManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.Menu;
+import com.techiness.collegecoordinator.managers.SessionManager;
 import com.techiness.collegecoordinator.factories.UserFactory;
 
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class MainUI
 {
@@ -29,9 +29,9 @@ public final class MainUI
         this.accountsManager = AccountsManager.getInstance();
     }
 
-    public void displayUIForFirstTime(boolean onFactoryRest)
+    public void displayUIForFirstTime(boolean onFactoryReset)
     {
-        if(onFactoryRest)
+        if(onFactoryReset)
         {
             sessionManager.setFactoryResetDone(false);
         }

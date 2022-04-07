@@ -1,17 +1,18 @@
 package com.techiness.collegecoordinator.driver;
 
 import com.techiness.collegecoordinator.abstraction.Department;
-import com.techiness.collegecoordinator.abstraction.RequestLetter;
-import com.techiness.collegecoordinator.concrete.Faculty;
-import com.techiness.collegecoordinator.consoleui.FacultyUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
-import com.techiness.collegecoordinator.enums.Gender;
-import com.techiness.collegecoordinator.enums.Qualification;
-import com.techiness.collegecoordinator.enums.RequestLetterType;
-import com.techiness.collegecoordinator.factories.RequestLetterFactory;
-import com.techiness.collegecoordinator.helpers.*;
+import com.techiness.collegecoordinator.enums.Grade;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.managers.SessionManager;
+import com.techiness.collegecoordinator.utils.IOUtils;
+import com.techiness.collegecoordinator.utils.Range;
+import javafx.util.Pair;
+
 import java.util.*;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import java.util.stream.Stream;
+
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public class Main
 {

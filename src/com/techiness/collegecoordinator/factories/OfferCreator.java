@@ -2,11 +2,11 @@ package com.techiness.collegecoordinator.factories;
 
 import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.concrete.Student;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Offer;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.Offer;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
-public class OfferCreator
+public final class OfferCreator
 {
     private String studentId;
     private String placementDeptId;

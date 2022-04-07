@@ -1,14 +1,15 @@
 package com.techiness.collegecoordinator.factories;
 
 import com.techiness.collegecoordinator.enums.RequestLetterType;
-import com.techiness.collegecoordinator.helpers.*;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.*;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import java.time.LocalDate;
 import java.util.*;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 //Factory Pattern
-public class RequestLetterFactory
+public final class RequestLetterFactory
 {
     private static RequestLetterFactory instance = null;
     private String reasonForRequest = "";

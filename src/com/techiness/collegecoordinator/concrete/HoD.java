@@ -4,18 +4,20 @@ import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
+import java.util.Set;
+
+import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfIdentifiableMap;
 
 public class HoD extends Faculty
 {
     protected Map<String, RequestLetter> letters;
 
-    public HoD(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+    public HoD(String name, int age, Gender gender, String phone, String email, String password, Set<String> subjectsHandled,
                EnumSet<Qualification> qualifications, int experience, Map<String, RequestLetter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, deptId);

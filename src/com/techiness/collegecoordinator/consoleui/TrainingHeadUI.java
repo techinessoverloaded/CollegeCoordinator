@@ -1,7 +1,7 @@
 package com.techiness.collegecoordinator.consoleui;
 
 import com.techiness.collegecoordinator.concrete.TrainingHead;
-import com.techiness.collegecoordinator.helpers.Menu;
+import com.techiness.collegecoordinator.utils.Menu;
 
 public final class TrainingHeadUI extends HoDUI
 {

@@ -5,15 +5,15 @@ import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.InputDataValidator;
-import com.techiness.collegecoordinator.helpers.Menu;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.InputDataValidator;
+import com.techiness.collegecoordinator.utils.Menu;
 
 import java.util.*;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 // Factory Pattern
-public class UserFactory
+public final class UserFactory
 {
     private String name = "", email = "", password = "", phone = "", deptId = "";
     private Gender gender = null;
@@ -62,12 +62,7 @@ public class UserFactory
                 println("Warning : Age should be between 18 and 100 ! Enter the actual age of "+userType+" to proceed...");
         }
         println();
-        Menu.MenuBuilder genderMenuBuilder = new Menu.MenuBuilder();
-        Menu genderMenu = genderMenuBuilder.setHeader("Gender Selection")
-                .addOption("Male")
-                .addOption("Female")
-                .addOption("Other")
-                .build();
+        Menu genderMenu = Menu.getGenderSelectionMenu();
         while(gender==null)
         {
             genderChoice = genderMenu.displayMenuAndGetChoice();
@@ -210,15 +205,15 @@ public class UserFactory
                 return new Admin(name, age, gender, phone, email, password, new HashMap<>());
             case HOD:
                 getHoDDetails(userType);
-                return new HoD(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
+                return new HoD(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,new HashMap<>(),deptId);
             case FACULTY:
                 getFacultyDetails(userType);
-                return new Faculty(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
+                return new Faculty(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,deptId);
             case TRAINING_HEAD:
                 getTrainingHeadDetails(userType);
-                return new TrainingHead(name, age, gender, phone, email, password, new ArrayList<>(), qualifications,
+                return new TrainingHead(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,new HashMap<>(),deptId);
             case STUDENT:
                 getBasicDataOfUser(userType);

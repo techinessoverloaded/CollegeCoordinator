@@ -9,15 +9,15 @@ import com.techiness.collegecoordinator.enums.RequestLetterType;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
-import com.techiness.collegecoordinator.helpers.Menu;
+import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.factories.UserFactory;
-import com.techiness.collegecoordinator.helpers.TCRequestLetter;
+import com.techiness.collegecoordinator.utils.TCRequestLetter;
 import javafx.util.Pair;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public class FacultyUI extends AbstractUserUI
 {

@@ -4,12 +4,12 @@ import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Grade;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
-import com.techiness.collegecoordinator.helpers.Offer;
+import com.techiness.collegecoordinator.utils.Offer;
 
 import java.util.Map;
-import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfIdentifiableMap;
+import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfIdentifiableMap;
 
 public final class Student extends User
 {

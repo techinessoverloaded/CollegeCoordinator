@@ -2,10 +2,10 @@ package com.techiness.collegecoordinator.abstraction;
 
 import com.techiness.collegecoordinator.concrete.HoD;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.StringToEnumUtils;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.StringToEnumUtils;
 import java.io.Serializable;
-import static com.techiness.collegecoordinator.helpers.IOUtils.getDateFormatter;
+import static com.techiness.collegecoordinator.utils.IOUtils.getDateFormatter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Observable;

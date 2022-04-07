@@ -7,11 +7,11 @@ import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.DepartmentFactory;
 import com.techiness.collegecoordinator.factories.UserFactory;
-import com.techiness.collegecoordinator.helpers.*;
+import com.techiness.collegecoordinator.utils.*;
 import javafx.util.Pair;
 import java.util.HashMap;
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
-import static com.techiness.collegecoordinator.helpers.IOUtils.println2;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.println2;
 
 public final class AdminUI extends AbstractUserUI
 {
@@ -31,7 +31,7 @@ public final class AdminUI extends AbstractUserUI
                 .addOption("Remove a department")
                 .addOption("Get existing departments")
                 .addOption("Display all the Request Letters")
-                .addOption("View and Approve/Disapprove a Request RequestLetter")
+                .addOption("View and Approve/Disapprove a Request Letter")
                 .addOption("Logout")
                 .addOption("Factory Reset Application")
                 .build());

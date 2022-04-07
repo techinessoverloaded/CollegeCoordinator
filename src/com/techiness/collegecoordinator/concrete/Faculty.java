@@ -5,22 +5,23 @@ import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Grade;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import javafx.util.Pair;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Faculty extends User
 {
-    protected List<String> subjectsHandled;
+    protected Set<String> subjectsHandled;
     protected EnumSet<Qualification> qualifications;
     protected int experience;
     protected String deptId;
 
-    public Faculty(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+    public Faculty(String name, int age, Gender gender, String phone, String email, String password, Set<String> subjectsHandled,
                    EnumSet<Qualification> qualifications, int experience, String deptId)
     {
         super(name, age, gender, phone, email, password);
@@ -74,12 +75,12 @@ public class Faculty extends User
         notifyObservers();
     }
 
-    public List<String> getSubjectsHandled()
+    public Set<String> getSubjectsHandled()
     {
         return subjectsHandled;
     }
 
-    public void setSubjectsHandled(List<String> subjectsHandled)
+    public void setSubjectsHandled(Set<String> subjectsHandled)
     {
         this.subjectsHandled = subjectsHandled;
         setChanged();

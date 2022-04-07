@@ -3,18 +3,18 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Company;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.Company;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
-import com.techiness.collegecoordinator.helpers.Offer;
-
+import com.techiness.collegecoordinator.utils.Offer;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.List;
+import java.util.Set;
 
 public final class TrainingHead extends HoD
 {
-    public TrainingHead(String name, int age, Gender gender, String phone, String email, String password, List<String> subjectsHandled,
+    public TrainingHead(String name, int age, Gender gender, String phone, String email, String password, Set<String> subjectsHandled,
                         EnumSet<Qualification> qualifications, int experience, Map<String, RequestLetter> letters, String deptId)
     {
         super(name, age, gender, phone, email, password, subjectsHandled, qualifications, experience, letters, deptId);

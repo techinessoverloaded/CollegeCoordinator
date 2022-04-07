@@ -2,15 +2,15 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-import com.techiness.collegecoordinator.helpers.Company;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+import com.techiness.collegecoordinator.utils.Company;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.techiness.collegecoordinator.helpers.IOUtils.getStringOfNameableMap;
+import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfNameableMap;
 
 public final class PlacementDepartment extends Department
 {

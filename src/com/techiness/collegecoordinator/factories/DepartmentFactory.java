@@ -3,14 +3,12 @@ package com.techiness.collegecoordinator.factories;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.enums.DepartmentType;
-import com.techiness.collegecoordinator.helpers.AccountsManager;
-
+import com.techiness.collegecoordinator.managers.AccountsManager;
 import java.util.*;
-
-import static com.techiness.collegecoordinator.helpers.IOUtils.*;
+import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 // Factory Pattern
-public class DepartmentFactory
+public final class DepartmentFactory
 {
     private String courseId = "", deptName = "", courseSubjectString = "";
     private HoD hod = null;
