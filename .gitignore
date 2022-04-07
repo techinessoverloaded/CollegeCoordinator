@@ -1,1 +1,2 @@
-*.txt
+/.data/
+/out/production/CollegeCoordinator/.data/
