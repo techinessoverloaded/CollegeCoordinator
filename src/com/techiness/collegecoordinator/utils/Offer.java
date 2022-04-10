@@ -1,6 +1,8 @@
 package com.techiness.collegecoordinator.utils;
 
 import com.techiness.collegecoordinator.abstraction.Identifiable;
+import com.techiness.collegecoordinator.managers.AccountsManager;
+
 import java.io.Serializable;
 
 public final class Offer implements Serializable, Identifiable, Comparable<Offer>
@@ -76,5 +78,19 @@ public final class Offer implements Serializable, Identifiable, Comparable<Offer
     public int compareTo(Offer o)
     {
         return getId().compareTo(o.getId());
+    }
+
+    @Override
+    public String toString()
+    {
+        String companyName = AccountsManager.getInstance().getPlacementDepartment().getCompanies(companyId).getName();
+        return "Offer [" +
+                "offerId = " + id +
+                ",\n studentId = " + studentId +
+                "\n companyId = " + companyId +
+                ",\n companyName = " + companyName +
+                ",\n designation = " + designation +
+                ",\n compensation = " + compensation +
+                " ]";
     }
 }

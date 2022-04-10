@@ -4,6 +4,7 @@ import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.EntryPointUI;
 import com.techiness.collegecoordinator.abstraction.UserInterface;
 import com.techiness.collegecoordinator.consoleui.FacultyUI;
+import com.techiness.collegecoordinator.consoleui.HoDUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.UserFactory;
@@ -43,7 +44,6 @@ public final class Main
     public static void main(String[] args)
     {
         EntryPointUI entryPointUI = new MainUI();
-        UserFactory.getInstance().getFacultyDetails(UserType.FACULTY);
         //println2(LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter()));
         //println2(InputDataValidator.validateDateString("01/04/2022"));
         //RequestLetterFactory.getInstance();

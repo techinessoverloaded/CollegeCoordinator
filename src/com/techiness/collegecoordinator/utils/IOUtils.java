@@ -1,6 +1,8 @@
 package com.techiness.collegecoordinator.utils;
 
 import com.techiness.collegecoordinator.abstraction.*;
+import com.techiness.collegecoordinator.enums.RequestLetterType;
+import com.techiness.collegecoordinator.managers.AccountsManager;
 
 import java.io.Console;
 import java.io.IOException;
@@ -267,6 +269,14 @@ public final class IOUtils
 
     public static void printRequestLetter(RequestLetter requestLetter)
     {
-        printSymbols('-', 90);
+        User requester = AccountsManager.getInstance().getUsers(requestLetter.getRequesterId());
+        RequestLetterType requestLetterType = RequestLetterType.getLetterTypeFromInstance(requestLetter);
+        printSymbols('-', 36);
+        println("| Letter ID: "+requestLetter.getId()+" |");
+        println("| Letter Type: "+requestLetterType+" |");
+        println("| Requester Name: "+requester.getName()+" |");
+        println("| Is Approved: "+requestLetter.getIsApproved()+" |");
+        printSymbols('-', 36);
+        println2();
     }
 }

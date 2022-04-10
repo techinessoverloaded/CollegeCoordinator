@@ -13,6 +13,7 @@ import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.utils.Menu;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
@@ -57,7 +58,7 @@ public class HoDUI extends FacultyUI
         switch (selection)
         {
             //Add a Faculty to the Department
-            case 27:
+            case 26:
                 Faculty newFaculty = (Faculty) UserFactory.getInstance().getNewUser(UserType.FACULTY);
                 printlnWithAnim("Adding new Faculty to the Department...");
                 if(hod.addFaculty(newFaculty))
@@ -72,7 +73,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Remove a Faculty from the Department and relieve the Faculty from Job
-            case 28:
+            case 27:
                 String facultyIdToBeRemoved = "";
                 Admin admin = accountsManager.getAdmin();
                 Department currentDepartment = accountsManager.getDepartments(hod.getDeptId());
@@ -92,7 +93,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Transfer a Faculty to another Department
-            case 29:
+            case 28:
                 String facultyIdToBeTransferred = "";
                 Admin admin2 = accountsManager.getAdmin();
                 Department currentDepartment2 = accountsManager.getDepartments(hod.getDeptId());
@@ -112,12 +113,12 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Display all the faculties under the Department
-            case 30:
+            case 29:
                 println2("List of Faculties Under the Department");
                 println2(getStringOfNameableMap(accountsManager.getDepartments(hod.getDeptId()).getFaculties()));
                 break;
             //Add Subject(s) handled by a Faculty
-            case 31:
+            case 30:
                 String facultyIdToAddSubjects = "";
                 CourseDepartment currentDepartment3 = (CourseDepartment) accountsManager.getDepartments(hod.getDeptId());
                 while(!currentDepartment3.checkIfFacultyIdValid(facultyIdToAddSubjects))
@@ -168,7 +169,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Remove Subject(s) handled by a Faculty
-            case 32:
+            case 31:
                 String facultyIdToRemoveSubjects = "";
                 CourseDepartment currentDepartment4 = (CourseDepartment) accountsManager.getDepartments(hod.getDeptId());
                 while(!currentDepartment4.checkIfFacultyIdValid(facultyIdToRemoveSubjects))
@@ -218,11 +219,49 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Display all the Request Letters
-            case 33:
-
+            case 32:
+                Map<String, RequestLetter> requestLetterMap = hod.getLetters();
+                for(RequestLetter requestLetter: requestLetterMap.values())
+                {
+                    printRequestLetter(requestLetter);
+                }
                 break;
             //View and Approve/Disapprove a Request RequestLetter
-            case 34:
+            case 33:
+                String letterIdToApprove = "";
+                RequestLetter requestLetterToApprove = null;
+                while(requestLetterToApprove == null)
+                {
+                    letterIdToApprove = getUserInput(letterIdToApprove,"Letter ID of the letter to be approved/disapproved");
+                    requestLetterToApprove = hod.getLetters(letterIdToApprove);
+                    if(requestLetterToApprove == null)
+                        println2("Invalid Letter ID ! Enter a Valid Letter ID !");
+                }
+                println("Request Letter Details:");
+                println2(requestLetterToApprove);
+                Menu yesOrNoMenu = Menu.getYesOrNoMenu();
+                int yesOrNoChoice = -1;
+                println2("Do you want to Approve the Letter ?");
+                while(yesOrNoChoice == -1)
+                {
+                    yesOrNoChoice = yesOrNoMenu.displayMenuAndGetChoice();
+                    if(yesOrNoChoice == -1)
+                    {
+                        println("Invalid Choice ! Enter a Valid Choice !");
+                    }
+                }
+                if(yesOrNoChoice == 1)
+                {
+                    printlnWithAnim("Approving Request Letter...");
+                    println2("Request Letter has been approved successfully !");
+                    requestLetterToApprove.setIsApproved(true);
+                }
+                else
+                {
+                    printlnWithAnim("Disapproving Request Letter...");
+                    println2("Request Letter has been disapproved successfully !");
+                    requestLetterToApprove.setIsApproved(false);
+                }
                 break;
         }
     }

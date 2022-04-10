@@ -3,6 +3,7 @@ package com.techiness.collegecoordinator.managers;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.concrete.Admin;
+import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.utils.SerializationHelper;
 import com.techiness.collegecoordinator.utils.StringToEnumUtils;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class AccountsManager implements Serializable
 {
@@ -81,6 +83,11 @@ public final class AccountsManager implements Serializable
     public Department getDepartments(String deptId)
     {
         return !departments.containsKey(deptId) || departments.get(deptId) == null ? null : departments.get(deptId);
+    }
+
+    public PlacementDepartment getPlacementDepartment()
+    {
+        return (PlacementDepartment) departments.values().stream().filter(dept -> dept instanceof PlacementDepartment).limit(1).collect(Collectors.toList()).get(0);
     }
 
     public boolean checkIfDeptAlreadyExists(String deptName)
