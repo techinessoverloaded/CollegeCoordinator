@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.consoleui;
 
-import com.sun.istack.internal.NotNull;
 import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
@@ -12,7 +11,7 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.factories.UserFactory;
-import com.techiness.collegecoordinator.utils.TCRequestLetter;
+import com.techiness.collegecoordinator.concrete.TCRequestLetter;
 import javafx.util.Pair;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -303,9 +302,15 @@ public class FacultyUI extends AbstractUserUI
                     Admin admin5 = accountsManager.getAdmin();
                     RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin5.getId(), faculty.getDeptId(), RequestLetterType.LEAVE);
                     printlnWithAnim("Submitting Leave Request Letter to  Admin...");
-                    admin5.addLetter(leaveRequestLetter);
-                    println2("Submitted Leave Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                    println2("Letter Details:\n"+leaveRequestLetter);
+                    if(admin5.addLetter(leaveRequestLetter))
+                    {
+                        println2("Submitted Leave Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                        println2("Letter Details:\n"+leaveRequestLetter);
+                    }
+                    else
+                    {
+                        println2("An Error Occurred ! Failed to Submit Leave Request Letter to Admin !");
+                    }
                 }
                 else
                 {
@@ -313,9 +318,15 @@ public class FacultyUI extends AbstractUserUI
                     HoD hod = currentDepartment4.getHod();
                     RequestLetter leaveRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod.getId(), faculty.getDeptId(), RequestLetterType.LEAVE);
                     printlnWithAnim("Submitting Leave Request Letter to  HoD...");
-                    hod.addLetter(leaveRequestLetter);
-                    println2("Submitted Leave Request Letter to HoD. You can check the status of Approval after the HoD checks it.");
-                    println2("Letter Details:\n"+leaveRequestLetter);
+                    if(hod.addLetter(leaveRequestLetter))
+                    {
+                        println2("Submitted Leave Request Letter to HoD. You can check the status of Approval after the HoD checks it.");
+                        println2("Letter Details:\n" + leaveRequestLetter);
+                    }
+                    else
+                    {
+                        println2("An Error Occurred ! Failed to Submit Leave Request Letter to HoD !");
+                    }
                 }
                 break;
 
@@ -326,9 +337,13 @@ public class FacultyUI extends AbstractUserUI
                     Admin admin6 = accountsManager.getAdmin();
                     RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin6.getId(), faculty.getDeptId(), RequestLetterType.ON_DUTY);
                     printlnWithAnim("Submitting On Duty Request Letter to  Admin...");
-                    admin6.addLetter(odRequestLetter);
-                    println2("Submitted On Duty RequestLetter to Admin. You can check the status of Approval after the Admin checks it.");
-                    println2("Letter Details:\n"+odRequestLetter);
+                    if(admin6.addLetter(odRequestLetter))
+                    {
+                        println2("Submitted On Duty Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                        println2("Letter Details:\n"+odRequestLetter);
+                    }
+                    else
+                        println2("An Error Occurred ! Failed to submit On Duty Request Letter to Admin");
                 }
                 else
                 {
@@ -336,9 +351,13 @@ public class FacultyUI extends AbstractUserUI
                     HoD hod2 = currentDepartment5.getHod();
                     RequestLetter odRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), hod2.getId(), faculty.getDeptId(), RequestLetterType.ON_DUTY);
                     printlnWithAnim("Submitting On Duty Request Letter to  HoD...");
-                    hod2.addLetter(odRequestLetter);
-                    println2("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
-                    println2("Letter Details:\n"+odRequestLetter);
+                    if(hod2.addLetter(odRequestLetter))
+                    {
+                        println2("Submitted On Duty RequestLetter to HoD. You can check the status of Approval after the HoD checks it.");
+                        println2("Letter Details:\n" + odRequestLetter);
+                    }
+                    else
+                        println2("An Error Occurred ! Failed to Submit On Duty Request Letter to HoD !");
                 }
                 break;
 
@@ -347,9 +366,15 @@ public class FacultyUI extends AbstractUserUI
                 Admin admin = accountsManager.getAdmin();
                 RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), faculty.getDeptId(), RequestLetterType.DEPT_CHANGE);
                 printlnWithAnim("Submitting Department Change Request Letter to  Admin...");
-                admin.addLetter(deptChangeRequestLetter);
-                println2("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                println2("Letter Details:\n"+deptChangeRequestLetter);
+                if(admin.addLetter(deptChangeRequestLetter))
+                {
+                    println2("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n" + deptChangeRequestLetter);
+                }
+                else
+                {
+                    println2("An Error Occurred ! Failed to Submit Department Change Request Letter to Admin !");
+                }
                 break;
 
             // Request Promotion to Admin
@@ -357,27 +382,45 @@ public class FacultyUI extends AbstractUserUI
                 Admin admin1 = accountsManager.getAdmin();
                 RequestLetter promotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin1.getId(), faculty.getDeptId(), RequestLetterType.PROMOTION);
                 printlnWithAnim("Submitting Promotion Request Letter to Admin...");
-                admin1.addLetter(promotionLetter);
-                println2("Submitted Promotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                println2("Letter Details:\n"+promotionLetter);
+                if(admin1.addLetter(promotionLetter))
+                {
+                    println2("Submitted Promotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n" + promotionLetter);
+                }
+                else
+                {
+                    println2("An Error Occurred ! Failed to Submit Promotion Request Letter to Admin !");
+                }
                 break;
             // Request Demotion to Admin
             case 23:
                 Admin admin2 = accountsManager.getAdmin();
                 RequestLetter demotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin2.getId(), faculty.getDeptId(), RequestLetterType.DEMOTION);
                 printlnWithAnim("Submitting Demotion Request Letter to Admin...");
-                admin2.addLetter(demotionLetter);
-                println2("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                println2("Letter Details:\n"+demotionLetter);
+                if(admin2.addLetter(demotionLetter))
+                {
+                    println2("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n" + demotionLetter);
+                }
+                else
+                {
+                    println2("An Error Occurred ! Failed to Submit Demotion Request Letter to Admin !");
+                }
                 break;
             //Request Resignation to Admin
             case 24:
                 Admin admin3 = accountsManager.getAdmin();
                 RequestLetter resignationLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin3.getId(), faculty.getDeptId(), RequestLetterType.RESIGNATION);
                 printlnWithAnim("Submitting Resignation Request Letter to Admin...");
-                admin3.addLetter(resignationLetter);
-                println("Submitted Resignation Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                println2("Letter Details:\n"+resignationLetter);
+                if(admin3.addLetter(resignationLetter))
+                {
+                    println("Submitted Resignation Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
+                    println2("Letter Details:\n" + resignationLetter);
+                }
+                else
+                {
+                    println2("An Error Occurred ! Failed to Submit Resignation Request Letter to Admin !");
+                }
                 break;
                 // Check if Request RequestLetter got Approved or not
             case 25:

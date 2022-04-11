@@ -1,12 +1,12 @@
-package com.techiness.collegecoordinator.utils;
+package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 
-public final class PromotionRequestLetter extends RequestLetter
+public final class DemotionRequestLetter extends RequestLetter
 {
     private String destinationDeptId;
 
-    public PromotionRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String destinationDeptId)
+    public DemotionRequestLetter(String requesterId, String receiverId, String requesterDeptId, String reasonForRequest, String destinationDeptId)
     {
         super(requesterId, receiverId, requesterDeptId, reasonForRequest);
         this.destinationDeptId = destinationDeptId;
@@ -25,6 +25,6 @@ public final class PromotionRequestLetter extends RequestLetter
     @Override
     public String toString()
     {
-        return "PromotionRequestLetter"+super.toString()+", \ndestinationDeptId = " + destinationDeptId+" ]";
+        return "DemotionRequestLetter" + super.toString()+ ", \ndestinationDeptId = " + destinationDeptId + " ]";
     }
 }

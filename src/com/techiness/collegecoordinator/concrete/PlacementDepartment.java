@@ -3,13 +3,12 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
-import com.techiness.collegecoordinator.utils.Company;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfNameableMap;
 
 public final class PlacementDepartment extends Department
@@ -22,9 +21,9 @@ public final class PlacementDepartment extends Department
         super(name, trainingHead, faculties, new HashMap<>());
         this.trainingHead = trainingHead;
         this.companies = companies;
-        List<Department> allCourseDepartments = AccountsManager.getInstance().getDepartments().values().stream().filter(department -> department instanceof CourseDepartment).collect(Collectors.toList());
+        List<CourseDepartment> allCourseDepartments = AccountsManager.getInstance().getDepartments().values().stream().filter(department -> department instanceof CourseDepartment).map(department -> (CourseDepartment) department).collect(Collectors.toList());
         List<Student> allDeptStudentsWhoNeedTraining = allCourseDepartments.stream().map(Department::getStudents).map(Map::values).flatMap(Collection::stream).filter(Student::isNeedsTraining).collect(Collectors.toList());
-        allDeptStudentsWhoNeedTraining.forEach(trainingHead::addStudent);
+        allDeptStudentsWhoNeedTraining.forEach(student -> students.put(student.getId(), student));
     }
 
     @Override
@@ -107,6 +106,28 @@ public final class PlacementDepartment extends Department
         }
         return trainees;
     }
+
+    public boolean checkIfCompanyIdExists(String companyId)
+    {
+        return companies.values().stream().map(Company::getId).anyMatch(id -> id.equals(companyId));
+    }
+
+    public boolean checkIfCompanyNameExists(String companyName)
+    {
+        return companies.values().stream().map(Company::getName).anyMatch(name -> name.equalsIgnoreCase(companyName));
+    }
+
+    public int getCompanyIdGen()
+    {
+        PlacementDepartment placementDepartment = AccountsManager.getInstance().getPlacementDepartment();
+        int companyIdGen = placementDepartment.getCompanies().size()+1;
+        while(checkIfCompanyIdExists(String.valueOf(companyIdGen)))
+        {
+            ++companyIdGen;
+        }
+        return companyIdGen;
+    }
+
 
     @Override
     public String toString()

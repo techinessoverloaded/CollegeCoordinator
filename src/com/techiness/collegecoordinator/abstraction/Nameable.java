@@ -1,7 +1,7 @@
 package com.techiness.collegecoordinator.abstraction;
 
 /**
- * A Marker Interface that denotes that an implementing class has a name and ensures that it defines accessors and mutators for the same.
+ * An Interface that denotes that an implementing class has a name and ensures that it defines accessors and mutators for the same.
  * It extends the {@link Identifiable} interface.
  */
 public interface Nameable extends Identifiable

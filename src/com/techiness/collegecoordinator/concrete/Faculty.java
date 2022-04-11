@@ -170,7 +170,23 @@ public class Faculty extends User
         if(!students.containsKey(studentId) || students.get(studentId) == null)
             return false;
         Student currentStudent = students.get(studentId);
-        currentStudent.setNeedsTraining(needsTraining);
+        PlacementDepartment placementDepartment = AccountsManager.getInstance().getPlacementDepartment();
+        if(needsTraining)
+        {
+            currentStudent.setNeedsTraining(true);
+            if(!placementDepartment.checkIfStudentIdValid(studentId))
+            {
+                placementDepartment.getTrainingHead().addStudent(currentStudent);
+            }
+        }
+        else
+        {
+            currentStudent.setNeedsTraining(false);
+            if(placementDepartment.checkIfStudentIdValid(studentId))
+            {
+                placementDepartment.getTrainingHead().removeStudent(studentId);
+            }
+        }
         return true;
     }
 

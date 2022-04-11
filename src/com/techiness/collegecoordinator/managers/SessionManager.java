@@ -3,6 +3,7 @@ package com.techiness.collegecoordinator.managers;
 import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
+import com.techiness.collegecoordinator.abstraction.UserInterface;
 import com.techiness.collegecoordinator.concrete.*;
 import com.techiness.collegecoordinator.consoleui.*;
 import com.techiness.collegecoordinator.enums.UserType;
@@ -139,31 +140,31 @@ public final class SessionManager
         switch (currentUserType)
         {
             case ADMIN:
-                AbstractUserUI adminUI = new AdminUI( (Admin) currentUser);
+                UserInterface adminUI = new AdminUI((Admin) currentUser);
                 currentUser.addObserver(referenceManager);
                 adminUI.displayUIAndExecuteActions();
                 return true;
 
             case HOD:
-                AbstractUserUI hodUI = new HoDUI((HoD) currentUser);
+                UserInterface hodUI = new HoDUI((HoD) currentUser);
                 currentUser.addObserver(referenceManager);
                 hodUI.displayUIAndExecuteActions();
                 return true;
 
             case TRAINING_HEAD:
-                AbstractUserUI trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
+                UserInterface trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
                 currentUser.addObserver(referenceManager);
                 trainingHeadUI.displayUIAndExecuteActions();
                 return true;
 
             case FACULTY:
-                AbstractUserUI facultyUI = new FacultyUI((Faculty) currentUser);
+                UserInterface facultyUI = new FacultyUI((Faculty) currentUser);
                 currentUser.addObserver(referenceManager);
                 facultyUI.displayUIAndExecuteActions();
                 return true;
 
             case STUDENT:
-                AbstractUserUI studentUI = new StudentUI((Student) currentUser);
+                UserInterface studentUI = new StudentUI((Student) currentUser);
                 currentUser.addObserver(referenceManager);
                 studentUI.displayUIAndExecuteActions();
                 return true;

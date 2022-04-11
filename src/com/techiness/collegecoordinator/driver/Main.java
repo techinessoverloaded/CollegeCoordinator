@@ -1,15 +1,13 @@
 package com.techiness.collegecoordinator.driver;
 
+import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.EntryPointUI;
 import com.techiness.collegecoordinator.abstraction.UserInterface;
-import com.techiness.collegecoordinator.consoleui.FacultyUI;
-import com.techiness.collegecoordinator.consoleui.HoDUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
-import com.techiness.collegecoordinator.enums.UserType;
-import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
+import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
 
 import java.util.*;

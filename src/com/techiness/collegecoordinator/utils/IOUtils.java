@@ -166,7 +166,7 @@ public final class IOUtils
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < names.size(); ++i)
         {
-            builder.append(i+1).append(". ").append(ids.get(i)).append(" : ").append(names.get(i));
+            builder.append(ids.get(i)).append(" : ").append(names.get(i));
             if(i != names.size()-1)
                 builder.append("\n");
         }
@@ -181,7 +181,14 @@ public final class IOUtils
     public static <T extends Identifiable> String getStringOfIdentifiableCollection(Collection<T> objects)
     {
         List<String> ids = objects.stream().map(T::getId).collect(Collectors.toList());
-        return ids.toString();
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < ids.size(); ++i)
+        {
+            builder.append(ids.get(i));
+            if(i != ids.size()-1)
+                builder.append("\n");
+        }
+        return builder.toString();
     }
 
     public static <T extends Identifiable> String getStringOfIdentifiableMap(Map<String,T> map)

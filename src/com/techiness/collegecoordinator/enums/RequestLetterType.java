@@ -1,8 +1,9 @@
 package com.techiness.collegecoordinator.enums;
 
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
-import com.techiness.collegecoordinator.utils.*;
+import com.techiness.collegecoordinator.concrete.*;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public enum RequestLetterType
@@ -32,5 +33,14 @@ public enum RequestLetterType
             return TC;
         else
             return null;
+    }
+
+    public static String[] getStringArrayOfStudentLetterTypes()
+    {
+        ArrayList<RequestLetterType> listOfRequestLetterType = new ArrayList<>();
+        listOfRequestLetterType.add(LEAVE);
+        listOfRequestLetterType.add(ON_DUTY);
+        listOfRequestLetterType.add(TC);
+        return listOfRequestLetterType.stream().map(Enum::name).toArray(String[]::new);
     }
 }

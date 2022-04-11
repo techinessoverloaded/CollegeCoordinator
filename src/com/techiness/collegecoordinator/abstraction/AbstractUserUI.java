@@ -29,11 +29,6 @@ public abstract class AbstractUserUI implements UserInterface
         sessionManager = SessionManager.getInstance();
     }
 
-    public Menu getUserMenu()
-    {
-        return userMenu;
-    }
-
     @Override
     public abstract void displayUIAndExecuteActions();
 
@@ -49,7 +44,6 @@ public abstract class AbstractUserUI implements UserInterface
                     if(!InputDataValidator.validateName(newName,user.getName()))
                     {
                         println("Please enter the new name to proceed...");
-                        continue;
                     }
                 }
                 String password = getPasswordInput("Password to confirm Name Change");

@@ -1,5 +1,7 @@
 package com.techiness.collegecoordinator.utils;
 
+import com.techiness.collegecoordinator.managers.AccountsManager;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -11,7 +13,7 @@ public final class InputDataValidator
 {
     public static boolean validateName(String name, String... existingName)
     {
-        boolean result = !name.isEmpty() && name.matches("[a-zA-Z]+");;
+        boolean result = !name.isEmpty() && name.matches("[a-zA-Z\\s]+");;
         if(existingName.length == 1)
             result = result && !name.equals(existingName[0]);
         return result;
@@ -98,5 +100,11 @@ public final class InputDataValidator
         {
             return false;
         }
+    }
+
+    public static boolean validateCompanyName(String companyName)
+    {
+        return companyName.matches("[a-zA-Z\\s]+")
+                && AccountsManager.getInstance().getPlacementDepartment().checkIfCompanyNameExists(companyName);
     }
 }

@@ -1,4 +1,4 @@
-package com.techiness.collegecoordinator.utils;
+package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Nameable;
 import javafx.util.Pair;
