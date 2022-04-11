@@ -165,26 +165,81 @@ public final class AdminUI extends AbstractUserUI
                     Pair<HoD, Faculty> result9 = admin.promoteFacultyToSameDeptHoD(existingFacultyId9, deptId9, true);
                     HoD newHoD9 = result9.getKey();
                     Faculty newFaculty9 = result9.getValue();
-                    if (result9 != null) {
-                        println2("Old Faculty: " + existingFacultyId9 + " promoted as Current HoD: " + newHoD9.getId() + " successfully !");
-                        printAccountDetails(newHoD9,true);
-                        println2("Old HoD: " + existingDepartment9.getHod().getId() + " promoted as Current Faculty: " + newFaculty9.getId() + " successfully !");
-                        printAccountDetails(newFaculty9,true);
-                    } else {
-                        println2("Failed to promote Faculty as HoD !");
-                    }
+                    println2("Old Faculty: " + existingFacultyId9 + " promoted as Current HoD: " + newHoD9.getId() + " successfully !");
+                    printAccountDetails(newHoD9,true);
+                    println2("Old HoD: " + existingDepartment9.getHod().getId() + " promoted as Current Faculty: " + newFaculty9.getId() + " successfully !");
+                    printAccountDetails(newFaculty9,true);
                     break;
-
+                //Promote existing Faculty as HoD for same department and Demote current HoD as Faculty of different department
                 case 11:
+                    Department existingDepartment10 = null;
+                    String deptId10 = "";
+                    while (existingDepartment10 == null)
+                    {
+                        deptId10 = getUserInput(deptId10, "Department ID");
+                        existingDepartment10 = accountsManager.getDepartments(deptId10);
+                        if (existingDepartment10 == null)
+                            println2("Invalid Department ID ! Enter a valid Department ID...");
+                    }
+                    Faculty existingFaculty10 = null;
+                    String existingFacultyId10 = "";
+                    while (existingFaculty10 == null)
+                    {
+                        existingFacultyId10 = getUserInput(existingFacultyId10, "Faculty ID of the Faculty to be Promoted as HoD");
+                        existingFaculty10 = existingDepartment10.getFaculties(existingFacultyId10);
+                        if (existingFaculty10 == null)
+                        {
+                            println("Invalid Faculty ID ! Enter a valid Faculty ID...");
+                        }
+                    }
+                    String destinationDeptId = "";
+                    while(!accountsManager.checkIfDeptIdExists(destinationDeptId))
+                    {
+                        destinationDeptId = getUserInput(destinationDeptId,"Destination Department ID");
+                        if(!accountsManager.checkIfDeptIdExists(destinationDeptId))
+                        {
+                            println("Invalid Department ID ! Enter a Valid Department ID !");
+                        }
+                    }
+                    printlnWithAnim("Promoting Existing Faculty as HoD for same Department and Demoting current HoD as Faculty of another Department");
+                    Pair<HoD, Faculty> result2 = admin.promoteFacultyToSameDeptHoD(existingFacultyId10,deptId10,true,destinationDeptId);
+                    HoD newHoD10 = result2.getKey();
+                    Faculty newFaculty10 = result2.getValue();
+                    println2("Old Faculty: " + existingFacultyId10 + " promoted as Current HoD: " + newHoD10.getId() + " successfully !");
+                    printAccountDetails(newHoD10,true);
+                    println2("Old HoD: " + existingDepartment10.getHod().getId() + " promoted as Faculty: " + newFaculty10.getId() + " of Department: "+ destinationDeptId+ " successfully !");
+                    printAccountDetails(newFaculty10,true);
+                    break;
+                //Promote existing Faculty as HoD for same department and Relieve current HoD from job
                 case 12:
+                    break;
+                //Promote Faculty from another department as HoD for a department and Demote current HoD as Faculty of same department
                 case 13:
+                    break;
+                //Promote Faculty from another department as HoD for a department and Demote current HoD as Faculty of different department
                 case 14:
+                    break;
+                //Promote Faculty from another department as HoD for a department and Relieve current HoD from job
                 case 15:
+                    break;
+                //Remove a department
                 case 16:
+                    break;
+                //Get existing departments
+                case 17:
+                    break;
+                //Display all the Request Letters
+                case 18:
+                    break;
+                //View and Approve/Disapprove a Request Letter
+                case 19:
+                    break;
+                //Logout
                 case 20:
                     printlnWithAnim("Logging out...");
                     sessionManager.logoutUser();
                     return;
+                //Factory Reset
                 case 21:
                     println2("WARNING: Factory Resetting the Application will clear all the User Data and all Accounts including this Admin Account will be deleted !!!");
                     String resetChoice = "";
@@ -212,7 +267,9 @@ public final class AdminUI extends AbstractUserUI
                             }
                             printlnValLn("The Application may behave like opening for the First Time...");
                             return;
-                        } else if (resetChoice.equalsIgnoreCase("No")) {
+                        }
+                        else if (resetChoice.equalsIgnoreCase("No"))
+                        {
                             println2("Cancelled Factory Reset");
                             break;
                         }
