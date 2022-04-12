@@ -98,11 +98,11 @@ public final class IOUtils
 
     public static void printTextWithinStarPattern(String text)
     {
-        printSymbols('*', 14);
+        printSymbols('*', 20);
         print(" " + text + " ");
-        printSymbols('*', 14);
+        printSymbols('*', 20);
         println();
-        printSymbols('*', 30 + text.length());
+        printSymbols('*', 42 + text.length());
         println2();
     }
 
@@ -196,7 +196,7 @@ public final class IOUtils
 
     public static String[] getStringArrayOfStringSet(Set<String> set)
     {
-        return set.stream().toArray(String[]::new);
+        return set.toArray(new String[0]);
     }
 
     public static <T> T getUserInput(T container, String message)

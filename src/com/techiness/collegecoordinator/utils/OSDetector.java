@@ -4,7 +4,7 @@ import com.techiness.collegecoordinator.enums.OSType;
 
 public final class OSDetector
 {
-    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     public static OSType getCurrentOS()
     {

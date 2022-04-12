@@ -13,7 +13,7 @@ public final class InputDataValidator
 {
     public static boolean validateName(String name, String... existingName)
     {
-        boolean result = !name.isEmpty() && name.matches("[a-zA-Z\\s]+");;
+        boolean result = !name.isEmpty() && name.matches("[a-zA-Z\\s]+");
         if(existingName.length == 1)
             result = result && !name.equals(existingName[0]);
         return result;

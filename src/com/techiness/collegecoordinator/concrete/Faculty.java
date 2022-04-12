@@ -8,9 +8,7 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import javafx.util.Pair;
-
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -111,9 +109,9 @@ public class Faculty extends User
 
     public boolean removeQualification(String qualification)
     {
-        if(!qualifications.contains(qualification))
+        if(!qualifications.contains(Qualification.valueOf(qualification)))
             return false;
-        qualifications.remove(qualification);
+        qualifications.remove(Qualification.valueOf(qualification));
         setChanged();
         notifyObservers();
         return true;

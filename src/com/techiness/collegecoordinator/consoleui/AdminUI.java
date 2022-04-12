@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
-import static com.techiness.collegecoordinator.utils.IOUtils.println2;
 
 public final class AdminUI extends AbstractUserUI
 {
@@ -80,6 +79,7 @@ public final class AdminUI extends AbstractUserUI
                     Menu departmentMenu = new Menu.MenuBuilder().setHeader("Department Choice")
                             .addOption("Course Department")
                             .addOption("Placement Department")
+                            .addOption("Cancel Department Creation")
                             .build();
                     while (deptChoice == -1)
                     {
@@ -91,6 +91,9 @@ public final class AdminUI extends AbstractUserUI
                                 break;
                             case 2:
                                 newDepartment = DepartmentFactory.getInstance().getNewDepartment(DepartmentType.PLACEMENT);
+                                break;
+                            case 3:
+                                printlnWithAnim("Canceling Department Creation...");
                                 break;
                             default:
                                 println("Invalid choice! Enter a valid choice...");
@@ -137,11 +140,6 @@ public final class AdminUI extends AbstractUserUI
 
                 case 9:
                     //Create a department and assign an existing faculty as its HoD
-                    if(!ensureDepartments(false))
-                    {
-                        println2("No Departments are present !");
-                        break;
-                    }
                     Department newDepartment1 = null;
                     int deptChoice2 = -1;
                     Menu departmentMenu2 = new Menu.MenuBuilder().setHeader("Department Choice")
@@ -149,7 +147,7 @@ public final class AdminUI extends AbstractUserUI
                             .addOption("Placement Department")
                             .addOption("Cancel Department creation")
                             .build();
-                    while (newDepartment1 == null)
+                    while (deptChoice2 == -1)
                     {
                         deptChoice2 = departmentMenu2.displayMenuAndGetChoice();
                         switch (deptChoice2)
@@ -161,7 +159,7 @@ public final class AdminUI extends AbstractUserUI
                                 newDepartment1 = DepartmentFactory.getInstance().getNewDepartment(DepartmentType.PLACEMENT);
                                 break;
                             case 3:
-                                println2("Cancelling Department Creation...");
+                                printlnWithAnim("Cancelling Department Creation...");
                                 break;
                             default:
                                 println("Invalid choice! Enter a valid choice...");
@@ -528,6 +526,11 @@ public final class AdminUI extends AbstractUserUI
                     break;
                 //Display Department Details
                 case 18:
+                    if(!ensureDepartments(false))
+                    {
+                        println2("No Departments are Present !");
+                        break;
+                    }
                     String departmentId = "";
                     while (!accountsManager.checkIfDeptIdExists(departmentId))
                     {
@@ -576,14 +579,14 @@ public final class AdminUI extends AbstractUserUI
                     if(yesOrNoChoice == 1)
                     {
                         printlnWithAnim("Approving Request Letter...");
+                        admin.approveLetter(letterIdToApprove, true);
                         println2("Request Letter has been approved successfully !");
-                        requestLetterToApprove.setIsApproved(true);
                     }
                     else
                     {
                         printlnWithAnim("Disapproving Request Letter...");
+                        admin.approveLetter(letterIdToApprove, true);
                         println2("Request Letter has been disapproved successfully !");
-                        requestLetterToApprove.setIsApproved(false);
                     }
                     break;
                 //Logout

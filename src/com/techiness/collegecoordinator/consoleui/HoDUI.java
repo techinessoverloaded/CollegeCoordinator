@@ -199,8 +199,8 @@ public class HoDUI extends FacultyUI
                 break;
             //Display all the Request Letters
             case 29:
-                Map<String, RequestLetter> requestLetterMap = hod.getLetters();
-                for(RequestLetter requestLetter: requestLetterMap.values())
+                println2("List of Letters :");
+                for(RequestLetter requestLetter: hod.getLetters().values())
                 {
                     printRequestLetter(requestLetter);
                 }
@@ -232,14 +232,14 @@ public class HoDUI extends FacultyUI
                 if(yesOrNoChoice == 1)
                 {
                     printlnWithAnim("Approving Request Letter...");
+                    hod.approveLetter(letterIdToApprove, true);
                     println2("Request Letter has been approved successfully !");
-                    requestLetterToApprove.setIsApproved(true);
                 }
                 else
                 {
                     printlnWithAnim("Disapproving Request Letter...");
+                    hod.approveLetter(letterIdToApprove, false);
                     println2("Request Letter has been disapproved successfully !");
-                    requestLetterToApprove.setIsApproved(false);
                 }
                 break;
         }

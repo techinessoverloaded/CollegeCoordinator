@@ -12,7 +12,6 @@ import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.factories.UserFactory;
-import com.techiness.collegecoordinator.concrete.TCRequestLetter;
 import javafx.util.Pair;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -248,9 +247,7 @@ public class FacultyUI extends AbstractUserUI
                         faculty.setGrade(studentId2, newGrades);
                     else {
                         String finalStudentId = studentId2;
-                        newGrades.forEach((k, v) -> {
-                            faculty.setGrade(finalStudentId, new Pair<>(k, v));
-                        });
+                        newGrades.forEach((k, v) -> faculty.setGrade(finalStudentId, new Pair<>(k, v)));
                     }
                     println2("Grades updated for Student successfully !");
                 }

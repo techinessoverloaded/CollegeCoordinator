@@ -185,7 +185,7 @@ public final class Menu
      */
     public static class MenuBuilder
     {
-        private Map<Integer,String> options;
+        private final Map<Integer,String> options;
         private String header;
 
         /**

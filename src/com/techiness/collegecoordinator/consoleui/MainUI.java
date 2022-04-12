@@ -36,7 +36,6 @@ public final class MainUI implements EntryPointUI
         {
             sessionManager.setFactoryResetDone(false);
         }
-        printTextWithinStarPattern("Welcome to CollegeCoordinator");
         println2("You have to create an Admin account to proceed further....");
         Admin admin = (Admin) UserFactory.getInstance().getNewUser(UserType.ADMIN,null,null);
         accountsManager.getUsers().put(admin.getId(), admin);
@@ -84,6 +83,7 @@ public final class MainUI implements EntryPointUI
                     if(sessionManager.isFactoryResetDone())
                     {
                         sessionManager.setFactoryResetDone(false);
+                        printTextWithinStarPattern("Welcome to CollegeCoordinator");
                         displayUIForFirstTimeAndExecuteActions();
                         return;
                     }

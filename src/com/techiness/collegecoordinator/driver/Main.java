@@ -5,6 +5,8 @@ import com.techiness.collegecoordinator.abstraction.EntryPointUI;
 import com.techiness.collegecoordinator.consoleui.MainUI;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
+import com.techiness.collegecoordinator.utils.TipProvider;
+
 import java.util.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
@@ -32,6 +34,7 @@ public final class Main
             println("User Data Lost/Not obtained Unfortunately!!!");
             println2("The Application may behave like opening for the first time...");
         }
+        println2(TipProvider.getRandomTip());
     }
 
     public static void main(String[] args)
@@ -40,18 +43,22 @@ public final class Main
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
             entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else if(accountsManager.noAdminAvailable())
         {
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
             entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else if(sessionManager.isFactoryResetDone())
         {
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
             entryPointUI.displayUIForFirstTimeAndExecuteActions();
         }
         else
         {
+            printTextWithinStarPattern("Welcome to CollegeCoordinator");
             entryPointUI.displayUIAndExecuteActions();
         }
 

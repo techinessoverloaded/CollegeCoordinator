@@ -12,8 +12,8 @@ import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class TrainingHeadUI extends HoDUI
 {
-    private TrainingHead trainingHead;
-    private PlacementDepartment placementDepartment;
+    private final TrainingHead trainingHead;
+    private final PlacementDepartment placementDepartment;
     public TrainingHeadUI(TrainingHead trainingHead)
     {
         super();

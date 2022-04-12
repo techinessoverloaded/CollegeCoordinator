@@ -121,11 +121,6 @@ public class HoD extends Faculty
         return currentFaculty.getSubjectsHandled().removeAll(subjects);
     }
 
-    public void displayLetters()
-    {
-        //letters.values().stream().map(requestLetter -> new)
-    }
-
     public boolean approveLetter(String letterId, boolean isApproved)
     {
         RequestLetter currentRequestLetter = getLetters(letterId);

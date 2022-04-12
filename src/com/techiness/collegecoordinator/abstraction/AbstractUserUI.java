@@ -6,11 +6,10 @@ import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.managers.SessionManager;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
-import static com.techiness.collegecoordinator.utils.IOUtils.println;
 
 public abstract class AbstractUserUI implements UserInterface
 {
-    protected Menu userMenu;
+    protected final Menu userMenu;
     protected AccountsManager accountsManager;
     protected SessionManager sessionManager;
 

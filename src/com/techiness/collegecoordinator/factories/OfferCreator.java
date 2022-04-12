@@ -16,7 +16,7 @@ public final class OfferCreator
     private String designation = "";
     private double compensation = -1;
     private static OfferCreator instance = null;
-    private PlacementDepartment placementDepartment;
+    private final PlacementDepartment placementDepartment;
 
     private OfferCreator()
     {
