@@ -17,7 +17,6 @@ import javafx.util.Pair;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public class FacultyUI extends AbstractUserUI

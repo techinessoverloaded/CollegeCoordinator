@@ -5,12 +5,9 @@ import com.techiness.collegecoordinator.enums.Gender;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
-
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.getStringOfIdentifiableMap;
 
 public class HoD extends Faculty

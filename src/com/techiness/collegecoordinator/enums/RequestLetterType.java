@@ -2,7 +2,6 @@ package com.techiness.collegecoordinator.enums;
 
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
 import com.techiness.collegecoordinator.concrete.*;
-
 import java.util.ArrayList;
 import java.util.stream.Stream;
 

@@ -7,7 +7,6 @@ import com.techiness.collegecoordinator.concrete.Company;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.concrete.Offer;
 import javafx.util.Pair;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class OfferCreator

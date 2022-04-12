@@ -1,18 +1,10 @@
 package com.techiness.collegecoordinator.driver;
 
-import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.EntryPointUI;
-import com.techiness.collegecoordinator.abstraction.UserInterface;
-import com.techiness.collegecoordinator.concrete.HoD;
-import com.techiness.collegecoordinator.concrete.TrainingHead;
 import com.techiness.collegecoordinator.consoleui.MainUI;
-import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
-import com.techiness.collegecoordinator.utils.InputDataValidator;
-import com.techiness.collegecoordinator.utils.Menu;
-
 import java.util.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
@@ -66,7 +58,6 @@ public final class Main
         //Persisting State
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
-            //scanner.close();
             for(Department department : accountsManager.getDepartments().values())
             {
                 department.getHod().getLetters().entrySet().removeIf(entry -> entry.getValue().getIsNotifiedToRequester());

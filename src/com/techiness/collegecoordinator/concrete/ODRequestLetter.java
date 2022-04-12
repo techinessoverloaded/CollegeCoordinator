@@ -1,7 +1,6 @@
 package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
-
 import java.util.Arrays;
 
 public final class ODRequestLetter extends RequestLetter

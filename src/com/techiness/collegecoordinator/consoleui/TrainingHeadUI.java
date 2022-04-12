@@ -8,7 +8,6 @@ import com.techiness.collegecoordinator.factories.OfferCreator;
 import com.techiness.collegecoordinator.concrete.Company;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.concrete.Offer;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class TrainingHeadUI extends HoDUI

@@ -11,11 +11,9 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
 import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.utils.Menu;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public class HoDUI extends FacultyUI

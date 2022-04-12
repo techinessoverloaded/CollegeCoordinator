@@ -7,7 +7,6 @@ import com.techiness.collegecoordinator.concrete.PlacementDepartment;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.utils.SerializationHelper;
 import com.techiness.collegecoordinator.utils.StringToEnumUtils;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -50,10 +49,6 @@ public final class AccountsManager implements Serializable
         return users.keySet().stream().mapToInt(id-> Integer.parseInt(id.substring(0,1))).anyMatch(i-> i == userIdToBeChecked);
     }
 
-    public boolean checkIfUserIdExists(String userIdToBeChecked)
-    {
-        return users.keySet().stream().anyMatch(id -> id.equals(userIdToBeChecked));
-    }
 
     public int getDepartmentIdGen()
     {

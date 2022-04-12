@@ -13,9 +13,7 @@ import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.managers.SessionManager;
 import com.techiness.collegecoordinator.concrete.Offer;
-
 import java.util.Map;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 public final class StudentUI extends AbstractUserUI

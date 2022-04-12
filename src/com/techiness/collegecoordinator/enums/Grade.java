@@ -1,7 +1,6 @@
 package com.techiness.collegecoordinator.enums;
 
 import com.techiness.collegecoordinator.utils.Range;
-
 import java.util.stream.Stream;
 
 public enum Grade

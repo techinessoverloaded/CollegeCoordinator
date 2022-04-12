@@ -11,13 +11,10 @@ import com.techiness.collegecoordinator.factories.DepartmentFactory;
 import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.utils.*;
 import javafx.util.Pair;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.println2;
 

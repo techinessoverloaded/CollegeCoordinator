@@ -2,8 +2,6 @@ package com.techiness.collegecoordinator.utils;
 
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.enums.Gender;
-import javafx.print.Printer;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -176,7 +174,7 @@ public final class Menu
         print("+");
         printSymbols('-',totalChars-2);
         print("+");
-        println('\n');
+        println2();
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();
         return selectedChoice > options.size()+1 ? -1 : selectedChoice;

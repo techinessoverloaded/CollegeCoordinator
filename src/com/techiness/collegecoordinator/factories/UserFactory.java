@@ -8,7 +8,6 @@ import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
-
 import java.util.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 

@@ -3,7 +3,6 @@ package com.techiness.collegecoordinator.utils;
 import com.techiness.collegecoordinator.abstraction.*;
 import com.techiness.collegecoordinator.enums.RequestLetterType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
-
 import java.io.Console;
 import java.io.IOException;
 import java.nio.file.Files;

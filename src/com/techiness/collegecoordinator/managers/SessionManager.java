@@ -1,6 +1,5 @@
 package com.techiness.collegecoordinator.managers;
 
-import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.User;
 import com.techiness.collegecoordinator.abstraction.UserInterface;

@@ -2,7 +2,6 @@ package com.techiness.collegecoordinator.concrete;
 
 import com.techiness.collegecoordinator.abstraction.Identifiable;
 import com.techiness.collegecoordinator.managers.AccountsManager;
-
 import java.io.Serializable;
 
 public final class Offer implements Serializable, Identifiable, Comparable<Offer>

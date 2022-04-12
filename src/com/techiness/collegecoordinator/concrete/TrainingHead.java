@@ -5,7 +5,6 @@ import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.abstraction.RequestLetter;
-
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
