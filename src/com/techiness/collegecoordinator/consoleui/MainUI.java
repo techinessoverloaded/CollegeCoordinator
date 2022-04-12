@@ -38,7 +38,7 @@ public final class MainUI implements EntryPointUI
         }
         printTextWithinStarPattern("Welcome to CollegeCoordinator");
         println2("You have to create an Admin account to proceed further....");
-        Admin admin = (Admin) UserFactory.getInstance().getNewUser(UserType.ADMIN);
+        Admin admin = (Admin) UserFactory.getInstance().getNewUser(UserType.ADMIN,null,null);
         accountsManager.getUsers().put(admin.getId(), admin);
         accountsManager.setAdmin(admin);
         printAccountDetails(admin,true);

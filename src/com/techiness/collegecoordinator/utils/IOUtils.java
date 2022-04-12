@@ -57,7 +57,6 @@ public final class IOUtils
         System.out.print(val);
     }
 
-
     public static String readLine()
     {
         return scanner.nextLine().trim();
@@ -198,7 +197,7 @@ public final class IOUtils
 
     public static String[] getStringArrayOfStringSet(Set<String> set)
     {
-        return set.toArray(new String[0]);
+        return set.stream().toArray(String[]::new);
     }
 
     public static <T> T getUserInput(T container, String message)

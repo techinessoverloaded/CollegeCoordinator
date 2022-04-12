@@ -24,12 +24,14 @@ public class HoDUI extends FacultyUI
 
     public HoDUI(HoD hoD)
     {
+        super();
         this.hoD = hoD;
         prepareMenu();
     }
 
     protected HoDUI()
     {
+        super();
         prepareMenu();
     }
 
@@ -43,7 +45,6 @@ public class HoDUI extends FacultyUI
         userMenu.extendMenu(new Menu.MenuBuilder().setHeader("HoD Menu")
                 .addOption("Add a Faculty to the Department")
                 .addOption("Remove a Faculty from the Department and relieve the Faculty from Job")
-                .addOption("Transfer a Faculty to another Department")
                 .addOption("Display all the faculties under the Department")
                 .addOption("Add Subject(s) handled by a Faculty")
                 .addOption("Remove Subject(s) handled by a Faculty")
@@ -58,8 +59,8 @@ public class HoDUI extends FacultyUI
         switch (selection)
         {
             //Add a Faculty to the Department
-            case 26:
-                Faculty newFaculty = (Faculty) UserFactory.getInstance().getNewUser(UserType.FACULTY);
+            case 24:
+                Faculty newFaculty = (Faculty) UserFactory.getInstance().getNewUser(UserType.FACULTY, Boolean.FALSE,null);
                 printlnWithAnim("Adding new Faculty to the Department...");
                 if(hod.addFaculty(newFaculty))
                 {
@@ -73,7 +74,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Remove a Faculty from the Department and relieve the Faculty from Job
-            case 27:
+            case 25:
                 String facultyIdToBeRemoved = "";
                 Admin admin = accountsManager.getAdmin();
                 Department currentDepartment = accountsManager.getDepartments(hod.getDeptId());
@@ -92,33 +93,13 @@ public class HoDUI extends FacultyUI
                     println2("Failed to submit the Resignation Request Letter of the Faculty to the Admin");
                 }
                 break;
-            //Transfer a Faculty to another Department
-            case 28:
-                String facultyIdToBeTransferred = "";
-                Admin admin2 = accountsManager.getAdmin();
-                Department currentDepartment2 = accountsManager.getDepartments(hod.getDeptId());
-                while(!currentDepartment2.checkIfFacultyIdValid(facultyIdToBeTransferred))
-                {
-                    facultyIdToBeTransferred = getUserInput(facultyIdToBeTransferred, "Faculty ID of the Faculty whom you want to transfer to another Department");
-                }
-                RequestLetter facultyTransferLetter = RequestLetterFactory.getInstance().getLetter(facultyIdToBeTransferred, admin2.getId(), hod.getDeptId(), RequestLetterType.DEPT_CHANGE);
-                printlnWithAnim("Submitting Department Change Request Letter of Faculty to Admin...");
-                if(admin2.addLetter(facultyTransferLetter))
-                {
-                    println2("Submitted the Department Change Request Letter of the Faculty to be removed to Admin successfully !");
-                }
-                else
-                {
-                    println2("Failed to submit the Department Change Request Letter of the Faculty to the Admin");
-                }
-                break;
             //Display all the faculties under the Department
-            case 29:
+            case 26:
                 println2("List of Faculties Under the Department");
                 println2(getStringOfNameableMap(accountsManager.getDepartments(hod.getDeptId()).getFaculties()));
                 break;
             //Add Subject(s) handled by a Faculty
-            case 30:
+            case 27:
                 String facultyIdToAddSubjects = "";
                 CourseDepartment currentDepartment3 = (CourseDepartment) accountsManager.getDepartments(hod.getDeptId());
                 while(!currentDepartment3.checkIfFacultyIdValid(facultyIdToAddSubjects))
@@ -169,7 +150,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Remove Subject(s) handled by a Faculty
-            case 31:
+            case 28:
                 String facultyIdToRemoveSubjects = "";
                 CourseDepartment currentDepartment4 = (CourseDepartment) accountsManager.getDepartments(hod.getDeptId());
                 while(!currentDepartment4.checkIfFacultyIdValid(facultyIdToRemoveSubjects))
@@ -219,7 +200,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //Display all the Request Letters
-            case 32:
+            case 29:
                 Map<String, RequestLetter> requestLetterMap = hod.getLetters();
                 for(RequestLetter requestLetter: requestLetterMap.values())
                 {
@@ -227,7 +208,7 @@ public class HoDUI extends FacultyUI
                 }
                 break;
             //View and Approve/Disapprove a Request RequestLetter
-            case 33:
+            case 30:
                 String letterIdToApprove = "";
                 RequestLetter requestLetterToApprove = null;
                 while(requestLetterToApprove == null)
@@ -280,9 +261,9 @@ public class HoDUI extends FacultyUI
             choice = userMenu.displayMenuAndGetChoice();
             if(choice >= 1 && choice <= 7)
                 executeGeneralUserActions(hoD, choice);
-            else if(choice >= 8 && choice <= 25)
+            else if(choice >= 8 && choice <= 23)
                 executeGeneralFacultyActions(hoD, choice);
-            else if(choice >= 26 && choice <= userMenu.getOptions().size()-1)
+            else if(choice >= 24 && choice <= userMenu.getOptions().size()-1)
                 executeGeneralHoDActions(choice);
             else if(choice == userMenu.getOptions().size())
             {

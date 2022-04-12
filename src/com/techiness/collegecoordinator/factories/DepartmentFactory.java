@@ -11,8 +11,6 @@ import static com.techiness.collegecoordinator.utils.IOUtils.*;
 public final class DepartmentFactory
 {
     private String courseId = "", deptName = "", courseSubjectString = "";
-    private HoD hod = null;
-    private TrainingHead trainingHead = null;
     private Set<String> courseSubjects = null;
     private static DepartmentFactory instance = null;
 
@@ -31,17 +29,16 @@ public final class DepartmentFactory
     private void resetVariables()
     {
         courseId = deptName = courseSubjectString = "";
-        hod = trainingHead = null;
-        courseSubjects = null;
+        courseSubjects = new HashSet<>();
     }
 
     private void getCourseDepartmentDetails()
     {
         resetVariables();
-        while(deptName.equals(""))
+        while(deptName.isEmpty()||AccountsManager.getInstance().checkIfDeptAlreadyExists(deptName))
         {
             deptName = getUserInput(deptName, "Name of the Department");
-            if(deptName.equals(""))
+            if(deptName.isEmpty()||AccountsManager.getInstance().checkIfDeptAlreadyExists(deptName))
                 println("Enter a valid Department Name...");
         }
         while(courseId.equals(""))

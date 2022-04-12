@@ -125,7 +125,7 @@ public abstract class Department extends Observable implements Serializable, Nam
         }
         return " [ \nid = "+getId()+
                 ", \nname = "+name+
-                ", \nhod = "+ hod.getName()+
+                ", \nhod = "+ hod.getId()+" : "+hod.getName()+
                 ", \nstudents = "+getStringOfNameableMap(students)+
                 ", \nfaculties = "+getStringOfNameableMap(faculties);
     }

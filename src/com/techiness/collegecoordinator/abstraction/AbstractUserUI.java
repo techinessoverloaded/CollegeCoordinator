@@ -64,12 +64,9 @@ public abstract class AbstractUserUI implements UserInterface
                 while(!InputDataValidator.validateAge(age,user.getAge()))
                 {
                     age = getUserInput(age,"New Age");
-                    if(age == -1)
-                        continue;
                     if(!InputDataValidator.validateAge(age,user.getAge()))
                     {
                         println("Warning : Age should be between 18 and 100 ! Please enter the new age to proceed...");
-                        continue;
                     }
                 }
                 String password1 = getPasswordInput("Password to confirm Age Change");
@@ -107,7 +104,6 @@ public abstract class AbstractUserUI implements UserInterface
                             newGender = Gender.OTHER;
                             break;
                         default:
-                            newGender = null;
                             println("Invalid Choice ! Enter the right choice...");
                             break;
                     }

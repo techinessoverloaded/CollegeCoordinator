@@ -45,7 +45,6 @@ public final class CourseDepartment extends Department
     @Override
     public String getDeptShortName()
     {
-        //return name.chars().filter(Character::isUpperCase).collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append).toString();
         return name.chars().filter(Character::isUpperCase).mapToObj(ch -> String.valueOf((char)ch)).collect(Collectors.joining());
     }
 
@@ -77,6 +76,6 @@ public final class CourseDepartment extends Department
     @Override
     public String toString()
     {
-        return "CourseDepartment"+super.toString()+", \ncourseId=" + courseId +" ]";
+        return "CourseDepartment"+super.toString()+", \ncourseId = " + courseId + ", \ncourseSubjects = "+courseSubjects+" ]";
     }
 }

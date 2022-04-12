@@ -166,25 +166,22 @@ public final class Admin extends User
         if(existingFaculty == null)
             return null;
         HoD oldHoD = destinationDepartment.getHod();
-        HoD newHoD = new HoD(existingFaculty, destDeptId, oldHoD.letters);
+        HoD newHoD = new HoD(existingFaculty, destDeptId, oldHoD.getLetters());
         accountsManager.getUsers().remove(facultyId);
         currentDepartment.getFaculties().remove(facultyId);
         destinationDepartment.setHod(newHoD);
         Faculty newFaculty = null;
-        if(oldHoD != null)
+        if (isDemoted)
         {
-            if (isDemoted)
-            {
-                String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : destDeptId;
-                newFaculty = new Faculty(oldHoD, assigningDeptId);
-                accountsManager.getUsers().remove(oldHoD.getId());
-                accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
-                accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
-            }
-            else
-            {
-                accountsManager.getUsers().remove(oldHoD.getId());
-            }
+            String assigningDeptId = diffDeptId.length == 1 ? diffDeptId[0] : destDeptId;
+            newFaculty = new Faculty(oldHoD, assigningDeptId);
+            accountsManager.getUsers().remove(oldHoD.getId());
+            accountsManager.getUsers().put(newFaculty.getId(), newFaculty);
+            accountsManager.getDepartments(assigningDeptId).getFaculties().put(newFaculty.getId(), newFaculty);
+        }
+        else
+        {
+            accountsManager.getUsers().remove(oldHoD.getId());
         }
         return new Pair<>(newHoD, newFaculty);
     }

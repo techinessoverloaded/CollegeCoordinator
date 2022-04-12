@@ -9,6 +9,7 @@ import com.techiness.collegecoordinator.enums.RequestLetterType;
 import com.techiness.collegecoordinator.enums.Qualification;
 import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.factories.RequestLetterFactory;
+import com.techiness.collegecoordinator.utils.InputDataValidator;
 import com.techiness.collegecoordinator.utils.Menu;
 import com.techiness.collegecoordinator.factories.UserFactory;
 import com.techiness.collegecoordinator.concrete.TCRequestLetter;
@@ -25,12 +26,14 @@ public class FacultyUI extends AbstractUserUI
 
     public FacultyUI(Faculty faculty)
     {
+        super();
         this.faculty = faculty;
         prepareMenu();
     }
 
     protected FacultyUI()
     {
+        super();
         prepareMenu();
     }
 
@@ -50,9 +53,7 @@ public class FacultyUI extends AbstractUserUI
                 .addOption("Set/Change if a Student needs Placement Training or not")
                 .addOption("Request Leave to HoD")
                 .addOption("Request On Duty to HoD")
-                .addOption("Request Department Change to Admin")
                 .addOption("Request Promotion to Admin")
-                .addOption("Request Demotion to Admin")
                 .addOption("Request Resignation to Admin")
                 .addOption("Check if Request Letter got Approved or not")
                 .addOption("Logout")
@@ -148,12 +149,11 @@ public class FacultyUI extends AbstractUserUI
             //Set my experience
             case 12:
                 int newExperience = -1;
-                while (newExperience == -1) {
+                while (!InputDataValidator.validateExperience(newExperience, faculty.getAge(), faculty.getExperience()))
+                {
                     newExperience = getUserInput(newExperience, "New Experience in years");
-                    if (newExperience == -1)
+                    if (!InputDataValidator.validateExperience(newExperience, faculty.getAge(), faculty.getExperience()))
                         println("Enter a valid Experience in years !");
-                    else if (newExperience == faculty.getExperience())
-                        println("You have entered the current Experience Again !");
                 }
                 printlnWithAnim("Setting new Experience...");
                 faculty.setExperience(newExperience);
@@ -165,7 +165,7 @@ public class FacultyUI extends AbstractUserUI
                 break;
             //Add a Student to the Department
             case 14:
-                Student student = (Student) UserFactory.getInstance().getNewUser(UserType.STUDENT);
+                Student student = (Student) UserFactory.getInstance().getNewUser(UserType.STUDENT,null,null);
                 printlnWithAnim("Creating new Student Account...");
                 if (faculty.addStudent(student)) {
                     printAccountDetails(student, true);
@@ -206,9 +206,11 @@ public class FacultyUI extends AbstractUserUI
             case 17:
                 String studentId2 = "";
                 Department currentDepartment2 = accountsManager.getDepartments(faculty.getDeptId());
-                while (!currentDepartment2.checkIfStudentIdValid(studentId2)) {
+                while (!currentDepartment2.checkIfStudentIdValid(studentId2))
+                {
                     studentId2 = getUserInput(studentId2, "Student ID of the Student whose grades have to be set");
-                    if (!currentDepartment2.checkIfStudentIdValid(studentId2)) {
+                    if (!currentDepartment2.checkIfStudentIdValid(studentId2))
+                    {
                         println("Invalid Student ID ! Enter a Valid Student ID !");
                     }
                 }
@@ -360,25 +362,8 @@ public class FacultyUI extends AbstractUserUI
                         println2("An Error Occurred ! Failed to Submit On Duty Request Letter to HoD !");
                 }
                 break;
-
-            // Request Department Change to Admin
-            case 21:
-                Admin admin = accountsManager.getAdmin();
-                RequestLetter deptChangeRequestLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin.getId(), faculty.getDeptId(), RequestLetterType.DEPT_CHANGE);
-                printlnWithAnim("Submitting Department Change Request Letter to  Admin...");
-                if(admin.addLetter(deptChangeRequestLetter))
-                {
-                    println2("Submitted Department Change Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                    println2("Letter Details:\n" + deptChangeRequestLetter);
-                }
-                else
-                {
-                    println2("An Error Occurred ! Failed to Submit Department Change Request Letter to Admin !");
-                }
-                break;
-
             // Request Promotion to Admin
-            case 22:
+            case 21:
                 Admin admin1 = accountsManager.getAdmin();
                 RequestLetter promotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin1.getId(), faculty.getDeptId(), RequestLetterType.PROMOTION);
                 printlnWithAnim("Submitting Promotion Request Letter to Admin...");
@@ -392,23 +377,8 @@ public class FacultyUI extends AbstractUserUI
                     println2("An Error Occurred ! Failed to Submit Promotion Request Letter to Admin !");
                 }
                 break;
-            // Request Demotion to Admin
-            case 23:
-                Admin admin2 = accountsManager.getAdmin();
-                RequestLetter demotionLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin2.getId(), faculty.getDeptId(), RequestLetterType.DEMOTION);
-                printlnWithAnim("Submitting Demotion Request Letter to Admin...");
-                if(admin2.addLetter(demotionLetter))
-                {
-                    println2("Submitted Demotion Request Letter to Admin. You can check the status of Approval after the Admin checks it.");
-                    println2("Letter Details:\n" + demotionLetter);
-                }
-                else
-                {
-                    println2("An Error Occurred ! Failed to Submit Demotion Request Letter to Admin !");
-                }
-                break;
             //Request Resignation to Admin
-            case 24:
+            case 22:
                 Admin admin3 = accountsManager.getAdmin();
                 RequestLetter resignationLetter = RequestLetterFactory.getInstance().getLetter(faculty.getId(), admin3.getId(), faculty.getDeptId(), RequestLetterType.RESIGNATION);
                 printlnWithAnim("Submitting Resignation Request Letter to Admin...");
@@ -423,7 +393,7 @@ public class FacultyUI extends AbstractUserUI
                 }
                 break;
                 // Check if Request RequestLetter got Approved or not
-            case 25:
+            case 23:
                 Menu checkLetterTypeMenu = new Menu.MenuBuilder().setHeader("Type of Letter to be checked")
                         .addMultipleOptions(RequestLetterType.getStringArrayOfValues())
                         .build();
@@ -474,18 +444,6 @@ public class FacultyUI extends AbstractUserUI
                             println2("Your OD Request Letter was not approved by the HoD ! You can try applying again ! The current letter will be deleted after the Application closes !");
                         break;
 
-                    case DEPT_CHANGE:
-                        if(admin4.getLetters(letterId)==null)
-                        {
-                            println2("No such Letter ID exists !");
-                            break;
-                        }
-                        if(admin4.checkIfLetterApproved(letterId))
-                            println2("Your Department Change Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
-                        else
-                            println2("Your Department Change Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
-                        break;
-
                     case PROMOTION:
                         if(admin4.getLetters(letterId)==null)
                         {
@@ -496,18 +454,6 @@ public class FacultyUI extends AbstractUserUI
                             println2("Your Promotion Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
                         else
                             println2("Your Promotion Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
-                        break;
-
-                    case DEMOTION:
-                        if(admin4.getLetters(letterId)==null)
-                        {
-                            println2("No such Letter ID exists !");
-                            break;
-                        }
-                        if(admin4.checkIfLetterApproved(letterId))
-                            println2("Your Demotion Request Letter got approved by the Admin ! Your Request will be taken care of soon !");
-                        else
-                            println2("Your Demotion Request Letter was not approved by the Admin ! You can try applying again ! The current letter will be deleted after the Application closes !");
                         break;
 
                     case RESIGNATION:

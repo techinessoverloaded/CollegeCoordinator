@@ -107,4 +107,12 @@ public final class InputDataValidator
         return companyName.matches("[a-zA-Z\\s]+")
                 && AccountsManager.getInstance().getPlacementDepartment().checkIfCompanyNameExists(companyName);
     }
+
+    public static boolean validateExperience(int experience,int age, int... existingExperience)
+    {
+        boolean result = experience < age && experience >= 0;
+        if(existingExperience.length == 1)
+            result = result && experience != existingExperience[0];
+        return result;
+    }
 }

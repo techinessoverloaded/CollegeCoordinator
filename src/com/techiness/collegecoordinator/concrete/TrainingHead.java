@@ -87,6 +87,6 @@ public final class TrainingHead extends HoD
     @Override
     public String toString()
     {
-        return "TrainingHead"+super.toString().substring(super.toString().indexOf("HoD")+4)+" ]";
+        return "TrainingHead ["+super.toString().substring(super.toString().indexOf("HoD")+4)+" ]";
     }
 }

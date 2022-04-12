@@ -138,18 +138,6 @@ public final class RequestLetterFactory
         getReason(RequestLetterType.ON_DUTY);
     }
 
-    private void getDeptChangeLetterDetails()
-    {
-        resetVariables();
-        while(!AccountsManager.getInstance().checkIfDeptIdExists(destinationDeptId))
-        {
-            destinationDeptId = getUserInput(destinationDeptId, "Department ID of the department where you want to get transferred");
-            if(!AccountsManager.getInstance().checkIfDeptIdExists(destinationDeptId))
-                println2("Enter a valid Department ID...");
-        }
-        getReason(RequestLetterType.DEPT_CHANGE);
-    }
-
     private void getPromotionLetterDetails()
     {
         resetVariables();
@@ -164,22 +152,6 @@ public final class RequestLetterFactory
                 println2("Enter a valid Department ID...");
         }
         getReason(RequestLetterType.PROMOTION);
-    }
-
-    private void getDemotionLetterDetails()
-    {
-        resetVariables();
-        while(!AccountsManager.getInstance().checkIfDeptIdExists(destinationDeptId))
-        {
-            destinationDeptId = getUserInput(destinationDeptId, "Department ID of the department where you want to assume a lower position (Enter 1 if it is the Current Department)");
-            if(destinationDeptId.equals("1"))
-            {
-                break;
-            }
-            if(!AccountsManager.getInstance().checkIfDeptIdExists(destinationDeptId))
-                println2("Enter a valid Department ID...");
-        }
-        getReason(RequestLetterType.DEMOTION);
     }
 
     private void getResignationLetterDetails()
@@ -207,17 +179,9 @@ public final class RequestLetterFactory
                 getOdLetterDetails();
                 return new ODRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, odRequestedDates);
 
-            case DEPT_CHANGE:
-                getDeptChangeLetterDetails();
-                return new DeptChangeRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId);
-
             case PROMOTION:
                 getPromotionLetterDetails();
                 return new PromotionRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
-
-            case DEMOTION:
-                getDemotionLetterDetails();
-                return new DemotionRequestLetter(requesterId, receiverId, currentDeptId, reasonForRequest, destinationDeptId.equals("1") ? currentDeptId : destinationDeptId);
 
             case RESIGNATION:
                 getResignationLetterDetails();

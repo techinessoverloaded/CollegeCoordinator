@@ -4,7 +4,10 @@ import com.techiness.collegecoordinator.abstraction.AbstractUserUI;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.abstraction.EntryPointUI;
 import com.techiness.collegecoordinator.abstraction.UserInterface;
+import com.techiness.collegecoordinator.concrete.HoD;
+import com.techiness.collegecoordinator.concrete.TrainingHead;
 import com.techiness.collegecoordinator.consoleui.MainUI;
+import com.techiness.collegecoordinator.enums.UserType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
 import com.techiness.collegecoordinator.utils.InputDataValidator;
@@ -42,15 +45,6 @@ public final class Main
     public static void main(String[] args)
     {
         EntryPointUI entryPointUI = new MainUI();
-        //println2(LocalDate.now(ZoneId.systemDefault()).format(getDateFormatter()));
-        //println2(InputDataValidator.validateDateString("01/04/2022"));
-        //RequestLetterFactory.getInstance();
-//         Faculty faculty = new Faculty("arun",21,
-//                Gender.MALE,"7338817854","arun@gmail.com","Arun@262001",
-//                new ArrayList<>(), EnumSet.allOf(Qualification.class),10,"");
-//         new FacultyUI(faculty).displayUIAndExecuteActions();
-//        RequestLetter odLetter = RequestLetterFactory.getInstance().getLetter("2_FACULTY", "1_ADMIN", RequestLetterType.ON_DUTY,"2_CSE" );
-//        println(odLetter);
         if(sessionManager.isFirstTime())
         {
             sessionManager.setFirstTime(false);

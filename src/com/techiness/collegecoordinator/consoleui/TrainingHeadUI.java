@@ -37,7 +37,7 @@ public final class TrainingHeadUI extends HoDUI
         switch (choice)
         {
             //Add a Company visiting the College for Placement
-            case 34:
+            case 31:
                 Company newCompany = CompanyCreator.getInstance().getCompany();
                 printlnWithAnim("Adding new Company to Placement Department...");
                 if(trainingHead.addCompany(newCompany))
@@ -51,7 +51,7 @@ public final class TrainingHeadUI extends HoDUI
                 }
             break;
             //Remove a Company visiting the College for Placement
-            case 35:
+            case 32:
                 String companyId = "";
                 Menu companyIdMenu = new Menu.MenuBuilder().setHeader("Company ID Selection Menu")
                         .addMultipleOptions(getStringOfNameableMap(placementDepartment.getCompanies())
@@ -77,12 +77,12 @@ public final class TrainingHeadUI extends HoDUI
                 }
             break;
             //Display all the Companies visiting the College for Placement
-            case 36:
+            case 33:
                 println("List of Companies visiting the College for Placement:");
                 println2(getStringOfNameableMap(placementDepartment.getCompanies()));
             break;
             //Add an Offer for a Student
-            case 37:
+            case 34:
                 Offer newOffer = OfferCreator.getInstance().getOffer();
                 String currentStudentId = newOffer.getStudentId();
                 printlnWithAnim("Adding New Offer to Student's offers...");
@@ -102,7 +102,7 @@ public final class TrainingHeadUI extends HoDUI
                 }
             break;
             //Remove an Offer of a Student
-            case 38:
+            case 35:
                 String studentId = "";
                 String offerId;
                 while(!placementDepartment.checkIfStudentIdValid(studentId))
@@ -143,7 +143,7 @@ public final class TrainingHeadUI extends HoDUI
                 }
             break;
             //Display all the Offers obtained by a Student
-            case 39:
+            case 36:
                 String studentId2 = "";
                 while(!placementDepartment.checkIfStudentIdValid(studentId2))
                 {
@@ -172,11 +172,11 @@ public final class TrainingHeadUI extends HoDUI
             choice = userMenu.displayMenuAndGetChoice();
             if(choice >= 1 && choice <= 7)
                 executeGeneralUserActions(trainingHead, choice);
-            else if(choice >= 8 && choice <= 25)
+            else if(choice >= 8 && choice <= 24)
                 executeGeneralFacultyActions(trainingHead, choice);
-            else if(choice >= 26 && choice <= 33)
+            else if(choice >= 25 && choice <= 30)
                 executeGeneralHoDActions(trainingHead, choice);
-            else if(choice >= 34 && choice <= userMenu.getOptions().size()-1)
+            else if(choice >= 31 && choice <= userMenu.getOptions().size()-1)
                 executeGeneralTrainingHeadActions(choice);
             else if(choice == userMenu.getOptions().size())
             {

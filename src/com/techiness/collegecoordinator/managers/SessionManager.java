@@ -88,7 +88,7 @@ public final class SessionManager
     public boolean loginUser(String userId, String password)
     {
         String deptId = userId.substring(userId.indexOf('@')+1,userId.indexOf('_'));
-        UserType currentUserType = StringToEnumUtils.getUserTypeFromUserId(userId);
+        currentUserType = StringToEnumUtils.getUserTypeFromUserId(userId);
         Department department = accountsManager.getDepartments(deptId);
         User reference;
         if(department == null)
@@ -123,7 +123,6 @@ public final class SessionManager
         if(password.equals(reference.getPassword()))
         {
             currentUser = reference;
-            currentUserType = UserType.valueOf(userId.substring(userId.indexOf("_")+1));
             return true;
         }
         else
@@ -136,7 +135,6 @@ public final class SessionManager
     {
         if(currentUser == null)
             return false;
-
         switch (currentUserType)
         {
             case ADMIN:

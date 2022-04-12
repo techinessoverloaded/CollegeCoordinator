@@ -3,7 +3,6 @@ package com.techiness.collegecoordinator.concrete;
 import com.techiness.collegecoordinator.abstraction.Department;
 import com.techiness.collegecoordinator.enums.DepartmentType;
 import com.techiness.collegecoordinator.managers.AccountsManager;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,7 @@ public final class PlacementDepartment extends Department
     @Override
     public String getId()
     {
-        return id+"*"+name+"#"+DepartmentType.PLACEMENT;
+        return id+"*"+getDeptShortName()+"#"+DepartmentType.PLACEMENT;
     }
 
     @Override
@@ -92,7 +91,6 @@ public final class PlacementDepartment extends Department
     @Override
     public String getDeptShortName()
     {
-        //return name.chars().filter(Character::isUpperCase).collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append).toString();
         return name.chars().filter(Character::isUpperCase).mapToObj(ch -> String.valueOf((char)ch)).collect(Collectors.joining());
     }
 
@@ -127,7 +125,6 @@ public final class PlacementDepartment extends Department
         }
         return companyIdGen;
     }
-
 
     @Override
     public String toString()

@@ -56,8 +56,6 @@ public final class UserFactory
         while(!InputDataValidator.validateAge(age))
         {
             age = getUserInput(age,"Age of the "+userType);
-            if(age == -1)
-                continue;
             if(!InputDataValidator.validateAge(age))
                 println("Warning : Age should be between 18 and 100 ! Enter the actual age of "+userType+" to proceed...");
         }
@@ -113,7 +111,7 @@ public final class UserFactory
         println();
     }
 
-    public void getFacultyDetails(UserType userType)
+    public void getFacultyDetails(UserType userType,boolean fromTraining,String... deptIdHoD)
     {
         getBasicDataOfUser(userType);
         Menu qualificationMenu = new Menu.MenuBuilder().setHeader("Add Qualification(s) Menu")
@@ -146,61 +144,65 @@ public final class UserFactory
                     break;
             }
         }
-        experience = getUserInput(experience,"Experience of the "+ userType +" in years");
-        while(!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+        while(!InputDataValidator.validateExperience(experience, age))
         {
-            deptId = getUserInput(deptId, "Department ID of the Department where the faculty has to be added");
-            if(!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
-                println("No such department exists ! Enter a valid department ID !");
-        }
-        CourseDepartment courseDepartment = (CourseDepartment) AccountsManager.getInstance().getDepartments(deptId);
-        Menu subjectMenu = new Menu.MenuBuilder().setHeader("Add Subject(s) Menu")
-                .addMultipleOptions(getStringArrayOfStringSet(courseDepartment.getCourseSubjects()))
-                .addOption("Stop adding Subjects")
-                .build();
-        subjectsHandled = new HashSet<>();
-        int selectedSubjectChoice = -1;
-        int size = subjectMenu.getOptions().size()-1;
-        println2("Keep selecting Subjects one by one to add to the "+ userType +" 's subjects...");
-        while(selectedSubjectChoice < subjectMenu.getOptions().size()+1)
-        {
-            selectedSubjectChoice = subjectMenu.displayMenuAndGetChoice();
-
-            if(selectedSubjectChoice == -1)
-                println("Invalid Choice ! Enter a Valid Choice...");
-
-            else if(selectedSubjectChoice >= 1 && selectedSubjectChoice <= subjectMenu.getOptions().size()-1)
+            experience = getUserInput(experience,"Experience of the "+ userType +" in years");
+            if(!InputDataValidator.validateExperience(experience, age))
             {
-                subjectsHandled.add(subjectMenu.getOptions(selectedSubjectChoice));
-                subjectMenu.removeOption(selectedSubjectChoice);
+                println("Invalid Experience ! Enter a Valid Experience !");
             }
-
-            else if(selectedSubjectChoice == subjectMenu.getOptions().size())
+        }
+        if(deptIdHoD.length == 1)
+            deptId = deptIdHoD[0];
+        else
+        {
+            while (!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
             {
-                if(subjectsHandled.size() == 0)
-                {
-                    println("Must add at least one Subject to be handled !");
+                deptId = getUserInput(deptId, "Department ID of the Department where the faculty has to be added");
+                if (!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+                    println("No such department exists ! Enter a valid department ID !");
+            }
+        }
+        if(!fromTraining)
+        {
+            CourseDepartment courseDepartment = (CourseDepartment) AccountsManager.getInstance().getDepartments(deptId);
+            if(courseDepartment == null)
+                println("NULLLLL");
+            Menu subjectMenu = new Menu.MenuBuilder().setHeader("Add Subject(s) Menu")
+                    .addMultipleOptions(getStringArrayOfStringSet(courseDepartment.getCourseSubjects()))
+                    .addOption("Stop adding Subjects")
+                    .build();
+            subjectsHandled = new HashSet<>();
+            int selectedSubjectChoice = -1;
+            int size = subjectMenu.getOptions().size() - 1;
+            println2("Keep selecting Subjects one by one to add to the " + userType + " 's subjects...");
+            while (selectedSubjectChoice < subjectMenu.getOptions().size() + 1) {
+                selectedSubjectChoice = subjectMenu.displayMenuAndGetChoice();
+
+                if (selectedSubjectChoice == -1)
+                    println("Invalid Choice ! Enter a Valid Choice...");
+
+                else if (selectedSubjectChoice >= 1 && selectedSubjectChoice <= subjectMenu.getOptions().size() - 1) {
+                    subjectsHandled.add(subjectMenu.getOptions(selectedSubjectChoice));
+                    subjectMenu.removeOption(selectedSubjectChoice);
+                } else if (selectedSubjectChoice == subjectMenu.getOptions().size()) {
+                    if (subjectsHandled.size() == 0) {
+                        println("Must add at least one Subject to be handled !");
+                    } else
+                        break;
                 }
-                else
+
+                if (subjectsHandled.size() == size)
                     break;
             }
-
-            if(subjectsHandled.size() == size)
-                break;
+        }
+        else
+        {
+            subjectsHandled = new HashSet<>();
         }
     }
 
-    private void getHoDDetails(UserType userType)
-    {
-        getFacultyDetails(userType);
-    }
-
-    private void getTrainingHeadDetails(UserType userType)
-    {
-        getHoDDetails(userType);
-    }
-
-    public synchronized User getNewUser(UserType userType)
+    public synchronized User getNewUser(UserType userType, Boolean isTrainingFaculty, String deptIdForHoD)
     {
         switch (userType)
         {
@@ -208,17 +210,21 @@ public final class UserFactory
                 getBasicDataOfUser(userType);
                 return new Admin(name, age, gender, phone, email, password, new HashMap<>());
             case HOD:
-                getHoDDetails(userType);
+                if(deptIdForHoD == null)
+                    return null;
+                getFacultyDetails(userType, false, deptIdForHoD);
                 return new HoD(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
-                        experience,new HashMap<>(),deptId);
+                        experience,new HashMap<>(),deptIdForHoD);
             case FACULTY:
-                getFacultyDetails(userType);
+                getFacultyDetails(userType,isTrainingFaculty);
                 return new Faculty(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,deptId);
             case TRAINING_HEAD:
-                getTrainingHeadDetails(userType);
+                if(deptIdForHoD == null)
+                    return null;
+                getFacultyDetails(userType,true, deptIdForHoD);
                 return new TrainingHead(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
-                        experience,new HashMap<>(),deptId);
+                        experience,new HashMap<>(),deptIdForHoD);
             case STUDENT:
                 getBasicDataOfUser(userType);
                 return new Student(name, age, gender, phone, email, password,new HashMap<>() ,new HashMap<>(),deptId);

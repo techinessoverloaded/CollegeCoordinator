@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public enum RequestLetterType
 {
-    ON_DUTY,LEAVE,RESIGNATION,PROMOTION,DEMOTION,DEPT_CHANGE,TC;
+    ON_DUTY,LEAVE,RESIGNATION,PROMOTION,TC;
 
     public static String[] getStringArrayOfValues()
     {
@@ -23,10 +23,6 @@ public enum RequestLetterType
             return ON_DUTY;
         else if(requestLetter instanceof PromotionRequestLetter)
             return PROMOTION;
-        else if(requestLetter instanceof DemotionRequestLetter)
-            return DEMOTION;
-        else if(requestLetter instanceof DeptChangeRequestLetter)
-            return DEPT_CHANGE;
         else if(requestLetter instanceof ResignationRequestLetter)
             return RESIGNATION;
         else if(requestLetter instanceof TCRequestLetter)
