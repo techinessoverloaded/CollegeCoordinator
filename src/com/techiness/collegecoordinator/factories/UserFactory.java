@@ -35,7 +35,7 @@ public final class UserFactory
 
     private void resetVariables()
     {
-        name = email = phone = password = deptId = "";
+        name = email = phone = password = "";
         gender = null;
         subjectsHandled = null;
         qualifications = null;
@@ -110,7 +110,7 @@ public final class UserFactory
         println();
     }
 
-    public void getFacultyDetails(UserType userType,boolean fromTraining,String... deptIdHoD)
+    private void getFacultyDetails(UserType userType,boolean fromTraining)
     {
         getBasicDataOfUser(userType);
         Menu qualificationMenu = new Menu.MenuBuilder().setHeader("Add Qualification(s) Menu")
@@ -151,10 +151,9 @@ public final class UserFactory
                 println("Invalid Experience ! Enter a Valid Experience !");
             }
         }
-        if(deptIdHoD.length == 1)
-            deptId = deptIdHoD[0];
-        else
+        if(!(userType == UserType.HOD || userType == UserType.TRAINING_HEAD))
         {
+            deptId = "";
             while (!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
             {
                 deptId = getUserInput(deptId, "Department ID of the Department where the faculty has to be added");
@@ -201,6 +200,18 @@ public final class UserFactory
         }
     }
 
+    private void getStudentDetails()
+    {
+        getBasicDataOfUser(UserType.STUDENT);
+        deptId = "";
+        while (!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+        {
+            deptId = getUserInput(deptId, "Department ID of the Department where the faculty has to be added");
+            if (!AccountsManager.getInstance().checkIfDeptIdExists(deptId))
+                println("No such department exists ! Enter a valid department ID !");
+        }
+    }
+
     public synchronized User getNewUser(UserType userType, Boolean isTrainingFaculty, String deptIdForHoD)
     {
         switch (userType)
@@ -211,7 +222,8 @@ public final class UserFactory
             case HOD:
                 if(deptIdForHoD == null)
                     return null;
-                getFacultyDetails(userType, false, deptIdForHoD);
+                deptId = deptIdForHoD;
+                getFacultyDetails(userType, false);
                 return new HoD(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,new HashMap<>(),deptIdForHoD);
             case FACULTY:
@@ -221,11 +233,12 @@ public final class UserFactory
             case TRAINING_HEAD:
                 if(deptIdForHoD == null)
                     return null;
-                getFacultyDetails(userType,true, deptIdForHoD);
+                deptId = deptIdForHoD;
+                getFacultyDetails(userType,true);
                 return new TrainingHead(name, age, gender, phone, email, password, new HashSet<>(), qualifications,
                         experience,new HashMap<>(),deptIdForHoD);
             case STUDENT:
-                getBasicDataOfUser(userType);
+                getStudentDetails();
                 return new Student(name, age, gender, phone, email, password,new HashMap<>() ,new HashMap<>(),deptId);
             default:
                 return null;

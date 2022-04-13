@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 
 /**
@@ -141,20 +143,18 @@ public final class Menu
     private void displayHeader()
     {
         recalculateTotalChars();
-        print("+");
-        printSymbols('-',totalChars-2);
-        print("+");
-        println();
-        print("|");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('+');
+        Stream.generate(() -> '-').limit(totalChars-2).forEach(stringBuilder::append);
+        stringBuilder.append('+').append('\n').append('|');
         int spaces = getSpaces();
-        printSymbols(' ',spaces-1);
-        print(header);
-        printSymbols(' ',spaces);
-        println("|");
-        print("+");
-        printSymbols('-',totalChars-2);
-        print("+");
-        println();
+        Stream.generate(() -> ' ').limit(spaces-1).forEach(stringBuilder::append);
+        stringBuilder.append(header);
+        Stream.generate(() -> ' ').limit(spaces).forEach(stringBuilder::append);
+        stringBuilder.append('|').append('\n').append('+');
+        Stream.generate(() -> '-').limit(totalChars-2).forEach(stringBuilder::append);
+        stringBuilder.append('+').append('\n');
+        print(stringBuilder);
     }
 
     /**
@@ -165,16 +165,16 @@ public final class Menu
     {
         selectedChoice = -1;
         displayHeader();
+        StringBuilder stringBuilder = new StringBuilder();
         options.forEach((key, value) -> {
-            print("|  " + key + ". " + value);
-            printSymbols(' ', totalChars - (value).length() - ((key > 9) ? 8 : 7));
-            print("|");
-            println();
+            stringBuilder.append("|  ").append(key).append(". ").append(value);
+            Stream.generate(() -> ' ').limit(totalChars - (value).length() - (((key) > 9) ? 8 : 7)).forEach(stringBuilder::append);
+            stringBuilder.append('|').append('\n');
         });
-        print("+");
-        printSymbols('-',totalChars-2);
-        print("+");
-        println2();
+        stringBuilder.append('+');
+        Stream.generate(() -> '-').limit(totalChars-2).forEach(stringBuilder::append);
+        stringBuilder.append('+');
+        println2(stringBuilder);
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();
         return selectedChoice > options.size()+1 ? -1 : selectedChoice;
@@ -271,7 +271,7 @@ public final class Menu
      */
     public static Menu getYesOrNoMenu()
     {
-        return new MenuBuilder().setHeader("Select Yes/No")
+        return new MenuBuilder().setHeader("Yes/No Menu")
                 .addOption("Yes")
                 .addOption("No")
                 .build();
@@ -290,14 +290,8 @@ public final class Menu
         totalChars = totalChars % 2 == 1 ? totalChars+1 : totalChars;
     }
 
-    public int getTotalChars()
-    {
-        return totalChars;
-    }
-
     private int getSpaces()
     {
-        int spaces = 0;
         int hLength = header.length();
         hLength = hLength % 2 == 1 ? hLength+1 : hLength;
         return (totalChars-hLength)/2;

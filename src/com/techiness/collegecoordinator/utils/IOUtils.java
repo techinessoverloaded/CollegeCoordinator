@@ -93,7 +93,7 @@ public final class IOUtils
 
     public static void printSymbols(char symbol, int count)
     {
-        Stream.generate(() -> symbol).limit(count).forEach(System.out::print);
+        Stream.generate(() -> symbol).limit(count).forEach(IOUtils::print);
     }
 
     public static void printTextWithinStarPattern(String text)
@@ -129,6 +129,20 @@ public final class IOUtils
             }
         }
         println2();
+    }
+
+    public static String getStringWithinBox(String source)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        int count = source.length() + 6;
+        stringBuilder.append('+');
+        Stream.generate(() -> '-').limit(count-2).forEach(stringBuilder::append);
+        stringBuilder.append('+');
+        stringBuilder.append("\n").append("|  ").append(source).append("  |").append("\n");
+        stringBuilder.append('+');
+        Stream.generate(() -> '-').limit(count-2).forEach(stringBuilder::append);
+        stringBuilder.append('+');
+        return stringBuilder.toString();
     }
 
     public static void printAccountDetails(User user, boolean onCreation)
@@ -201,24 +215,21 @@ public final class IOUtils
 
     public static <T> T getUserInput(T container, String message)
     {
+        println("Enter the "+message+" :");
         if(container instanceof Integer)
         {
-            println("Enter the "+message+" :");
             container = (T)Integer.valueOf(readInt());
         }
         else if(container instanceof String)
         {
-            println("Enter the "+message+" :");
             container = (T)readLine();
         }
         else if(container instanceof Double)
         {
-            println("Enter the "+message+" :");
             container = (T)Double.valueOf(readDouble());
         }
         else if(container instanceof String[])
         {
-            println("Enter the "+message+" :");
             container = (T) Arrays.stream(readLine().split(",")).map(String::trim).toArray(String[]::new);
         }
         return container;

@@ -57,9 +57,9 @@ public final class AdminUI extends AbstractUserUI
         while(true)
         {
             List<Department> departmentsWithoutHoD = accountsManager.getDepartments().values().stream().filter(department -> department.getHod() == null).collect(Collectors.toList());
-            if(departmentsWithoutHoD.size()>1)
+            if(departmentsWithoutHoD.size() > 0)
             {
-                println2("The Following Departments Don't Have a HoD !!! It is recommended to Assign an HoD for these departments !!!");
+                println2("The Following Departments Don't Have a HoD !!! It is recommended to Assign a HoD for these departments !!!");
                 departmentsWithoutHoD.forEach(IOUtils::println);
             }
             choice = userMenu.displayMenuAndGetChoice();
@@ -122,6 +122,7 @@ public final class AdminUI extends AbstractUserUI
                             CourseDepartment courseDepartment = (CourseDepartment) newDepartment;
                             if(admin.addDepartment(courseDepartment))
                                 println("Success");
+                            println(accountsManager.getDepartments());
                             HoD hod = (HoD) UserFactory.getInstance().getNewUser(UserType.HOD, Boolean.FALSE, newDepartment.getId());
                             printAccountDetails(hod, true);
                             println();
@@ -547,6 +548,11 @@ public final class AdminUI extends AbstractUserUI
                 //Display all the Request Letters
                 case 19:
                     Map<String, RequestLetter> requestLetterMap = admin.getLetters();
+                    if(requestLetterMap.size() == 0)
+                    {
+                        println2("No letters are available");
+                        break;
+                    }
                     for(RequestLetter requestLetter: requestLetterMap.values())
                     {
                         printRequestLetter(requestLetter);
@@ -554,6 +560,11 @@ public final class AdminUI extends AbstractUserUI
                     break;
                 //View and Approve/Disapprove a Request Letter
                 case 20:
+                    if(admin.getLetters().size() == 0)
+                    {
+                        println2("No letters are available");
+                        break;
+                    }
                     String letterIdToApprove = "";
                     RequestLetter requestLetterToApprove = null;
                     while(requestLetterToApprove == null)

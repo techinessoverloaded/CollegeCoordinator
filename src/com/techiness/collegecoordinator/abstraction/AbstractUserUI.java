@@ -183,7 +183,7 @@ public abstract class AbstractUserUI implements UserInterface
                 if(password5.equals(user.getPassword()))
                 {
                     printlnWithAnim("Changing password...");
-                    user.setPhone(newPassword);
+                    user.setPassword(newPassword);
                     println("Account details after changing password\n\n"+ accountsManager.getUsers().get(user.getId()));
                 }
                 else
