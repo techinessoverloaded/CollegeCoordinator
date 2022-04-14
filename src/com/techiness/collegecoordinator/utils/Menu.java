@@ -177,7 +177,7 @@ public final class Menu
         println2(stringBuilder);
         println("Choose an option (1-" + options.size() + ") from the above options to proceed:");
         selectedChoice = readInt();
-        return selectedChoice > options.size()+1 ? -1 : selectedChoice;
+        return selectedChoice > options.size() || selectedChoice < 1 ? -1 : selectedChoice;
     }
 
     /**

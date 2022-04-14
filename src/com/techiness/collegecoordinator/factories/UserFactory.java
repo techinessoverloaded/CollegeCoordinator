@@ -164,8 +164,6 @@ public final class UserFactory
         if(!fromTraining)
         {
             CourseDepartment courseDepartment = (CourseDepartment) AccountsManager.getInstance().getDepartments(deptId);
-            if(courseDepartment == null)
-                println("NULLLLL");
             Menu subjectMenu = new Menu.MenuBuilder().setHeader("Add Subject(s) Menu")
                     .addMultipleOptions(getStringArrayOfStringSet(courseDepartment.getCourseSubjects()))
                     .addOption("Stop adding Subjects")

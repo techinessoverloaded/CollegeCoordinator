@@ -6,7 +6,6 @@ import com.techiness.collegecoordinator.consoleui.MainUI;
 import com.techiness.collegecoordinator.managers.AccountsManager;
 import com.techiness.collegecoordinator.managers.SessionManager;
 import com.techiness.collegecoordinator.utils.TipProvider;
-
 import java.util.*;
 import static com.techiness.collegecoordinator.utils.IOUtils.*;
 

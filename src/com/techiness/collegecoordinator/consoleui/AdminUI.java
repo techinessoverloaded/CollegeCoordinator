@@ -120,8 +120,6 @@ public final class AdminUI extends AbstractUserUI
                         else
                         {
                             CourseDepartment courseDepartment = (CourseDepartment) newDepartment;
-                            if(admin.addDepartment(courseDepartment))
-                                println("Success");
                             println(accountsManager.getDepartments());
                             HoD hod = (HoD) UserFactory.getInstance().getNewUser(UserType.HOD, Boolean.FALSE, newDepartment.getId());
                             printAccountDetails(hod, true);
@@ -411,7 +409,7 @@ public final class AdminUI extends AbstractUserUI
                         destinationDepartmentOfNewFacultyId = getUserInput(destinationDepartmentOfNewFacultyId, "Department ID of the Department where the Faculty needs to be assigned as HoD");
                         destinationDepartmentOfNewFaculty = accountsManager.getDepartments(destinationDepartmentOfNewFacultyId);
                             if (destinationDepartmentOfNewFaculty == null)
-                            println2("Invalid Department ID ! Enter a valid Department ID...");
+                                println2("Invalid Department ID ! Enter a valid Department ID...");
                     }
                     printlnWithAnim("Promoting Faculty: " + existingFacultyId13 + " as HoD of "+destinationDepartmentOfNewHodId+" and Demoting current HoD: " + oldHoD5.getId() + " as Faculty of "+destinationDepartmentOfNewFacultyId+"...");
                     Pair<HoD, Faculty> result13 = admin.promoteFacultyToDifferentDeptHoD(existingFacultyId13, existingFacultyId13, destinationDepartmentOfNewHodId, true, destinationDepartmentOfNewFacultyId);
@@ -642,37 +640,43 @@ public final class AdminUI extends AbstractUserUI
                 //Factory Reset
                 case 22:
                     println2("WARNING: Factory Resetting the Application will clear all the User Data and all Accounts including this Admin Account will be deleted !!!");
-                    String resetChoice = "";
-                    while (true) {
-                        resetChoice = getUserInput(resetChoice, "Do you want to proceed ? Enter Yes/No");
-                        if (!(resetChoice.equalsIgnoreCase("Yes") || resetChoice.equalsIgnoreCase("No"))) {
-                            println2("Enter either Yes/No");
-                            continue;
-                        }
-                        if (resetChoice.equalsIgnoreCase("Yes")) {
-                            printlnWithAnim("Factory resetting the Application...");
-                            try {
-                                SerializationHelper.getInstance().clearStoredData("departments.txt", "isFirstTime.txt", "users.txt");
-                                accountsManager.setDepartments(new HashMap<>());
-                                accountsManager.setUsers(new HashMap<>());
-                                sessionManager.setFirstTime(true);
-                                sessionManager.logoutUser();
-                                SerializationHelper.getInstance().clearStoredData("admin.txt");
-                                accountsManager.setAdmin(null);
-                                sessionManager.setFactoryResetDone(true);
-                            } catch (Exception e)
-                            {
-                                e.printStackTrace();
-                                println("Error occurred during Factory Reset!");
-                            }
-                            printlnValLn("The Application may behave like opening for the First Time...");
-                            return;
-                        }
-                        else if (resetChoice.equalsIgnoreCase("No"))
+                    int resetChoice = -1;
+                    Menu yesOrNoMenu3 = Menu.getYesOrNoMenu();
+                    while (resetChoice == -1)
+                    {
+                        println2("Do you want to proceed ?");
+                        resetChoice = yesOrNoMenu3.displayMenuAndGetChoice();
+                        if (resetChoice == -1)
                         {
-                            println2("Cancelled Factory Reset");
-                            break;
+                            println2("Invalid Choice ! Enter a valid choice !");
                         }
+                    }
+                    if (resetChoice == 1)
+                    {
+                        printlnWithAnim("Factory resetting the Application...");
+                        try
+                        {
+                            SerializationHelper.getInstance().clearStoredData("departments.txt", "isFirstTime.txt", "users.txt");
+                            accountsManager.setDepartments(new HashMap<>());
+                            accountsManager.setUsers(new HashMap<>());
+                            sessionManager.setFirstTime(true);
+                            sessionManager.logoutUser();
+                            SerializationHelper.getInstance().clearStoredData("admin.txt");
+                            accountsManager.setAdmin(null);
+                            sessionManager.setFactoryResetDone(true);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            println("Error occurred during Factory Reset!");
+                        }
+                        printlnValLn("The Application may behave like opening for the First Time...");
+                        return;
+                    }
+                    else if(resetChoice == 2)
+                    {
+                        println2("Cancelled Factory Reset");
+                        break;
                     }
             }
         }
