@@ -67,7 +67,7 @@ public final class AccountsManager implements Serializable
 
     public boolean checkIfDeptIdExists(String deptIdToBeChecked)
     {
-        return departments.keySet().stream().anyMatch(deptId -> deptId.equals(deptIdToBeChecked));
+        return departments.containsKey(deptIdToBeChecked);
     }
 
     public Map<String, Department> getDepartments()
@@ -128,7 +128,8 @@ public final class AccountsManager implements Serializable
         return true;
     }
 
-    public String registerUser(User user) {
+    public String registerUser(User user)
+    {
         String userId = user.getId();
         if (users.containsKey(user.getId()))
             return null;
