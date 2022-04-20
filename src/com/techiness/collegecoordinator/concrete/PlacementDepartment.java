@@ -96,13 +96,7 @@ public final class PlacementDepartment extends Department
 
     public Map<String,Student> getTrainees()
     {
-        List<Student> traineeList = students.values().stream().filter(Student::isNeedsTraining).collect(Collectors.toList());
-        HashMap<String,Student> trainees = new HashMap<>();
-        for(Student s : traineeList)
-        {
-            trainees.put(s.getId(),s);
-        }
-        return trainees;
+        return students;
     }
 
     public boolean checkIfCompanyIdExists(String companyId)
