@@ -134,36 +134,37 @@ public final class SessionManager
     {
         if(currentUser == null)
             return false;
+        UserInterface uiToBeShown = null;
         switch (currentUserType)
         {
             case ADMIN:
-                UserInterface adminUI = new AdminUI((Admin) currentUser);
+                uiToBeShown = new AdminUI((Admin) currentUser);
                 currentUser.addObserver(referenceManager);
-                adminUI.displayUIAndExecuteActions();
+                uiToBeShown.displayUIAndExecuteActions();
                 return true;
 
             case HOD:
-                UserInterface hodUI = new HoDUI((HoD) currentUser);
+                uiToBeShown = new HoDUI((HoD) currentUser);
                 currentUser.addObserver(referenceManager);
-                hodUI.displayUIAndExecuteActions();
+                uiToBeShown.displayUIAndExecuteActions();
                 return true;
 
             case TRAINING_HEAD:
-                UserInterface trainingHeadUI = new TrainingHeadUI((TrainingHead) currentUser);
+                uiToBeShown = new TrainingHeadUI((TrainingHead) currentUser);
                 currentUser.addObserver(referenceManager);
-                trainingHeadUI.displayUIAndExecuteActions();
+                uiToBeShown.displayUIAndExecuteActions();
                 return true;
 
             case FACULTY:
-                UserInterface facultyUI = new FacultyUI((Faculty) currentUser);
+                uiToBeShown = new FacultyUI((Faculty) currentUser);
                 currentUser.addObserver(referenceManager);
-                facultyUI.displayUIAndExecuteActions();
+                uiToBeShown.displayUIAndExecuteActions();
                 return true;
 
             case STUDENT:
-                UserInterface studentUI = new StudentUI((Student) currentUser);
+                uiToBeShown = new StudentUI((Student) currentUser);
                 currentUser.addObserver(referenceManager);
-                studentUI.displayUIAndExecuteActions();
+                uiToBeShown.displayUIAndExecuteActions();
                 return true;
 
             default:
