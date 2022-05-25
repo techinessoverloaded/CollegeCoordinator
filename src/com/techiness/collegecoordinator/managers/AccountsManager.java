@@ -131,10 +131,10 @@ public final class AccountsManager implements Serializable
     public String registerUser(User user)
     {
         String userId = user.getId();
-        if (users.containsKey(user.getId()))
+        if (users.containsKey(userId))
             return null;
-        users.put(user.getId(), user);
-        return user.getId();
+        users.put(userId, user);
+        return userId;
     }
 
     public boolean noAdminAvailable()
